@@ -106,7 +106,7 @@ export const CreateSubgraphBridge = () => {
 
   return (
     <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
-      <h1 className="text-3xl font-semibold text-white rounded mt-6 mb-3">
+      <h1 className="text-3xl font-semibold text-white rounded mb-3">
         Create New Subgraph Bridge
       </h1>
       <p className="font-semibold">
@@ -174,6 +174,7 @@ export const CreateSubgraphBridge = () => {
           label="Create New Subgraph Bridge"
           palette="secondary"
           size="lg"
+          stretch
         />
       </div>
     </div>

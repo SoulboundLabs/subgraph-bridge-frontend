@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
-import { BrowserRouter, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import { CreateSubgraphBridge } from "./Bridge/CreateSubgraphBridge";
+import { CreateSubgraphBridgePage } from "./Bridge/CreateSubgraphBridgePage";
 import { GradientSVGDef } from "./Gradient/GradientSVGDef";
 import { Header } from "./Header/Header";
 import { initWeb3Onboard } from "./Wallet/onboard";
@@ -35,9 +35,11 @@ function App() {
           <Header />
 
           <ScrollWrapper>
-            <div className="container max-w-2xl mx-auto">
-              <CreateSubgraphBridge />
-            </div>
+            <Routes>
+              <Route path="/" element={<CreateSubgraphBridgePage />} />
+              <Route path="/create" element={<CreateSubgraphBridgePage />} />
+              <Route path="/bridges/:id" element={<div />} />
+            </Routes>
           </ScrollWrapper>
         </BrowserRouter>
       </RecoilRoot>

@@ -1,6 +1,8 @@
+import { PlusIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import soulboundStudioLogo from "../assets/logos/soulbound-studio.svg";
 import soulboundSOnly from "../assets/logos/thick-s.svg";
+import { Button } from "../Button/Button";
 import { ConnectWallet } from "../Wallet/ConnectWallet";
 
 export function Header({}) {
@@ -31,6 +33,12 @@ export function Header({}) {
             href={"https://thegraph.com"}
           />
         </div> */}
+        <Button
+          size="lg"
+          palette="secondary"
+          Icon={PlusIcon}
+          label="Create Subgraph Bridge"
+        />
         <div className="ml-1">
           <ConnectWallet />
         </div>
