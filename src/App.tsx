@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { RecoilRoot } from "recoil";
+import { CreateSubgraphBridge } from "./Bridge/CreateSubgraphBridge";
 import { GradientSVGDef } from "./Gradient/GradientSVGDef";
 import { Header } from "./Header/Header";
 import { initWeb3Onboard } from "./Wallet/onboard";
@@ -33,7 +34,11 @@ function App() {
         <BrowserRouter>
           <Header />
 
-          <ScrollWrapper>Hello Wolrd</ScrollWrapper>
+          <ScrollWrapper>
+            <div className="container max-w-2xl mx-auto">
+              <CreateSubgraphBridge />
+            </div>
+          </ScrollWrapper>
         </BrowserRouter>
       </RecoilRoot>
       <GradientSVGDef />

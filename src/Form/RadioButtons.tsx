@@ -44,7 +44,6 @@ export function RadioButtons<T>({
               {({ checked }) => (
                 <RadioGroup.Label as="span">
                   <Button
-                    size="xl"
                     label={option.label}
                     palette={checked ? "secondary" : "primary"}
                   />

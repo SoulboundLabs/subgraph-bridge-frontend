@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
-import { Home2 } from "tabler-icons-react";
 import soulboundStudioLogo from "../assets/logos/soulbound-studio.svg";
 import soulboundSOnly from "../assets/logos/thick-s.svg";
 import { ConnectWallet } from "../Wallet/ConnectWallet";
-import { HeaderLink } from "./HeaderLink";
 
 export function Header({}) {
   return (
@@ -19,7 +17,7 @@ export function Header({}) {
         />
       </Link>
       <div className="sm:gap-3 font-semibold text-sky-300 mr-3 flex items-center justify-end whitespace-nowrap">
-        <div>
+        {/* <div>
           <HeaderLink
             Icon={Home2}
             label="Bridges"
@@ -32,7 +30,7 @@ export function Header({}) {
             label="Query"
             href={"https://thegraph.com"}
           />
-        </div>
+        </div> */}
         <div className="ml-1">
           <ConnectWallet />
         </div>

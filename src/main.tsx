@@ -1,5 +1,6 @@
 // Polyfill needed for hardware wallet modules
 import { Buffer } from "buffer";
+import "rc-slider/assets/index.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
