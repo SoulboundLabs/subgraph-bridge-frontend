@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bottom-padding: 24px;
+  --onboard-modal-z-index: 1000;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  overscroll-behavior-x: none;
+}
+
+#root {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: url('/bg-gradient.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+}
+
+#root::after {
+  content: '';
+  z-index: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: 35px 35px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+[type='text'],
+[type='email'],
+[type='url'],
+[type='password'],
+[type='number'],
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='week'],
+[multiple],
+textarea,
+input,
+select {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-align: left;
+  color: rgb(203 213 225 / var(--tw-text-opacity));
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.5rem;
+  background-color: rgb(51 65 85 / 0.5);
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  padding-left: 0.875rem;
+  padding-right: 0.875rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.bg-gradient {
+  background-image: linear-gradient(to left, #0ea5e9 0%, #22d3ee 57%, #818cf8 100%);
+}
+
+@property --p {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+@property --l {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --a {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.subgraph-item {
+  /*  needed for firefox to have a valid output */
+  /* --p: 10%;
+  --l: 10px;
+  --a: 10deg; */
+  /**/
+  cursor: pointer;
+  transition: --p 0.5s, --l 0.5s, --a 0.5s;
+  background: conic-gradient(
+    rgb(99, 102, 241) var(--a),
+    rgb(168, 85, 247),
+    rgb(236, 72, 153),
+    rgb(99, 102, 241)
+  );
+}
+.subgraph-item:hover {
+  --p: 140%;
+  --l: 140px;
+  --a: 270deg;
+}
+
+.bm-burger-button {
+  display: none;
+}
+
+.bm-menu-wrap {
+  width: 40% !important;
+}
+
+*:focus {
+  outline: none !important;
+}
+
+.react-flow,
+.react-flow__container {
+  overscroll-behavior-x: none;
+}
+
+/* .react-flow__pane {
+  background: rgba(0, 0, 0, 0);
+  transition: 0.5s all;
+}
+
+.tutorial-mode .react-flow__pane {
+  content: '';
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  height: 100%;
+  z-index: 1;
+} */
