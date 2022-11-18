@@ -1,9 +1,9 @@
-import { PlusIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
+import { BuildingBridge, NewSection } from "tabler-icons-react";
 import soulboundStudioLogo from "../assets/logos/soulbound-studio.svg";
 import soulboundSOnly from "../assets/logos/thick-s.svg";
-import { Button } from "../Button/Button";
 import { ConnectWallet } from "../Wallet/ConnectWallet";
+import { HeaderLink } from "./HeaderLink";
 
 export function Header({}) {
   return (
@@ -19,26 +19,13 @@ export function Header({}) {
         />
       </Link>
       <div className="sm:gap-3 font-semibold text-sky-300 mr-3 flex items-center justify-end whitespace-nowrap">
-        {/* <div>
-          <HeaderLink
-            Icon={Home2}
-            label="Bridges"
-            href={"https://thegraph.com"}
-          />
+        <div>
+          <HeaderLink Icon={BuildingBridge} label="Bridges" href={"/bridges"} />
         </div>
         <div>
-          <HeaderLink
-            Icon={Home2}
-            label="Query"
-            href={"https://thegraph.com"}
-          />
-        </div> */}
-        <Button
-          size="lg"
-          palette="secondary"
-          Icon={PlusIcon}
-          label="Create Subgraph Bridge"
-        />
+          <HeaderLink Icon={NewSection} label="Create" href={"/create"} />
+        </div>
+
         <div className="ml-1">
           <ConnectWallet />
         </div>

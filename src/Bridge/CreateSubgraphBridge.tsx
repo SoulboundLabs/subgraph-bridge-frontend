@@ -109,6 +109,7 @@ export const CreateSubgraphBridge = ({ form }) => {
     handleSubmit,
     formState: { errors },
   } = form;
+
   return (
     <div className="flex flex-reverse">
       <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
