@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "../Button/Button";
 import { InputGroup } from "../Form/InputGroup";
 import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
 import { TextareaGroup } from "../Form/TextareaGroup";
 import { HrText } from "../Hr/HrText";
-import { blockChains, GNOSIS } from "../lib/blockchains";
+import { blockChains } from "../lib/blockchains";
 
 const slashableStake = [
   {
@@ -102,7 +102,24 @@ const disputeWindows = [
 ];
 
 export const CreateSubgraphBridge = () => {
-  const [query, setQuery] = useState("");
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      chainId: 5,
+      subgraphDeploymentID: "",
+      queryFirstChunk: "",
+      querySecondChunk: "",
+      responseDataOffset: "",
+      responseDataType: "",
+      proposalFreezePeriod: "",
+      minimumSlashableGRT: "",
+      disputeResolutionWindow: "",
+    },
+  });
 
   return (
     <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
@@ -122,10 +139,12 @@ export const CreateSubgraphBridge = () => {
       </HrText>
 
       <div className="space-y-4 pt-6">
-        <RadioCardsIcon
-          value={GNOSIS}
-          options={blockChains}
-          onChange={(chainId) => setQuery(chainId)}
+        <Controller
+          control={control}
+          name="chainId"
+          render={({ field }) => (
+            <RadioCardsIcon options={blockChains} {...field} />
+          )}
         />
       </div>
 
@@ -134,7 +153,7 @@ export const CreateSubgraphBridge = () => {
       </HrText>
 
       <div className="space-y-4 pt-6">
-        <InputGroup value={"1"} onChange={(value) => setQuery(value)} />
+        <InputGroup value={"1"} />
       </div>
 
       <HrText description="Which blockchain do you want your subgraph to index?">
@@ -142,7 +161,7 @@ export const CreateSubgraphBridge = () => {
       </HrText>
 
       <div className="space-y-4 pt-6">
-        <TextareaGroup value={"1"} onChange={(value) => setQuery(value)} />
+        <TextareaGroup value={"1"} />
       </div>
 
       <HrText description="How much self-staked GRT should Indexer collectively have?">
@@ -153,7 +172,7 @@ export const CreateSubgraphBridge = () => {
         <RadioButtons
           value={"1"}
           options={slashableStake}
-          onChange={(value) => setQuery(value)}
+          // onChange={(value) => setQuery(value)}
         />
       </div>
 
@@ -165,7 +184,7 @@ export const CreateSubgraphBridge = () => {
         <RadioButtons
           value={"1"}
           options={disputeWindows}
-          onChange={(value) => setQuery(value)}
+          // onChange={(value) => setQuery(value)}
         />
       </div>
 

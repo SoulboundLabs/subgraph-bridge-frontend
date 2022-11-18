@@ -51,11 +51,12 @@ export function RadioCardsIcon<T>({
               className={({ active, checked }) =>
                 classNames(
                   "cursor-pointer focus:outline-none",
+                  !comingSoon ? "hover:opacity-100" : "",
+                  checked ? "opacity-100" : "opacity-40",
 
                   comingSoon
                     ? "opacity-40 hover:opacity-40 cursor-not-allowed"
                     : "",
-                  checked ? "opacity-100" : "opacity-40 hover:opacity-100",
                   " "
                 )
               }

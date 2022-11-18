@@ -231,7 +231,7 @@
     "babel-plugin-polyfill-regenerator" "^0.3.0"
     "semver" "^6.3.0"
 
-"@babel/runtime@^7.10.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.8", "@babel/runtime@^7.15.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.6", "@babel/runtime@^7.x", "@babel/runtime@7.17.9", "@babel/runtime@7.x":
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.14.8", "@babel/runtime@^7.15.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.6", "@babel/runtime@^7.x", "@babel/runtime@7.17.9", "@babel/runtime@7.x":
   "integrity" "sha512-lSiBBvodq29uShpWGNbgFdKYNiFDo5/HIYsaCEY9ff4sb10x9jizo2+pRrSyF4jKZCXqgzuqBOQKbUm90gQwJg=="
   "resolved" "https://registry.npmjs.org/@babel/runtime/-/runtime-7.17.9.tgz"
   "version" "7.17.9"
@@ -3394,11 +3394,6 @@
     "inherits" "^2.0.1"
     "safe-buffer" "^5.0.1"
 
-"classnames@^2.2.5":
-  "integrity" "sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw=="
-  "resolved" "https://registry.npmjs.org/classnames/-/classnames-2.3.2.tgz"
-  "version" "2.3.2"
-
 "clipboard-copy@^4.0.1":
   "integrity" "sha512-wOlqdqziE/NNTUJsfSgXmBMIrYmfd5V0HCGsR8uAKHcg+h9NENWINcfRjtWGU77wDHC8B8ijV4hMTGYbrKovng=="
   "resolved" "https://registry.npmjs.org/clipboard-copy/-/clipboard-copy-4.0.1.tgz"
@@ -6157,25 +6152,6 @@
     "randombytes" "^2.0.5"
     "safe-buffer" "^5.1.0"
 
-"rc-slider@^10.1.0":
-  "integrity" "sha512-nhC8V0+lNj4gGKZix2QAfcj/EP3NvCtFhNJPFMvXUdn7pe8bSa2vXNSxQVN5b9veVSic4Xeqgd/7KamX3gqznA=="
-  "resolved" "https://registry.npmjs.org/rc-slider/-/rc-slider-10.1.0.tgz"
-  "version" "10.1.0"
-  dependencies:
-    "@babel/runtime" "^7.10.1"
-    "classnames" "^2.2.5"
-    "rc-util" "^5.18.1"
-    "shallowequal" "^1.1.0"
-
-"rc-util@^5.18.1":
-  "integrity" "sha512-2a4RQnycV9eV7lVZPEJ7QwJRPlZNc06J7CwcwZo4vIHr3PfUqtYgl1EkUV9ETAc6VRRi8XZOMFhYG63whlIC9Q=="
-  "resolved" "https://registry.npmjs.org/rc-util/-/rc-util-5.24.4.tgz"
-  "version" "5.24.4"
-  dependencies:
-    "@babel/runtime" "^7.18.3"
-    "react-is" "^16.12.0"
-    "shallowequal" "^1.1.0"
-
 "react-devtools-inline@4.25.0":
   "integrity" "sha512-UabJ4IcBeOSG8kdt7vhgtUDbhoHs61hWtQwVGREYyD2SRkgw9ien5+7veXYlAr6BqO0CNKhFB8M+0w69gzNGYw=="
   "resolved" "https://registry.npmjs.org/react-devtools-inline/-/react-devtools-inline-4.25.0.tgz"
@@ -6184,7 +6160,7 @@
     "source-map-js" "^0.6.2"
     "sourcemap-codec" "^1.4.8"
 
-"react-dom@^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18", "react-dom@^16 || ^17 || ^18", "react-dom@^17.0.2", "react-dom@>=16.8", "react-dom@>=16.8.0", "react-dom@>=16.9.0":
+"react-dom@^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18", "react-dom@^16 || ^17 || ^18", "react-dom@^17.0.2", "react-dom@>=16.8", "react-dom@>=16.8.0":
   "integrity" "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
   "version" "17.0.2"
@@ -6210,12 +6186,12 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"react-hook-form@^7.34.2":
-  "integrity" "sha512-1lYWbEqr0GW7HHUjMScXMidGvV0BE2RJV3ap2BL7G0EJirkqpccTaawbsvBO8GZaB3JjCeFBEbnEWI1P8ZoLRQ=="
-  "resolved" "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.34.2.tgz"
-  "version" "7.34.2"
+"react-hook-form@^7.39.4":
+  "integrity" "sha512-B0e78r9kR9L2M4A4AXGbHoA/vyv34sB/n8QWJAw33TFz8f5t9helBbYAeqnbvcQf1EYzJxKX/bGQQh9K+evCyQ=="
+  "resolved" "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.39.4.tgz"
+  "version" "7.39.4"
 
-"react-is@^16.12.0", "react-is@^16.13.1", "react-is@^16.7.0":
+"react-is@^16.13.1", "react-is@^16.7.0":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
@@ -6277,7 +6253,7 @@
   dependencies:
     "history" "^5.2.0"
 
-"react@^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18", "react@^15.5.3 || ^16.0.0 || ^17.0.0", "react@^16 || ^17 || ^18", "react@^16.8.0 || ^17 || ^18", "react@^17.0.2", "react@>= 16", "react@>= 16.8.0", "react@>=16.12.0", "react@>=16.13.1", "react@>=16.8", "react@>=16.8.0", "react@>=16.9.0", "react@15.x || 16.x || 17.x || 18.x", "react@17.0.2":
+"react@^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18", "react@^15.5.3 || ^16.0.0 || ^17.0.0", "react@^16 || ^17 || ^18", "react@^16.8.0 || ^17 || ^18", "react@^17.0.2", "react@>= 16", "react@>= 16.8.0", "react@>=16.12.0", "react@>=16.13.1", "react@>=16.8", "react@>=16.8.0", "react@15.x || 16.x || 17.x || 18.x", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
@@ -6668,11 +6644,6 @@
   dependencies:
     "inherits" "^2.0.1"
     "safe-buffer" "^5.0.1"
-
-"shallowequal@^1.1.0":
-  "integrity" "sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ=="
-  "resolved" "https://registry.npmjs.org/shallowequal/-/shallowequal-1.1.0.tgz"
-  "version" "1.1.0"
 
 "side-channel@^1.0.4":
   "integrity" "sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw=="
