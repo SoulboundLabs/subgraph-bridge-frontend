@@ -20,7 +20,7 @@ export function Header({}) {
       </Link>
       <div className="sm:gap-3 font-semibold text-sky-300 mr-3 flex items-center justify-end whitespace-nowrap">
         <div>
-          <HeaderLink Icon={BuildingBridge} label="Bridges" href={"/bridges"} />
+          <HeaderLink Icon={BuildingBridge} label="Bridges" href={"/"} />
         </div>
         <div>
           <HeaderLink Icon={NewSection} label="Create" href={"/create"} />

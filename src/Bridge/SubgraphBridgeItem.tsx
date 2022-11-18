@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { chainIdToIcon, chainIdToLabel } from "../lib/chain-ids";
 import { urlBridgeItem } from "../lib/url";
 import { SubgraphBridge } from "../store/types";
+import { FancyNumber } from "../Tag/FancyNumber";
 
 interface Props {
   bridge: SubgraphBridge;
@@ -77,15 +78,12 @@ export const SubgraphBridgeItem = ({ bridge }: Props) => {
         {/* {description} */}
       </div>
       <p className="absolute bottom-4 flex inset-x-4 gap-2">
-        {/* {tags.length > 0 ? (
-          tagList
-        ) : (
-          <FancyNumber>
-            <span className="">
-              Edited <FromNow timestamp={updatedAt} />
-            </span>
-          </FancyNumber>
-        )} */}
+        <FancyNumber>
+          <span className="">0 Attestations</span>
+        </FancyNumber>
+        <FancyNumber>
+          <span className="">Last Attested 3 Days Ago</span>
+        </FancyNumber>
       </p>
     </Link>
   );

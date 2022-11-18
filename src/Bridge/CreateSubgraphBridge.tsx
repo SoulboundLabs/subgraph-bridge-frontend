@@ -6,6 +6,7 @@ import { RadioCardsIcon } from "../Form/RadioCardsIcon";
 import { TextareaGroup } from "../Form/TextareaGroup";
 import { HrText } from "../Hr/HrText";
 import { blockChains } from "../lib/blockchains";
+import { TitleDescription } from "../Text/TitleDescription";
 
 const slashableStake = [
   {
@@ -113,15 +114,10 @@ export const CreateSubgraphBridge = ({ form }) => {
   return (
     <div className="flex flex-reverse">
       <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
-        <h1 className="text-3xl font-semibold text-white rounded mb-3">
-          Create New Subgraph Bridge
-        </h1>
-        <p className="font-semibold">
-          Use the form below to define the parameters of your new subgraph
-          bridge. Subgraph bridges are created on a per-query/per-subgraph
-          basis. Subgraphs must be deployed to The Graph's decentralized
-          network.
-        </p>
+        <TitleDescription
+          title="Create New Subgraph Bridge"
+          description="Use the form below to define your Subgraph Bridge's parameters and security configuration."
+        />
 
         {/* <BannerCreateSubgraphBridge /> */}
 

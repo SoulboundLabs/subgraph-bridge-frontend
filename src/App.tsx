@@ -37,7 +37,7 @@ function App() {
 
           <ScrollWrapper>
             <Routes>
-              <Route path="/" element={<AllBridgesPage />} />
+              <Route path="" element={<AllBridgesPage />} />
               <Route path="/create" element={<CreateSubgraphBridgePage />} />
               <Route path="/bridges/:id" element={<div />} />
             </Routes>
