@@ -3,7 +3,6 @@ import { Button } from "../Button/Button";
 import { InputGroup } from "../Form/InputGroup";
 import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
-import { TextareaGroup } from "../Form/TextareaGroup";
 import { HrText } from "../Hr/HrText";
 import { blockChains } from "../lib/blockchains";
 
@@ -109,8 +108,9 @@ export const CreateSubgraphBridge = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      chainId: 5,
+      chainID: 5,
       subgraphDeploymentID: "",
+      query: "",
       queryFirstChunk: "",
       querySecondChunk: "",
       responseDataOffset: "",
@@ -141,7 +141,7 @@ export const CreateSubgraphBridge = () => {
       <div className="space-y-4 pt-6">
         <Controller
           control={control}
-          name="chainId"
+          name="chainID"
           render={({ field }) => (
             <RadioCardsIcon options={blockChains} {...field} />
           )}
@@ -153,7 +153,11 @@ export const CreateSubgraphBridge = () => {
       </HrText>
 
       <div className="space-y-4 pt-6">
-        <InputGroup value={"1"} />
+        <Controller
+          control={control}
+          name="subgraphDeploymentID"
+          render={({ field }) => <InputGroup {...field} />}
+        />
       </div>
 
       <HrText description="Which blockchain do you want your subgraph to index?">
@@ -161,7 +165,11 @@ export const CreateSubgraphBridge = () => {
       </HrText>
 
       <div className="space-y-4 pt-6">
-        <TextareaGroup value={"1"} />
+        <Controller
+          control={control}
+          name="query"
+          render={({ field }) => <InputGroup {...field} />}
+        />
       </div>
 
       <HrText description="How much self-staked GRT should Indexer collectively have?">
@@ -169,10 +177,12 @@ export const CreateSubgraphBridge = () => {
       </HrText>
 
       <div className="space-y-4 pt-6">
-        <RadioButtons
-          value={"1"}
-          options={slashableStake}
-          // onChange={(value) => setQuery(value)}
+        <Controller
+          control={control}
+          name="minimumSlashableGRT"
+          render={({ field }) => (
+            <RadioButtons options={slashableStake} {...field} />
+          )}
         />
       </div>
 
@@ -181,10 +191,12 @@ export const CreateSubgraphBridge = () => {
       </HrText>
 
       <div className="space-y-4 pt-6">
-        <RadioButtons
-          value={"1"}
-          options={disputeWindows}
-          // onChange={(value) => setQuery(value)}
+        <Controller
+          control={control}
+          name="disputeResolutionWindow"
+          render={({ field }) => (
+            <RadioButtons options={disputeWindows} {...field} />
+          )}
         />
       </div>
 
