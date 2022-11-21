@@ -1,106 +1,12 @@
 import { Controller } from "react-hook-form";
 import { Button } from "../Button/Button";
+import CodeEditor from "../Code/CodeEditor";
 import { InputGroup } from "../Form/InputGroup";
-import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
-import { TextareaGroup } from "../Form/TextareaGroup";
+import { Slider } from "../Form/Slider";
 import { HrText } from "../Hr/HrText";
 import { blockChains } from "../lib/blockchains";
 import { TitleDescription } from "../Text/TitleDescription";
-
-const slashableStake = [
-  {
-    value: 100000,
-    label: "100,000 GRT",
-  },
-  {
-    value: 200000,
-    label: "200,000 GRT",
-  },
-  {
-    value: 500000,
-    label: "500,000 GRT",
-  },
-  {
-    value: 1000000,
-    label: "1,000,000 GRT",
-  },
-  {
-    value: 2000000,
-    label: "2,000,000 GRT",
-  },
-  {
-    value: 5000000,
-    label: "5,000,000 GRT",
-  },
-  {
-    value: 10000000,
-    label: "10,000,000 GRT",
-  },
-];
-
-const disputeWindows = [
-  {
-    value: 0,
-    label: "0 Minutes",
-  },
-  {
-    value: 30,
-    label: "5 Minutes",
-  },
-  {
-    value: 30,
-    label: "15 Minutes",
-  },
-  {
-    value: 30,
-    label: "30 Minutes",
-  },
-  {
-    value: 30,
-    label: "1 Hour",
-  },
-  {
-    value: 30,
-    label: "2 Hours",
-  },
-  {
-    value: 30,
-    label: "3 Hours",
-  },
-  {
-    value: 30,
-    label: "6 Hours",
-  },
-  {
-    value: 60,
-    label: "12 Hours",
-  },
-  {
-    value: 60,
-    label: "1 Day",
-  },
-  {
-    value: 400,
-    label: "2 Days",
-  },
-  {
-    value: 1200,
-    label: "5 Days",
-  },
-  {
-    value: 1200,
-    label: "7 Days",
-  },
-  {
-    value: 1200,
-    label: "10 Days",
-  },
-  {
-    value: 1200,
-    label: "14 Days",
-  },
-];
 
 export const CreateSubgraphBridge = ({ form }) => {
   const {
@@ -116,7 +22,7 @@ export const CreateSubgraphBridge = ({ form }) => {
       <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
         <TitleDescription
           title="Create New Subgraph Bridge"
-          description="Use the form below to define your Subgraph Bridge's parameters and security configuration."
+          description="Use the form below to define the parameters and security config for a new Subgraph Bridge."
         />
 
         {/* <BannerCreateSubgraphBridge /> */}
@@ -135,7 +41,16 @@ export const CreateSubgraphBridge = ({ form }) => {
           />
         </div>
 
-        <HrText description="Which blockchain do you want your subgraph to index?">
+        <HrText
+          description={
+            <span>
+              Find the Subgraph Deployment ID using the{" "}
+              <a href="https://thegraph.com/explorer" target="_blank">
+                Graph Explorer
+              </a>
+            </span>
+          }
+        >
           Enter Subgraph Deployment ID
         </HrText>
 
@@ -147,15 +62,13 @@ export const CreateSubgraphBridge = ({ form }) => {
           />
         </div>
 
-        <HrText description="Which blockchain do you want your subgraph to index?">
-          Enter Query
-        </HrText>
+        <HrText description="What query do you want to ">Enter Query</HrText>
 
         <div className="space-y-4 pt-6">
           <Controller
             control={control}
             name="query"
-            render={({ field }) => <TextareaGroup {...field} />}
+            render={({ field }) => <CodeEditor {...field} />}
           />
         </div>
 
@@ -168,7 +81,13 @@ export const CreateSubgraphBridge = ({ form }) => {
             control={control}
             name="minimumSlashableGRT"
             render={({ field }) => (
-              <RadioButtons options={slashableStake} {...field} />
+              <Slider
+                label="GRT"
+                {...field}
+                min={100}
+                max={1000}
+                format={(val) => val + "k"}
+              />
             )}
           />
         </div>
@@ -182,7 +101,7 @@ export const CreateSubgraphBridge = ({ form }) => {
             control={control}
             name="disputeResolutionWindow"
             render={({ field }) => (
-              <RadioButtons options={disputeWindows} {...field} />
+              <Slider label="Blocks" max={100000} {...field} />
             )}
           />
         </div>

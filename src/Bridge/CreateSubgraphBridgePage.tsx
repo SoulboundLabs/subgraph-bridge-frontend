@@ -12,8 +12,8 @@ export const CreateSubgraphBridgePage = () => {
       responseDataOffset: "",
       responseDataType: "",
       proposalFreezePeriod: "",
-      minimumSlashableGRT: "",
-      disputeResolutionWindow: "",
+      minimumSlashableGRT: 0,
+      disputeResolutionWindow: 0,
     },
   });
 
