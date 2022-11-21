@@ -49,7 +49,7 @@ const minimumSlashableGRTOptions = [
   {
     label: (
       <div>
-        <div>Maximum Security</div>
+        <div>Max Security</div>
         <div className="text-xs">5M Self-Staked GRT</div>
       </div>
     ),
@@ -97,7 +97,7 @@ const disputeResolutionOptions = [
   {
     label: (
       <div>
-        <div>Extra Long Finality</div>
+        <div>Extended Finality</div>
         <div className="text-xs">25,000 Blocks</div>
       </div>
     ),
