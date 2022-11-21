@@ -6,7 +6,12 @@ export const CreateSubgraphBridgePage = () => {
     defaultValues: {
       chainID: 5,
       subgraphDeploymentID: "",
-      query: "",
+      query: `{
+  exampleModels(first: 5) {
+    id
+  }
+}
+`,
       queryFirstChunk: "",
       querySecondChunk: "",
       responseDataOffset: "",

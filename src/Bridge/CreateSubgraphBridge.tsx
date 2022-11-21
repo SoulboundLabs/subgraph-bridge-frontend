@@ -1,12 +1,109 @@
 import { Controller } from "react-hook-form";
+import { AlertCircle } from "tabler-icons-react";
 import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
 import { InputGroup } from "../Form/InputGroup";
+import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
-import { Slider } from "../Form/Slider";
 import { HrText } from "../Hr/HrText";
 import { blockChains } from "../lib/blockchains";
 import { TitleDescription } from "../Text/TitleDescription";
+
+const minimumSlashableGRTOptions = [
+  {
+    label: (
+      <div>
+        <div>Low Security</div>
+        <div className="text-xs">100k Self-Staked GRT</div>
+      </div>
+    ),
+    value: 100000,
+  },
+  {
+    label: (
+      <div>
+        <div>Basic Security</div>
+        <div className="text-xs">300k Self-Staked GRT</div>
+      </div>
+    ),
+    value: 300000,
+  },
+  {
+    label: (
+      <div>
+        <div>Medium Security</div>
+        <div className="text-xs">750k Self-Staked GRT</div>
+      </div>
+    ),
+    value: 750000,
+  },
+  {
+    label: (
+      <div>
+        <div>Strong Security</div>
+        <div className="text-xs">2M Self-Staked GRT</div>
+      </div>
+    ),
+    value: 2000000,
+  },
+  {
+    label: (
+      <div>
+        <div>Maximum Security</div>
+        <div className="text-xs">5M Self-Staked GRT</div>
+      </div>
+    ),
+    value: 5000000,
+  },
+];
+
+const disputeResolutionOptions = [
+  {
+    label: (
+      <div>
+        <div>Immediate Finality</div>
+        <div className="text-xs">0 Blocks</div>
+      </div>
+    ),
+    value: 0,
+  },
+  {
+    label: (
+      <div>
+        <div>Quick Finality</div>
+        <div className="text-xs">100 Blocks</div>
+      </div>
+    ),
+    value: 100,
+  },
+  {
+    label: (
+      <div>
+        <div>Medium Finality</div>
+        <div className="text-xs">1,000 Blocks</div>
+      </div>
+    ),
+    value: 1000,
+  },
+  {
+    label: (
+      <div>
+        <div>Long Finality</div>
+        <div className="text-xs">5,000 Blocks</div>
+      </div>
+    ),
+    value: 5000,
+  },
+  {
+    label: (
+      <div>
+        <div>Extra Long Finality</div>
+        <div className="text-xs">25,000 Blocks</div>
+      </div>
+    ),
+    value: 25000,
+  },
+];
 
 export const CreateSubgraphBridge = ({ form }) => {
   const {
@@ -44,10 +141,16 @@ export const CreateSubgraphBridge = ({ form }) => {
         <HrText
           description={
             <span>
-              Find the Subgraph Deployment ID using the{" "}
-              <a href="https://thegraph.com/explorer" target="_blank">
+              Look underneath the "DEPLOYMENT ID" header on any subgraph listed
+              on the{" "}
+              <a
+                href="https://thegraph.com/explorer"
+                target="_blank"
+                className="text-sky-300 hover:underline"
+              >
                 Graph Explorer
-              </a>
+              </a>{" "}
+              page.
             </span>
           }
         >
@@ -62,7 +165,9 @@ export const CreateSubgraphBridge = ({ form }) => {
           />
         </div>
 
-        <HrText description="What query do you want to ">Enter Query</HrText>
+        <HrText description="What query results do you want to bridge on-chain?">
+          Enter GraphQL Query
+        </HrText>
 
         <div className="space-y-4 pt-6">
           <Controller
@@ -70,9 +175,12 @@ export const CreateSubgraphBridge = ({ form }) => {
             name="query"
             render={({ field }) => <CodeEditor {...field} />}
           />
+          <div className="flex justify-end">
+            <Button Icon={AlertCircle} label="Test Query" />
+          </div>
         </div>
 
-        <HrText description="How much self-staked GRT should an Indexer supplying attestations have?">
+        <HrText description="How much crypto-economic security should a query result for this Subgraph Bridge have? Indexers are liable to lose 2.5% of their self-staked GRT for supplying invalid query results.">
           Minimum Slashable Stake
         </HrText>
 
@@ -81,18 +189,12 @@ export const CreateSubgraphBridge = ({ form }) => {
             control={control}
             name="minimumSlashableGRT"
             render={({ field }) => (
-              <Slider
-                label="GRT"
-                {...field}
-                min={100}
-                max={1000}
-                format={(val) => val + "k"}
-              />
+              <RadioButtons {...field} options={minimumSlashableGRTOptions} />
             )}
           />
         </div>
 
-        <HrText description="How long should Indexers wait to see their results?">
+        <HrText description="Use a longer dispute window for extra security, choose a shorter dispute window for quicker finality.">
           Dispute Window
         </HrText>
 
@@ -101,7 +203,7 @@ export const CreateSubgraphBridge = ({ form }) => {
             control={control}
             name="disputeResolutionWindow"
             render={({ field }) => (
-              <Slider label="Blocks" max={100000} {...field} />
+              <RadioButtons {...field} options={disputeResolutionOptions} />
             )}
           />
         </div>
