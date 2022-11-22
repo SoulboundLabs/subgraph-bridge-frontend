@@ -7,31 +7,17 @@
     "build": "tsc && node --max_old_space_size=16384 ./node_modules/vite/bin/vite --config ./vite.config.ts build && rimraf dist/**/*.js.map",
     "preview": "vite preview --host"
   },
-  "resolutions": {
-    "ethereumjs-abi": "https://registry.npmjs.org/ethereumjs-abi/-/ethereumjs-abi-0.6.8.tgz"
-  },
-  "overrides": {
-    "@codesandbox/sandpack-react": {
-      "react-devtools-inline": "4.25.0"
-    }
-  },
   "dependencies": {
     "@badgeth/graphql-generate": "0.2.0",
-    "@codemirror/lang-javascript": "^6.1.1",
-    "@codemirror/language": "^6.3.1",
+    "@codemirror/language": "^6.2.1",
+    "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@headlessui/react": "^1.6.4",
-    "@heroicons/react": "^1.0.6",
-    "@popperjs/core": "^2.11.5",
-    "@remix-run/node": "^1.7.6",
-    "@remix-run/react": "^1.7.6",
-    "@sentry/react": "^7.2.0",
-    "@sentry/tracing": "^7.2.0",
     "@tailwindcss/line-clamp": "^0.4.0",
     "@tippyjs/react": "^4.2.6",
     "@types/lodash": "^4.14.182",
     "@uiball/loaders": "^1.2.6",
-    "@uiw/react-codemirror": "^4.15.1",
+    "@uiw/react-codemirror": "^4.12.4",
     "@web3-onboard/coinbase": "^2.0.2",
     "@web3-onboard/fortmatic": "^2.0.2",
     "@web3-onboard/gnosis": "^2.0.1",
@@ -50,27 +36,21 @@
     "axios": "^0.27.2",
     "buffer": "^6.0.3",
     "clipboard-copy": "^4.0.1",
-    "codemirror-graphql": "^2.0.2",
+    "codemirror-graphql": "^2.0.0",
     "dayjs": "^1.11.1",
     "downshift": "^6.1.7",
     "ethers": "^5.5.4",
     "graphql": "^16.5.0",
-    "graphql-query-utility": "^1.0.1",
     "graphql-request": "^4.2.0",
     "lodash": "^4.17.21",
     "prettier": "^2.7.1",
     "react": "^17.0.2",
-    "react-devtools-inline": "4.25.0",
     "react-dom": "^17.0.2",
-    "react-error-boundary": "^3.1.4",
     "react-hook-form": "^7.39.4",
     "react-jdenticon": "^1.0.0",
     "react-router-dom": "^6.3.0",
-    "react-slider": "^2.0.4",
     "recoil": ">=0.7.0",
-    "tabler-icons-react": "^1.52.0",
-    "vite-plugin-top-level-await": "^1.2.1",
-    "vite-plugin-wasm": "^3.1.0"
+    "tabler-icons-react": "^1.52.0"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.0",
@@ -86,6 +66,8 @@
     "rollup-plugin-polyfill-node": "^0.8.0",
     "tailwindcss": "^3.0.23",
     "typescript": "^4.5.4",
-    "vite": "^2.9.5"
+    "vite": "^2.9.5",
+    "vite-plugin-top-level-await": "^1.2.1",
+    "vite-plugin-wasm": "^3.1.0"
   }
 }

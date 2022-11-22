@@ -1,6 +1,5 @@
 import { format_graphql } from "@badgeth/graphql-generate";
 import { Controller } from "react-hook-form";
-import { AlertCircle } from "tabler-icons-react";
 import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
 import { InputGroup } from "../Form/InputGroup";
@@ -191,7 +190,7 @@ export const CreateSubgraphBridge = ({ form }) => {
           />
         </div>
 
-        <HrText description="What query results do you want to bridge on-chain?">
+        <HrText description="What query do you want to results on-chain?">
           Enter GraphQL Query
         </HrText>
 
@@ -202,15 +201,31 @@ export const CreateSubgraphBridge = ({ form }) => {
             rules={{
               required: true,
               validate: {
+                containsBlockHash: (value) => {
+                  return (
+                    value.includes(`block: { hash: "" }`) || (
+                      <span>
+                        Query must contain empty block hash where filter:{" "}
+                        <code className="bg-rose-900 text-white px-1">{`block: {hash: ""}`}</code>
+                      </span>
+                    )
+                  );
+                },
                 isValidGraphQL: (value) =>
-                  formatQueryToMatchGateway(value) !== null,
+                  formatQueryToMatchGateway(value) !== null ||
+                  "Invalid GraphQL query",
               },
             }}
             render={({ field }) => <CodeEditor {...field} />}
           />
-          <div className="flex justify-end">
+          {errors.query?.message && (
+            <div className="font-semibold text-rose-800 rounded-sm p-2 bg-rose-300">
+              {errors.query?.message}
+            </div>
+          )}
+          {/* <div className="flex justify-end">
             <Button Icon={AlertCircle} label="Test Query" />
-          </div>
+          </div> */}
         </div>
 
         <HrText description="How much crypto-economic security should a query result for this Subgraph Bridge have? Indexers are liable to lose 2.5% of their self-staked GRT for supplying invalid query results.">
