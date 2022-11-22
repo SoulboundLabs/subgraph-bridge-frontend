@@ -106,6 +106,10 @@ const disputeResolutionOptions = [
   },
 ];
 
+const formatQueryToMatchGateway = (query: string) => {
+  return `{"query":${format_graphql(query)},"variables":{}}`;
+};
+
 export const CreateSubgraphBridge = ({ form }) => {
   const {
     register,
@@ -116,7 +120,12 @@ export const CreateSubgraphBridge = ({ form }) => {
   } = form;
 
   const onSubmit = (data) => {
-    console.log({ ...data, query: format_graphql(data.query) });
+    console.log("~~~~");
+    console.log(formatQueryToMatchGateway(data.query));
+    console.log({
+      ...data,
+      gatewayQuery: formatQueryToMatchGateway(data.query),
+    });
   };
 
   return (
