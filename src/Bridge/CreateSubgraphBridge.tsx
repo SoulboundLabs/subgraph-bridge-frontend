@@ -1,3 +1,4 @@
+import { format_graphql } from "@badgeth/graphql-generate";
 import { Controller } from "react-hook-form";
 import { AlertCircle } from "tabler-icons-react";
 import { Button } from "../Button/Button";
@@ -114,8 +115,12 @@ export const CreateSubgraphBridge = ({ form }) => {
     formState: { errors },
   } = form;
 
+  const onSubmit = (data) => {
+    console.log({ ...data, query: format_graphql(data.query) });
+  };
+
   return (
-    <div className="flex flex-reverse">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-reverse">
       <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
         <TitleDescription
           title="Create New Subgraph Bridge"
@@ -214,9 +219,10 @@ export const CreateSubgraphBridge = ({ form }) => {
             palette="secondary"
             size="lg"
             stretch
+            type="submit"
           />
         </div>
       </div>
-    </div>
+    </form>
   );
 };

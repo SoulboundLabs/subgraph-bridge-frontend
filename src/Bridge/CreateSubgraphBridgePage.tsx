@@ -24,6 +24,8 @@ export const CreateSubgraphBridgePage = () => {
 
   const formValues = form.watch();
 
+  console.log(formValues);
+
   return (
     <div className="container max-w-7xl mx-auto mt-6">
       <div className="flex gap-8">
