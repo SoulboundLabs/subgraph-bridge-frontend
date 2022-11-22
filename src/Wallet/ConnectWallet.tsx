@@ -1,5 +1,4 @@
 import { useConnectWallet, useSetChain, useWallets } from "@web3-onboard/react";
-import { ethers } from "ethers";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { Wallet } from "tabler-icons-react";
@@ -88,46 +87,6 @@ export function ConnectWallet() {
       setAccount(null);
     }
   }, [wallet]);
-
-  const handleSignMessage = async ({
-    address,
-    nonce,
-  }: {
-    address: string;
-    nonce: string;
-  }) => {
-    try {
-      const provider = new ethers.providers.Web3Provider(window["ethereum"]);
-      const signer = provider.getSigner(address);
-      const signature = await signer.signMessage(
-        `I am signing my one-time nonce: ${nonce}`
-      );
-      return signature;
-    } catch (err) {
-      throw new Error("You need to sign the message to be able to log in.");
-    }
-  };
-
-  // const authenticate = async (address: string) => {
-  //   // Look if user with current address is already present on backend
-  //   const storedAccessToken = localStorage.getItem(SBT_ACCESS_TOKEN);
-  //   if (!storedAccessToken) {
-  //     const users = await requestEndpoint(endpoints.user.get({ address }));
-  //     const user =
-  //       users.length > 0
-  //         ? users[0]
-  //         : await requestEndpoint(endpoints.user.create({ address }));
-  //     const signature = await handleSignMessage({
-  //       address: address,
-  //       nonce: user.nonce,
-  //     });
-
-  //     const { accessToken } = await requestEndpoint(
-  //       endpoints.user.login({ address, signature })
-  //     );
-  //     localStorage.setItem(SBT_ACCESS_TOKEN, accessToken);
-  //   }
-  // };
 
   const readyToTransact = async () => {
     if (!wallet) {
