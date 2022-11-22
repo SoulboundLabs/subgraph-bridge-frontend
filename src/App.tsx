@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { AllBridgesPage } from "./BridgeExplorer/AllBridgesPage";
-import { CreateSubgraphBridgePage } from "./BridgeForm/CreateSubgraphBridgePage";
+import { BridgeFormPage } from "./BridgeForm/CreateSubgraphBridgePage";
 import { GradientSVGDef } from "./Gradient/GradientSVGDef";
 import { Header } from "./Header/Header";
 import { initWeb3Onboard } from "./Wallet/onboard";
@@ -38,7 +38,7 @@ function App() {
           <ScrollWrapper>
             <Routes>
               <Route path="" element={<AllBridgesPage />} />
-              <Route path="/create" element={<CreateSubgraphBridgePage />} />
+              <Route path="/create" element={<BridgeFormPage />} />
               <Route path="/bridges/:id" element={<div />} />
             </Routes>
           </ScrollWrapper>

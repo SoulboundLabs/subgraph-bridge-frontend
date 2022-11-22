@@ -2,7 +2,7 @@ import { format_graphql } from "@badgeth/graphql-generate";
 import { useConnectWallet } from "@web3-onboard/react";
 import { ethers } from "ethers";
 import { useEffect } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
 import { InputGroup } from "../Form/InputGroup";
@@ -18,35 +18,86 @@ import {
 
 const formatQueryToMatchGateway = (query: string) => {
   try {
-    console.log("validating query", query);
     return `{"query":${format_graphql(query)},"variables":{}}`;
   } catch (e) {
-    console.log("error validating query", e);
     return null;
   }
+};
+
+const hexlify = (value: string) =>
+  ethers.utils.hexlify(ethers.utils.toUtf8Bytes(value));
+
+const formToTx = (form: FormValues): TxValues => {
+  const { query, ...rest } = form;
+  const formattedQuery = formatQueryToMatchGateway(query);
+  if (!formattedQuery) {
+    return null;
+  }
+
+  const hashSplitString = "hash: \\";
+  const hashIndex = formattedQuery.indexOf(hashSplitString);
+
+  const queryFirstChunk = hexlify(
+    formattedQuery.slice(0, hashIndex + hashSplitString.length)
+  );
+  const querySecondChunk = hexlify(
+    formattedQuery.slice(hashIndex + hashSplitString.length - 1)
+  );
+
+  return {
+    ...rest,
+    queryFirstChunk,
+    querySecondChunk,
+  };
 };
 
 const goerliAddress = "0xebD596E84E8fcc8040e42D233eb2B39257302EEe";
 let subgraphBridgeContract, provider;
 
-export const CreateSubgraphBridge = ({ form }) => {
+interface FormValues {
+  query: string;
+  chainID: number;
+  subgraphDeploymentID: string;
+  disputeResolution: string;
+  minimumSlashableGRT: number;
+  responseDataOffset: number;
+  responseDataType: string;
+  disputeResolutionWindow: number;
+}
+
+type TxValues = Omit<FormValues, "query" | "chainID"> & {
+  queryFirstChunk: string;
+  querySecondChunk: string;
+};
+
+export const BridgeForm = () => {
   const {
     register,
     watch,
     control,
     handleSubmit,
     formState: { errors, isSubmitting, isDirty, isValid },
-  } = form;
-
+  } = useForm<FormValues>({
+    mode: "onChange",
+    defaultValues: {
+      chainID: 5,
+      subgraphDeploymentID: "",
+      query: `{
+  exampleModels(first: 5, block: { hash: "" }) {
+    id
+  }
+}
+`,
+      responseDataOffset: 0,
+      responseDataType: "",
+      minimumSlashableGRT: 100000,
+      disputeResolutionWindow: 0,
+    },
+  });
   const [{ wallet }] = useConnectWallet();
 
-  const onSubmit = (data) => {
-    console.log("~~~~");
-    console.log(formatQueryToMatchGateway("banana"));
-    console.log({
-      ...data,
-      gatewayQuery: formatQueryToMatchGateway(data.query),
-    });
+  const onSubmit = (data: FormValues) => {
+    console.log("TxValues", formToTx(data));
   };
 
   useEffect(() => {
@@ -64,7 +115,7 @@ export const CreateSubgraphBridge = ({ form }) => {
   }, [wallet]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-reverse">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-reverse pb-10">
       <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
         <TitleDescription
           title="Create New Subgraph Bridge"
@@ -131,12 +182,8 @@ export const CreateSubgraphBridge = ({ form }) => {
               validate: {
                 containsBlockHash: (value) => {
                   return (
-                    value.includes(`block: { hash: "" }`) || (
-                      <span>
-                        Query must contain empty block hash where filter:{" "}
-                        <code className="bg-rose-900 text-white px-1">{`block: {hash: ""}`}</code>
-                      </span>
-                    )
+                    value.includes(`block: { hash: "" }`) ||
+                    `Query must contain empty block hash filter: block: {hash: ""}`
                   );
                 },
                 isValidGraphQL: (value) =>

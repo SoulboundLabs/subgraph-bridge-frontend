@@ -1,4 +1,4 @@
-export const BannerCreateSubgraphBridge = () => {
+export const BannerBridgeForm = () => {
   return (
     <div>
       <div className="space-y-4 bg-slate-400/10 rounded-lg p-6">
