@@ -8,7 +8,7 @@ export const CreateSubgraphBridgePage = () => {
       chainID: 5,
       subgraphDeploymentID: "",
       query: `{
-  exampleModels(first: 5) {
+  exampleModels(first: 5, block: { hash: "" }) {
     id
   }
 }
@@ -24,8 +24,6 @@ export const CreateSubgraphBridgePage = () => {
   });
 
   const formValues = form.watch();
-
-  console.log(formValues);
 
   return (
     <div className="container max-w-7xl mx-auto mt-6">
