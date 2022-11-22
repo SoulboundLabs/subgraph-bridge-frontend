@@ -1,8 +1,8 @@
 import { useLayoutEffect, useRef } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import { AllBridgesPage } from "./Bridge/AllBridgesPage";
-import { CreateSubgraphBridgePage } from "./Bridge/CreateSubgraphBridgePage";
+import { AllBridgesPage } from "./BridgeExplorer/AllBridgesPage";
+import { CreateSubgraphBridgePage } from "./BridgeForm/CreateSubgraphBridgePage";
 import { GradientSVGDef } from "./Gradient/GradientSVGDef";
 import { Header } from "./Header/Header";
 import { initWeb3Onboard } from "./Wallet/onboard";
