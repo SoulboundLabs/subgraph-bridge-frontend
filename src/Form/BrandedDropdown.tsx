@@ -1,23 +1,29 @@
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronDownIcon } from '@heroicons/react/solid'
-import { Fragment, ReactElement } from 'react'
-import { Icon } from 'tabler-icons-react'
-import { classNames } from '../lib/utils'
-import { Option } from '../store/types'
-import { FancyNumber } from '../Tag/FancyNumber'
+import { Listbox, Transition } from "@headlessui/react";
+import { Fragment, ReactElement } from "react";
+import { Check, ChevronDown, Icon } from "tabler-icons-react";
+import { classNames } from "../lib/utils";
+import { Option } from "../store/types";
+import { FancyNumber } from "../Tag/FancyNumber";
 interface Props<T> {
-  options?: Option<T>[]
-  label?: string | ReactElement
-  helpText?: string
-  onChange?: (selected: T) => void
-  value?: T
-  Icon?: Icon
-  disabled?: boolean
+  options?: Option<T>[];
+  label?: string | ReactElement;
+  helpText?: string;
+  onChange?: (selected: T) => void;
+  value?: T;
+  Icon?: Icon;
+  disabled?: boolean;
 }
 
-export function BrandedDropdown<T>({ options, label, Icon, value, onChange, disabled }: Props<T>) {
+export function BrandedDropdown<T>({
+  options,
+  label,
+  Icon,
+  value,
+  onChange,
+  disabled,
+}: Props<T>) {
   const selected = options.find((option) => option.value === value) ||
-    options[0] || { label: 'Select Option', value: undefined }
+    options[0] || { label: "Select Option", value: undefined };
   return (
     <div className="items-center  text-sm">
       {label && (
@@ -29,8 +35,8 @@ export function BrandedDropdown<T>({ options, label, Icon, value, onChange, disa
         disabled={disabled}
         value={selected.value}
         onChange={(selected: any) => {
-          const value = selected.value as T
-          onChange(value)
+          const value = selected.value as T;
+          onChange(value);
         }}
       >
         {({ open }) => (
@@ -40,16 +46,28 @@ export function BrandedDropdown<T>({ options, label, Icon, value, onChange, disa
                 <Listbox.Button className="w-full text-left">
                   <div
                     className={`relative z-0 flex w-full shadow-sm rounded-lg bg-slate-700/50 text-white hover:bg-slate-600/50 ${
-                      open && 'bg-slate-400/50'
+                      open && "bg-slate-400/50"
                     } transition-colors`}
                   >
                     <div className="relative inline-flex w-full items-center  py-2 pl-3 pr-4 border border-transparent rounded-l-md shadow-sm text-white">
-                      {selected.Icon && <selected.Icon className="h-5 w-5" aria-hidden="true" />}
-                      <p className="ml-2.5 text-sm font-medium">{selected.label}</p>
+                      {selected.Icon && (
+                        <selected.Icon className="h-5 w-5" aria-hidden="true" />
+                      )}
+                      {selected.imgSrc && (
+                        <img
+                          className="-mt-0.5 h-5 w-5 filter invert"
+                          src={selected.imgSrc}
+                        />
+                      )}
+                      <p className="ml-2.5 text-sm font-semibold">
+                        {selected.label}
+                      </p>
                     </div>
                     <button className="relative inline-flex items-center p-2 rounded-l-none rounded-r-md text-sm font-medium text-white">
-                      <span className="sr-only">Change option</span>
-                      <ChevronDownIcon className="h-5 w-5 text-white" aria-hidden="true" />
+                      <ChevronDown
+                        className="h-5 w-5 text-white"
+                        aria-hidden="true"
+                      />
                     </button>
                   </div>
                 </Listbox.Button>
@@ -70,11 +88,14 @@ export function BrandedDropdown<T>({ options, label, Icon, value, onChange, disa
                       className={({ active, selected }) =>
                         classNames(
                           active
-                            ? 'text-white bg-slate-800 hover:bg-slate-800 transition-colors'
-                            : 'text-slate-300',
-                          selected && 'bg-slate-800 hover:bg-slate-800 transition-colors',
-                          option.comingSoon ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer',
-                          'select-none relative p-4 text-sm nowheel'
+                            ? "text-white bg-slate-800 hover:bg-slate-800 transition-colors"
+                            : "text-slate-300",
+                          selected &&
+                            "bg-slate-800 hover:bg-slate-800 transition-colors",
+                          option.comingSoon
+                            ? "opacity-60 cursor-not-allowed"
+                            : "cursor-pointer",
+                          "select-none relative p-4 text-sm nowheel"
                         )
                       }
                       value={option}
@@ -84,23 +105,28 @@ export function BrandedDropdown<T>({ options, label, Icon, value, onChange, disa
                           <div className="flex w-full justify-between">
                             <p
                               className={classNames(
-                                selected ? 'font-semibold' : 'font-semibold',
-                                'flex gap-2'
+                                selected ? "font-semibold" : "font-semibold",
+                                "flex gap-2"
                               )}
                             >
                               {option.Icon && (
-                                <option.Icon className="flex-none" aria-hidden="true" />
+                                <option.Icon
+                                  className="flex-none"
+                                  aria-hidden="true"
+                                />
                               )}
                               <p>
                                 <div className="flex justify-between gap-1.5">
                                   {option.label}
-                                  {option.comingSoon && <FancyNumber>Coming Soon</FancyNumber>}
+                                  {option.comingSoon && (
+                                    <FancyNumber>Coming Soon</FancyNumber>
+                                  )}
                                 </div>
 
                                 {option.description ? (
                                   <p
                                     className={classNames(
-                                      'text-slate-300 flex-wrap font-normal w-full flex'
+                                      "text-slate-300 flex-wrap font-normal w-full flex"
                                     )}
                                   >
                                     {option.description}
@@ -109,8 +135,12 @@ export function BrandedDropdown<T>({ options, label, Icon, value, onChange, disa
                               </p>
                             </p>
                             {selected ? (
-                              <span className={active ? 'text-slate-300' : 'text-slate-500'}>
-                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                              <span
+                                className={
+                                  active ? "text-slate-300" : "text-slate-500"
+                                }
+                              >
+                                <Check className="h-5 w-5" aria-hidden="true" />
                               </span>
                             ) : null}
                           </div>
@@ -125,5 +155,5 @@ export function BrandedDropdown<T>({ options, label, Icon, value, onChange, disa
         )}
       </Listbox>
     </div>
-  )
+  );
 }

@@ -1,4 +1,7 @@
 import { format_graphql } from "@badgeth/graphql-generate";
+import { useConnectWallet } from "@web3-onboard/react";
+import { ethers } from "ethers";
+import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
@@ -8,102 +11,10 @@ import { RadioCardsIcon } from "../Form/RadioCardsIcon";
 import { HrText } from "../Hr/HrText";
 import { blockChains } from "../lib/blockchains";
 import { TitleDescription } from "../Text/TitleDescription";
-
-const minimumSlashableGRTOptions = [
-  {
-    label: (
-      <div>
-        <div>Low Security</div>
-        <div className="text-xs">100k Self-Staked GRT</div>
-      </div>
-    ),
-    value: 100000,
-  },
-  {
-    label: (
-      <div>
-        <div>Basic Security</div>
-        <div className="text-xs">300k Self-Staked GRT</div>
-      </div>
-    ),
-    value: 300000,
-  },
-  {
-    label: (
-      <div>
-        <div>Medium Security</div>
-        <div className="text-xs">750k Self-Staked GRT</div>
-      </div>
-    ),
-    value: 750000,
-  },
-  {
-    label: (
-      <div>
-        <div>Strong Security</div>
-        <div className="text-xs">2M Self-Staked GRT</div>
-      </div>
-    ),
-    value: 2000000,
-  },
-  {
-    label: (
-      <div>
-        <div>Max Security</div>
-        <div className="text-xs">5M Self-Staked GRT</div>
-      </div>
-    ),
-    value: 5000000,
-  },
-];
-
-const disputeResolutionOptions = [
-  {
-    label: (
-      <div>
-        <div>Immediate Finality</div>
-        <div className="text-xs">0 Blocks</div>
-      </div>
-    ),
-    value: 0,
-  },
-  {
-    label: (
-      <div>
-        <div>Quick Finality</div>
-        <div className="text-xs">100 Blocks</div>
-      </div>
-    ),
-    value: 100,
-  },
-  {
-    label: (
-      <div>
-        <div>Medium Finality</div>
-        <div className="text-xs">1,000 Blocks</div>
-      </div>
-    ),
-    value: 1000,
-  },
-  {
-    label: (
-      <div>
-        <div>Long Finality</div>
-        <div className="text-xs">5,000 Blocks</div>
-      </div>
-    ),
-    value: 5000,
-  },
-  {
-    label: (
-      <div>
-        <div>Extended Finality</div>
-        <div className="text-xs">25,000 Blocks</div>
-      </div>
-    ),
-    value: 25000,
-  },
-];
+import {
+  disputeResolutionOptions,
+  minimumSlashableGRTOptions,
+} from "./bridge-options";
 
 const formatQueryToMatchGateway = (query: string) => {
   try {
@@ -115,6 +26,9 @@ const formatQueryToMatchGateway = (query: string) => {
   }
 };
 
+const goerliAddress = "0xebD596E84E8fcc8040e42D233eb2B39257302EEe";
+let subgraphBridgeContract, provider;
+
 export const CreateSubgraphBridge = ({ form }) => {
   const {
     register,
@@ -123,6 +37,8 @@ export const CreateSubgraphBridge = ({ form }) => {
     handleSubmit,
     formState: { errors, isSubmitting, isDirty, isValid },
   } = form;
+
+  const [{ wallet }] = useConnectWallet();
 
   const onSubmit = (data) => {
     console.log("~~~~");
@@ -133,7 +49,19 @@ export const CreateSubgraphBridge = ({ form }) => {
     });
   };
 
-  console.log(errors, isDirty, isValid);
+  useEffect(() => {
+    if (!wallet?.provider) {
+      provider = null;
+    } else {
+      provider = new ethers.providers.Web3Provider(wallet.provider, "any");
+
+      // subgraphBridgeContract = new ethers.Contract(
+      //   "0xb8c12850827ded46b9ded8c1b6373da0c4d60370",
+      //   subgraphBridgeContract,
+      //   provider.getUncheckedSigner()
+      // );
+    }
+  }, [wallet]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-reverse">
