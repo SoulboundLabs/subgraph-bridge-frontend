@@ -3,6 +3,7 @@ import { CreateSubgraphBridge } from "./CreateSubgraphBridge";
 
 export const CreateSubgraphBridgePage = () => {
   const form = useForm({
+    mode: "onChange",
     defaultValues: {
       chainID: 5,
       subgraphDeploymentID: "",
@@ -17,7 +18,7 @@ export const CreateSubgraphBridgePage = () => {
       responseDataOffset: "",
       responseDataType: "",
       proposalFreezePeriod: "",
-      minimumSlashableGRT: 0,
+      minimumSlashableGRT: 100000,
       disputeResolutionWindow: 0,
     },
   });

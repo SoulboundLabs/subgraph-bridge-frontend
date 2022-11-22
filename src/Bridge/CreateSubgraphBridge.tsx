@@ -107,7 +107,13 @@ const disputeResolutionOptions = [
 ];
 
 const formatQueryToMatchGateway = (query: string) => {
-  return `{"query":${format_graphql(query)},"variables":{}}`;
+  try {
+    console.log("validating query", query);
+    return `{"query":${format_graphql(query)},"variables":{}}`;
+  } catch (e) {
+    console.log("error validating query", e);
+    return null;
+  }
 };
 
 export const CreateSubgraphBridge = ({ form }) => {
@@ -116,17 +122,19 @@ export const CreateSubgraphBridge = ({ form }) => {
     watch,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, isDirty, isValid },
   } = form;
 
   const onSubmit = (data) => {
     console.log("~~~~");
-    console.log(formatQueryToMatchGateway(data.query));
+    console.log(formatQueryToMatchGateway("banana"));
     console.log({
       ...data,
       gatewayQuery: formatQueryToMatchGateway(data.query),
     });
   };
+
+  console.log(errors, isDirty, isValid);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-reverse">
@@ -136,8 +144,6 @@ export const CreateSubgraphBridge = ({ form }) => {
           description="Use the form below to define the parameters and security config for a new Subgraph Bridge."
         />
 
-        {/* <BannerCreateSubgraphBridge /> */}
-
         <HrText description="Which chain on the decentralized network is the subgraph deployed to?">
           Choose Blockchain
         </HrText>
@@ -146,6 +152,9 @@ export const CreateSubgraphBridge = ({ form }) => {
           <Controller
             control={control}
             name="chainID"
+            rules={{
+              required: true,
+            }}
             render={({ field }) => (
               <RadioCardsIcon options={blockChains} {...field} />
             )}
@@ -175,6 +184,9 @@ export const CreateSubgraphBridge = ({ form }) => {
           <Controller
             control={control}
             name="subgraphDeploymentID"
+            rules={{
+              required: true,
+            }}
             render={({ field }) => <InputGroup {...field} />}
           />
         </div>
@@ -187,6 +199,13 @@ export const CreateSubgraphBridge = ({ form }) => {
           <Controller
             control={control}
             name="query"
+            rules={{
+              required: true,
+              validate: {
+                isValidGraphQL: (value) =>
+                  formatQueryToMatchGateway(value) !== null,
+              },
+            }}
             render={({ field }) => <CodeEditor {...field} />}
           />
           <div className="flex justify-end">
@@ -202,6 +221,9 @@ export const CreateSubgraphBridge = ({ form }) => {
           <Controller
             control={control}
             name="minimumSlashableGRT"
+            rules={{
+              required: true,
+            }}
             render={({ field }) => (
               <RadioButtons {...field} options={minimumSlashableGRTOptions} />
             )}
@@ -216,6 +238,9 @@ export const CreateSubgraphBridge = ({ form }) => {
           <Controller
             control={control}
             name="disputeResolutionWindow"
+            rules={{
+              required: true,
+            }}
             render={({ field }) => (
               <RadioButtons {...field} options={disputeResolutionOptions} />
             )}
@@ -224,6 +249,7 @@ export const CreateSubgraphBridge = ({ form }) => {
 
         <div className="flex justify-end pt-6">
           <Button
+            disabled={!isDirty || !isValid}
             label="Create New Subgraph Bridge"
             palette="secondary"
             size="lg"
