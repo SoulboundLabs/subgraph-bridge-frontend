@@ -1,7 +1,13 @@
 import { format_graphql } from "@badgeth/graphql-generate";
-import { getNetwork, switchNetwork } from "@wagmi/core";
+import {
+  getNetwork,
+  prepareWriteContract,
+  switchNetwork,
+  writeContract,
+} from "@wagmi/core";
 import { ethers } from "ethers";
 import { Controller, useForm } from "react-hook-form";
+import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
 import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
 import { InputGroup } from "../Form/InputGroup";
@@ -14,6 +20,8 @@ import {
   disputeResolutionOptions,
   minimumSlashableGRTOptions,
 } from "./bridge-options";
+
+const goerliAddress = "0xebD596E84E8fcc8040e42D233eb2B39257302EEe";
 
 const formatQueryToMatchGateway = (query: string) => {
   try {
@@ -91,19 +99,19 @@ export const BridgeForm = () => {
     },
   });
 
-  // const [{ connectedChain }, setChain] = useSetChain();
-
   const { chain } = getNetwork();
 
-  // const submitSubgraphBridge = useSubmitSubgraphBridge();
-
-  const onSubmit = (data: FormValues) => {
-    const txData = formToTx(data);
-    console.log("TxValues", txData);
-    // submitSubgraphBridge(txData);
+  const onSubmit = async (formData: FormValues) => {
+    const txData = formToTx(formData);
+    const config = await prepareWriteContract({
+      address: goerliAddress,
+      abi: subgraphBridgeABI,
+      functionName: "createSubgraphBridge",
+      args: [txData],
+    });
+    const data = await writeContract(config);
+    console.log(data);
   };
-
-  console.log("~~~~", chain?.id);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-reverse pb-10">
