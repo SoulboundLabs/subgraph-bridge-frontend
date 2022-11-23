@@ -1,4 +1,5 @@
 import { format_graphql } from "@badgeth/graphql-generate";
+import { useSetChain } from "@web3-onboard/react";
 import { ethers } from "ethers";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../Button/Button";
@@ -76,7 +77,7 @@ export const BridgeForm = () => {
   } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
-      chainID: 5,
+      chainID: null,
       subgraphDeploymentID: "",
       query: `{
   exampleModels(first: 5, block: { hash: "" }) {
@@ -91,6 +92,7 @@ export const BridgeForm = () => {
     },
   });
 
+  const [{ connectedChain }, setChain] = useSetChain();
   const submitSubgraphBridge = useSubmitSubgraphBridge();
 
   const onSubmit = (data: FormValues) => {
@@ -112,15 +114,12 @@ export const BridgeForm = () => {
         </HrText>
 
         <div className="space-y-4 pt-6">
-          <Controller
-            control={control}
-            name="chainID"
-            rules={{
-              required: true,
+          <RadioCardsIcon
+            options={blockChains}
+            value={connectedChain?.id}
+            onChange={(value) => {
+              setChain({ chainId: value });
             }}
-            render={({ field }) => (
-              <RadioCardsIcon options={blockChains} {...field} />
-            )}
           />
         </div>
 
