@@ -8,7 +8,7 @@ import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
 import { HrText } from "../Hr/HrText";
 import { blockChains } from "../lib/blockchains";
-import { useGetProvider, useSubmitSubgraphBridge } from "../lib/wallet";
+import { useSubmitSubgraphBridge } from "../lib/wallet";
 import { TitleDescription } from "../Text/TitleDescription";
 import {
   disputeResolutionOptions,
@@ -98,24 +98,6 @@ export const BridgeForm = () => {
     console.log("TxValues", txData);
     submitSubgraphBridge(txData);
   };
-
-  const provider = useGetProvider();
-
-  console.log(provider);
-
-  // useEffect(() => {
-  //   if (!wallet?.provider) {
-  //     provider = null;
-  //   } else {
-  //     provider = new ethers.providers.Web3Provider(wallet.provider, "any");
-
-  //     // subgraphBridgeContract = new ethers.Contract(
-  //     //   "0xb8c12850827ded46b9ded8c1b6373da0c4d60370",
-  //     //   subgraphBridgeContract,
-  //     //   provider.getUncheckedSigner()
-  //     // );
-  //   }
-  // }, [wallet]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-reverse pb-10">

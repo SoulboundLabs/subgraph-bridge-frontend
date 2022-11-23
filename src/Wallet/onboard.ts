@@ -46,17 +46,19 @@ export const initWeb3Onboard = () =>
     ],
     // An array of Chains that your app supports
     chains: [
+      // {
+      //   id: "0x1",
+      //   namespace: "evm",
+      //   token: "ETH",
+      //   label: "Ethereum Mainnet",
+      //   rpcUrl: `https://eth-mainnet.g.alchemy.com/v2/${alchemyKey}`,
+      // },
       {
-        // hex encoded string, eg '0x1' for Ethereum Mainnet
-        id: "0x1",
-        // string indicating chain namespace. Defaults to 'evm' but will allow other chain namespaces in the future
+        id: "0x5",
         namespace: "evm",
-        // the native token symbol, eg ETH, BNB, MATIC
         token: "ETH",
-        // used for display, eg Ethereum Mainnet
-        label: "Ethereum Mainnet",
-        // used for network requests
-        rpcUrl: `https://eth-mainnet.g.alchemy.com/v2/${alchemyKey}`,
+        label: "Goerli Testnet",
+        rpcUrl: `https://eth-goerli.g.alchemy.com/v2/${alchemyKey}`,
       },
     ],
 

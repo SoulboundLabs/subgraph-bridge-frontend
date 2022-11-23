@@ -1,4 +1,4 @@
-import { useConnectWallet, useSetChain, useWallets } from "@web3-onboard/react";
+import { useConnectWallet, useWallets } from "@web3-onboard/react";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { Wallet } from "tabler-icons-react";
@@ -27,23 +27,14 @@ export function ConnectWallet() {
   const [
     {
       wallet, // the wallet that has been connected or null if not yet connected
-      connecting, // boolean indicating if connection is in progress
     },
     connect, // function to call to initiate user to connect wallet
     disconnect, // function to call to with wallet<DisconnectOptions> to disconnect wallet
   ] = useConnectWallet();
 
-  const [
-    {
-      chains, // the list of chains that web3-onboard was initialized with
-      connectedChain, // the current chain the user's wallet is connected to
-      settingChain, // boolean indicating if the chain is in the process of being set
-    },
-    setChain, // function to call to initiate user to switch chains in their wallet
-  ] = useSetChain();
-
   // This hook allows you to track the state of all the currently connected wallets
   const connectedWallets = useWallets();
+  // const [{}, setChain] = useSetChain();
 
   // The user's currently connected account
   const [account, setAccount] = useRecoilState(store.userAccount);
@@ -83,7 +74,6 @@ export function ConnectWallet() {
   useEffect(() => {
     if (wallet) {
       setAccount(walletToAccount(wallet));
-      // authenticate(wallet.accounts[0].address);
     } else {
       setAccount(null);
     }
@@ -93,6 +83,7 @@ export function ConnectWallet() {
 
   const disconnectWallet = () => {
     if (wallet?.label) {
+      window.localStorage.removeItem(storageWallets);
       disconnect({ label: wallet?.label });
       setAccount(null);
     }

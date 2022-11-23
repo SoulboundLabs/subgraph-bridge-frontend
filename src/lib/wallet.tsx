@@ -57,7 +57,7 @@ export const useSubmitSubgraphBridge = () => {
 
     console.log("errrrrrr");
     const subgraphBridgeContract = new ethers.Contract(
-      "0xb8c12850827ded46b9ded8c1b6373da0c4d60370",
+      goerliAddress,
       subgraphBridgeABI,
       signer
     );
