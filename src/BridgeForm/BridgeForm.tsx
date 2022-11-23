@@ -1,7 +1,5 @@
 import { format_graphql } from "@badgeth/graphql-generate";
-import { useConnectWallet } from "@web3-onboard/react";
 import { ethers } from "ethers";
-import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
@@ -10,6 +8,7 @@ import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
 import { HrText } from "../Hr/HrText";
 import { blockChains } from "../lib/blockchains";
+import { useGetProvider, useSubmitSubgraphBridge } from "../lib/wallet";
 import { TitleDescription } from "../Text/TitleDescription";
 import {
   disputeResolutionOptions,
@@ -51,9 +50,6 @@ const formToTx = (form: FormValues): TxValues => {
   };
 };
 
-const goerliAddress = "0xebD596E84E8fcc8040e42D233eb2B39257302EEe";
-let subgraphBridgeContract, provider;
-
 interface FormValues {
   query: string;
   chainID: number;
@@ -94,25 +90,32 @@ export const BridgeForm = () => {
       disputeResolutionWindow: 0,
     },
   });
-  const [{ wallet }] = useConnectWallet();
+
+  const submitSubgraphBridge = useSubmitSubgraphBridge();
 
   const onSubmit = (data: FormValues) => {
-    console.log("TxValues", formToTx(data));
+    const txData = formToTx(data);
+    console.log("TxValues", txData);
+    submitSubgraphBridge(txData);
   };
 
-  useEffect(() => {
-    if (!wallet?.provider) {
-      provider = null;
-    } else {
-      provider = new ethers.providers.Web3Provider(wallet.provider, "any");
+  const provider = useGetProvider();
 
-      // subgraphBridgeContract = new ethers.Contract(
-      //   "0xb8c12850827ded46b9ded8c1b6373da0c4d60370",
-      //   subgraphBridgeContract,
-      //   provider.getUncheckedSigner()
-      // );
-    }
-  }, [wallet]);
+  console.log(provider);
+
+  // useEffect(() => {
+  //   if (!wallet?.provider) {
+  //     provider = null;
+  //   } else {
+  //     provider = new ethers.providers.Web3Provider(wallet.provider, "any");
+
+  //     // subgraphBridgeContract = new ethers.Contract(
+  //     //   "0xb8c12850827ded46b9ded8c1b6373da0c4d60370",
+  //     //   subgraphBridgeContract,
+  //     //   provider.getUncheckedSigner()
+  //     // );
+  //   }
+  // }, [wallet]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-reverse pb-10">

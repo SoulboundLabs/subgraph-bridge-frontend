@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { Wallet } from "tabler-icons-react";
 import { UserAddress } from "../Account/UserAddress";
 import { Button } from "../Button/Button";
+import { useReadyToTransact } from "../lib/wallet";
 import { MenuDropdown } from "../Menu/MenuDropdown";
 import * as store from "../store/store";
 
@@ -88,14 +89,7 @@ export function ConnectWallet() {
     }
   }, [wallet]);
 
-  const readyToTransact = async () => {
-    if (!wallet) {
-      const walletSelected = (await connect({})) as any;
-      if (!walletSelected) return false;
-    }
-
-    return true;
-  };
+  const readyToTransact = useReadyToTransact();
 
   const disconnectWallet = () => {
     if (wallet?.label) {
