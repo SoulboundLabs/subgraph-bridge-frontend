@@ -1,4 +1,3 @@
-import { useSetChain } from "@web3-onboard/react";
 import { Link } from "react-router-dom";
 import { BuildingBridge, NewSection } from "tabler-icons-react";
 import soulboundSOnly from "../assets/logos/thick-s.svg";
@@ -6,8 +5,6 @@ import { ConnectWallet } from "../Wallet/ConnectWallet";
 import { HeaderLink } from "./HeaderLink";
 
 export function Header({}) {
-  const [{ chains, connectedChain, settingChain }, setChain] = useSetChain();
-
   return (
     <div
       id="header"
@@ -36,11 +33,6 @@ export function Header({}) {
         </div>
 
         <div className="ml-1 flex items-center gap-3">
-          {/* <BrandedDropdown
-            onChange={(value) => setChain({ chainId: value })}
-            value={connectedChain?.id}
-            options={blockChains}
-          /> */}
           <ConnectWallet />
         </div>
       </div>

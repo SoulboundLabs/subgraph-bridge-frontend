@@ -1,5 +1,5 @@
 import { format_graphql } from "@badgeth/graphql-generate";
-import { useSetChain } from "@web3-onboard/react";
+import { getNetwork, switchNetwork } from "@wagmi/core";
 import { ethers } from "ethers";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../Button/Button";
@@ -9,7 +9,6 @@ import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
 import { HrText } from "../Hr/HrText";
 import { blockChainIds, blockChains } from "../lib/blockchains";
-import { useSubmitSubgraphBridge } from "../lib/wallet";
 import { TitleDescription } from "../Text/TitleDescription";
 import {
   disputeResolutionOptions,
@@ -92,14 +91,19 @@ export const BridgeForm = () => {
     },
   });
 
-  const [{ connectedChain }, setChain] = useSetChain();
-  const submitSubgraphBridge = useSubmitSubgraphBridge();
+  // const [{ connectedChain }, setChain] = useSetChain();
+
+  const { chain } = getNetwork();
+
+  // const submitSubgraphBridge = useSubmitSubgraphBridge();
 
   const onSubmit = (data: FormValues) => {
     const txData = formToTx(data);
     console.log("TxValues", txData);
-    submitSubgraphBridge(txData);
+    // submitSubgraphBridge(txData);
   };
+
+  console.log("~~~~", chain?.id);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-reverse pb-10">
@@ -116,12 +120,12 @@ export const BridgeForm = () => {
         <div className="space-y-4 pt-6">
           <RadioCardsIcon
             options={blockChains}
-            value={connectedChain?.id}
+            value={chain?.id}
             onChange={(value) => {
-              setChain({ chainId: value });
+              switchNetwork({ chainId: value });
             }}
           />
-          {!blockChainIds.includes(connectedChain?.id) && (
+          {!blockChainIds.includes(chain?.id) && (
             <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
               Please connect to a supported blockchain.
             </div>

@@ -10,16 +10,16 @@ export const blockChains = [
   {
     imgSrc: goerli,
     label: GOERLI,
-    value: "0x5",
+    value: 5,
   },
   {
     imgSrc: ethereum,
     label: ETHEREUM,
-    value: "0x1",
+    value: 1,
     comingSoon: true,
   },
 
-  { imgSrc: gnosis, label: GNOSIS, value: "0x64", comingSoon: true },
+  { imgSrc: gnosis, label: GNOSIS, value: 64, comingSoon: true },
 ];
 
 export const blockChainIds = blockChains
