@@ -61,11 +61,21 @@ export const useSubmitSubgraphBridge = () => {
       subgraphBridgeABI,
       signer
     );
-    console.log("eeeeeeasdf");
 
     const txDetails = {
-      value: 1000000000000000,
+      firstChunk: "",
+      lastChunk: "",
+      responseDataOffset: "",
+      bridgeDataType: "",
+      subgraphDeploymentId: "",
+      proposalFreezePeriod: "",
+      minimumSlashableGRT: "",
+      minimumExternalStake: "",
+      disputeResolutionWindow: "",
     };
+
+    console.log(subgraphBridgeContract);
+    console.log("eeeeeeasdf");
 
     const tx = await subgraphBridgeContract.createSubgraphBridge(txDetails);
 

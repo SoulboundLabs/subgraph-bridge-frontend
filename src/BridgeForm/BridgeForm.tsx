@@ -8,7 +8,7 @@ import { InputGroup } from "../Form/InputGroup";
 import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
 import { HrText } from "../Hr/HrText";
-import { blockChains } from "../lib/blockchains";
+import { blockChainIds, blockChains } from "../lib/blockchains";
 import { useSubmitSubgraphBridge } from "../lib/wallet";
 import { TitleDescription } from "../Text/TitleDescription";
 import {
@@ -121,6 +121,11 @@ export const BridgeForm = () => {
               setChain({ chainId: value });
             }}
           />
+          {!blockChainIds.includes(connectedChain?.id) && (
+            <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
+              Please connect to a supported blockchain.
+            </div>
+          )}
         </div>
 
         <HrText
@@ -178,7 +183,7 @@ export const BridgeForm = () => {
             render={({ field }) => <CodeEditor {...field} />}
           />
           {errors.query?.message && (
-            <div className="font-semibold text-rose-800 rounded-sm p-2 bg-rose-300">
+            <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
               {errors.query?.message}
             </div>
           )}

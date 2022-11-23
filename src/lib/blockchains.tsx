@@ -21,3 +21,7 @@ export const blockChains = [
 
   { imgSrc: gnosis, label: GNOSIS, value: "0x64", comingSoon: true },
 ];
+
+export const blockChainIds = blockChains
+  .filter((b) => !b.comingSoon)
+  .map((b) => b.value);
