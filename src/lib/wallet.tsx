@@ -71,7 +71,7 @@ export const useSubmitSubgraphBridge = () => {
       proposalFreezePeriod: "",
       minimumSlashableGRT: "",
       minimumExternalStake: "",
-      disputeResolutionWindow: "",
+      proposalFreezePeriod: "",
     };
 
     console.log(subgraphBridgeContract);

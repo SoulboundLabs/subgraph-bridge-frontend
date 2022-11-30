@@ -46,7 +46,7 @@ export const minimumSlashableGRTOptions = [
   },
 ];
 
-export const disputeResolutionOptions = [
+export const proposalFreezePeriodOptions = [
   {
     label: (
       <div>

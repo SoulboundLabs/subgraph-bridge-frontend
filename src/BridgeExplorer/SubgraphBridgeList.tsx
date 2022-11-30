@@ -8,13 +8,12 @@ const mockBridge: SubgraphBridge = {
   totalSlashableGRT: 100000,
   config: {
     queryFirstChunk: "queryFirstChunk",
-    querySecondChunk: "querySecondChunk",
+    queryLastChunk: "queryLastChunk",
     responseDataOffset: 5,
     responseDataType: "responseDataType",
     subgraphDeploymentID: "subgraphDeploymentID",
     proposalFreezePeriod: 1,
     minimumSlashableGRT: 1,
-    disputeResolutionWindow: 1,
   },
 };
 

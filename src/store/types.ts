@@ -8,11 +8,11 @@ export interface SubgraphBridge {
 
 export interface SubgraphBridgeConfig {
   queryFirstChunk: string;
-  querySecondChunk: string;
+  queryLastChunk: string;
   responseDataOffset: number;
   responseDataType: string;
   subgraphDeploymentID: string;
   proposalFreezePeriod: number;
   minimumSlashableGRT: number;
-  disputeResolutionWindow: number;
+  proposalFreezePeriod: number;
 }

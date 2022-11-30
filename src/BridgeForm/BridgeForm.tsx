@@ -5,7 +5,7 @@ import {
   switchNetwork,
   writeContract,
 } from "@wagmi/core";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { Controller, useForm } from "react-hook-form";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
 import { Button } from "../Button/Button";
@@ -17,11 +17,11 @@ import { HrText } from "../Hr/HrText";
 import { blockChainIds, blockChains } from "../lib/blockchains";
 import { TitleDescription } from "../Text/TitleDescription";
 import {
-  disputeResolutionOptions,
   minimumSlashableGRTOptions,
+  proposalFreezePeriodOptions,
 } from "./bridge-options";
 
-const goerliAddress = "0xebD596E84E8fcc8040e42D233eb2B39257302EEe";
+const goerliAddress = "0x3400c53765e027fadd938276d4e3f024abe6e689";
 
 const formatQueryToMatchGateway = (query: string) => {
   try {
@@ -31,11 +31,21 @@ const formatQueryToMatchGateway = (query: string) => {
   }
 };
 
-const hexlify = (value: string) =>
+const hexlifyQuery = (value: string) =>
   ethers.utils.hexlify(ethers.utils.toUtf8Bytes(value));
 
+const hexlifySubgraphDeploymentID = (value: string) =>
+  ethers.utils.hexlify(ethers.utils.base58.decode(value).slice(2));
+
 const formToTx = (form: FormValues): TxValues => {
-  const { query, ...rest } = form;
+  const {
+    query,
+    chainID,
+    subgraphDeploymentID,
+    proposalFreezePeriod,
+    minimumSlashableGRT,
+    ...rest
+  } = form;
   const formattedQuery = formatQueryToMatchGateway(query);
   if (!formattedQuery) {
     return null;
@@ -44,17 +54,24 @@ const formToTx = (form: FormValues): TxValues => {
   const hashSplitString = "hash: \\";
   const hashIndex = formattedQuery.indexOf(hashSplitString);
 
-  const queryFirstChunk = hexlify(
+  const queryFirstChunk = hexlifyQuery(
     formattedQuery.slice(0, hashIndex + hashSplitString.length)
   );
-  const querySecondChunk = hexlify(
+  const queryLastChunk = hexlifyQuery(
     formattedQuery.slice(hashIndex + hashSplitString.length - 1)
   );
 
   return {
     ...rest,
+    proposalFreezePeriod: ethers.utils.parseEther(
+      proposalFreezePeriod.toString()
+    ),
+    minimumSlashableGRT: ethers.utils.parseEther(
+      minimumSlashableGRT.toString()
+    ),
+    subgraphDeploymentID: hexlifySubgraphDeploymentID(subgraphDeploymentID),
     queryFirstChunk,
-    querySecondChunk,
+    queryLastChunk,
   };
 };
 
@@ -62,16 +79,20 @@ interface FormValues {
   query: string;
   chainID: number;
   subgraphDeploymentID: string;
-  disputeResolution: string;
   minimumSlashableGRT: number;
   responseDataOffset: number;
-  responseDataType: string;
-  disputeResolutionWindow: number;
+  responseDataType: number;
+  proposalFreezePeriod: number;
 }
 
-type TxValues = Omit<FormValues, "query" | "chainID"> & {
+type TxValues = Omit<
+  FormValues,
+  "query" | "chainID" | "proposalFreezePeriod" | "minimumSlashableGRT"
+> & {
   queryFirstChunk: string;
-  querySecondChunk: string;
+  queryLastChunk: string;
+  minimumSlashableGRT: BigNumber;
+  proposalFreezePeriod: BigNumber;
 };
 
 export const BridgeForm = () => {
@@ -84,8 +105,8 @@ export const BridgeForm = () => {
   } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
-      chainID: null,
-      subgraphDeploymentID: "",
+      chainID: 5,
+      subgraphDeploymentID: "QmYDgkkfE3d9y1C5RPmVLmoxayWpFZDuiAiQYqUpFnHFiE",
       query: `{
   exampleModels(first: 5, block: { hash: "" }) {
     id
@@ -93,9 +114,9 @@ export const BridgeForm = () => {
 }
 `,
       responseDataOffset: 0,
-      responseDataType: "",
-      minimumSlashableGRT: 100000,
-      disputeResolutionWindow: 0,
+      responseDataType: 0,
+      minimumSlashableGRT: 0,
+      proposalFreezePeriod: 0,
     },
   });
 
@@ -103,9 +124,10 @@ export const BridgeForm = () => {
 
   const onSubmit = async (formData: FormValues) => {
     const txData = formToTx(formData);
+    debugger;
     const config = await prepareWriteContract({
       address: goerliAddress,
-      abi: subgraphBridgeABI,
+      abi: subgraphBridgeABI as any,
       functionName: "createSubgraphBridge",
       args: [txData],
     });
@@ -170,7 +192,18 @@ export const BridgeForm = () => {
           />
         </div>
 
-        <HrText description="What query do you want to results on-chain?">
+        <HrText
+          description={
+            <div>
+              What query do you want to results on-chain?
+              <ul className="list-disc">
+                <li>Must be a valid GraphQL query</li>
+                <li>Must be a single query</li>
+                <li>Must be a query that returns a single value</li>
+              </ul>
+            </div>
+          }
+        >
           Enter GraphQL Query
         </HrText>
 
@@ -228,19 +261,19 @@ export const BridgeForm = () => {
         <div className="space-y-4 pt-6">
           <Controller
             control={control}
-            name="disputeResolutionWindow"
+            name="proposalFreezePeriod"
             rules={{
               required: true,
             }}
             render={({ field }) => (
-              <RadioButtons {...field} options={disputeResolutionOptions} />
+              <RadioButtons {...field} options={proposalFreezePeriodOptions} />
             )}
           />
         </div>
 
         <div className="flex justify-end pt-6">
           <Button
-            disabled={!isDirty || !isValid}
+            disabled={!isValid}
             label="Create New Subgraph Bridge"
             palette="secondary"
             size="lg"

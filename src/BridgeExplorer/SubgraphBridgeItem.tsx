@@ -16,13 +16,12 @@ export const SubgraphBridgeItem = ({ bridge }: Props) => {
 
   const {
     queryFirstChunk,
-    querySecondChunk,
+    queryLastChunk,
     responseDataOffset,
     responseDataType,
     subgraphDeploymentID,
-    proposalFreezePeriod,
     minimumSlashableGRT,
-    disputeResolutionWindow,
+    proposalFreezePeriod,
   } = config;
 
   return (
