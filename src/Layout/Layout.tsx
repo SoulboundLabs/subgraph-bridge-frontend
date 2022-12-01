@@ -84,7 +84,7 @@ function AboutSection(props) {
       {!isExpanded && (
         <button
           type="button"
-          className="mt-2 hidden text-sm font-bold leading-6 text-pink-500 hover:text-pink-700 active:text-pink-900 lg:inline-block"
+          className="mt-2 hidden text-sm font-bold leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900 lg:inline-block"
           onClick={() => setIsExpanded(true)}
         >
           Show more
@@ -115,7 +115,7 @@ export function Layout({ children }) {
             ))}
           </span>
         </div>
-        <div className="relative z-10 mx-auto px-4 pb-4 pt-10 sm:px-6 md:max-w-2xl md:px-4 lg:min-h-full lg:flex-auto lg:border-x lg:border-white lg:py-12 lg:px-8 xl:px-12">
+        <div className="relative z-10 mx-auto px-4 pb-4 pt-10 sm:px-6 md:max-w-2xl md:px-4 lg:min-h-full lg:flex-auto lg:border-x lg:border-slate-500 lg:py-12 lg:px-8 xl:px-12">
           <Link
             to="/"
             className="relative mx-auto block w-48 overflow-hidden rounded-lg bg-sky-900 p-16 shadow-xl  sm:w-64 sm:rounded-xl lg:w-auto lg:rounded-2xl"
@@ -161,11 +161,11 @@ export function Layout({ children }) {
           </section>
         </div>
       </header>
-      <main className="border-t border-white lg:relative lg:mb-28 lg:ml-112 lg:border-t-0 xl:ml-120">
+      <main className="border-t border-slate-500 lg:relative lg:mb-28 lg:ml-112 lg:border-t-0 xl:ml-120">
         {/* <Waveform className="absolute left-0 top-0 h-20 w-full" /> */}
         <div className="relative">{children}</div>
       </main>
-      <footer className="border-t border-white bg-slate-50 py-10 pb-40 sm:py-16 sm:pb-32 lg:hidden">
+      <footer className="border-t border-slate-500 bg-slate-50 py-10 pb-40 sm:py-16 sm:pb-32 lg:hidden">
         <div className="mx-auto px-4 sm:px-6 md:max-w-2xl md:px-4">
           <AboutSection />
           <h2 className="mt-8 flex items-center font-mono text-sm font-medium leading-7 text-slate-900">

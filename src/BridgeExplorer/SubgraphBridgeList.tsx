@@ -21,10 +21,10 @@ const mockBridges = [mockBridge, mockBridge, mockBridge, mockBridge];
 
 export const SubgraphBridgeList = () => {
   return (
-    <ol className="grid grid-cols-1 gap-y-10 gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="divide-y divide-slate-500 sm:mt-4 lg:mt-8 lg:border-t lg:border-slate-500">
       {mockBridges.map((bridge) => (
         <SubgraphBridgeItem key={bridge.id} bridge={bridge} />
       ))}
-    </ol>
+    </div>
   );
 };

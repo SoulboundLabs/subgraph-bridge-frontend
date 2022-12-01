@@ -1,13 +1,12 @@
-import { TitleDescription } from "../Text/TitleDescription";
+import { Container } from "../Layout/Container";
 import { SubgraphBridgeList } from "./SubgraphBridgeList";
 
 export const AllBridgesPage = () => {
   return (
-    <div className="container max-w-7xl mx-auto mt-6">
-      <TitleDescription
-        title="Explore Subgraph Bridges"
-        description="View and interact with the Subgraph Bridges that have been created by The Graph community."
-      />
+    <div className="pt-16 pb-12 sm:pb-4 lg:pt-12">
+      <Container>
+        <h1 className="text-2xl font-bold leading-7 text-white">Episodes</h1>
+      </Container>
       <div className="mt-6">
         <SubgraphBridgeList />
       </div>
