@@ -21,7 +21,7 @@ export const BridgeExplorer = () => {
             reverse
           />
         }
-        breadcrumbs={["Bridge Explorer"]}
+        breadcrumbs={["Subgraph Bridge Explorer"]}
       />
       <div className="">
         <BridgeList />

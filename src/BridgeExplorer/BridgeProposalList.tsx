@@ -1,4 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
+import { Plus } from "tabler-icons-react";
+import { Button } from "../Button/Button";
 import { RadioButtons } from "../Form/RadioButtons";
 import { SubgraphBridge } from "../store/types";
 import { BridgeProposal } from "./BridgeProposal";
@@ -51,16 +53,25 @@ export const BridgeProposalList = ({ bridge }: Props) => {
 
   return (
     <div className="mt-4 bg-slate-900 rounded p-4">
-      <Controller
-        control={control}
-        name="proposalStatus"
-        rules={{
-          required: true,
-        }}
-        render={({ field }) => (
-          <RadioButtons {...field} options={proposalOptions} />
-        )}
-      />
+      <div className="flex justify-between">
+        <Controller
+          control={control}
+          name="proposalStatus"
+          rules={{
+            required: true,
+          }}
+          render={({ field }) => (
+            <RadioButtons {...field} options={proposalOptions} />
+          )}
+        />
+        <Button
+          size="xs"
+          label="Submit Proposal"
+          palette="secondary"
+          Icon={Plus}
+          reverse
+        />
+      </div>
       <div className="space-y-4 mt-4">
         {bridgeProposals.map((proposal) => (
           <BridgeProposal key={proposal.id} proposal={proposal} />

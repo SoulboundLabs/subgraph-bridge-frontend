@@ -39,7 +39,7 @@ export function RadioButtons<T>({
         }}
       >
         <RadioGroup.Label className="sr-only">{label}</RadioGroup.Label>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-2">
           {options.map((option) => (
             <RadioGroup.Option value={option.value}>
               {({ checked }) => (

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Plus } from "tabler-icons-react";
-import { Button } from "../Button/Button";
+import { ChevronDown } from "tabler-icons-react";
 import CodeEditor from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
@@ -32,13 +31,6 @@ export const BridgeItem = ({ bridge, idx }: Props) => {
                   #{idx + 1} &middot; {formatAddress(id)}
                 </Link>
               </h2>
-              <Button
-                size="xs"
-                label="Submit Proposal"
-                palette="secondary"
-                Icon={Plus}
-                reverse
-              />
             </div>
             <div className="order-first font-mono text-sm leading-7 text-slate-500 flex items-center">
               <img
