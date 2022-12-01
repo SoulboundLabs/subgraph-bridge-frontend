@@ -25,7 +25,7 @@ export function Panel({ open, setOpen, title, description, children }) {
                     <div className="h-0 flex-1 overflow-y-auto">
                       <div className="bg-sky-700 py-6 px-4 sm:px-6">
                         <div className="flex items-center justify-between">
-                          <Dialog.Title className="text-lg font-medium text-white">
+                          <Dialog.Title className="text-xl font-semibold text-white">
                             {title}
                           </Dialog.Title>
                           <div className="ml-3 flex h-7 items-center">
@@ -40,7 +40,9 @@ export function Panel({ open, setOpen, title, description, children }) {
                           </div>
                         </div>
                         <div className="mt-1">
-                          <p className="text-sm text-sky-300">{description}</p>
+                          <p className="text-sky-300 font-semibold">
+                            {description}
+                          </p>
                         </div>
                       </div>
                       <div className="flex flex-1 flex-col justify-between">
