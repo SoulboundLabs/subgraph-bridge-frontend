@@ -11,9 +11,9 @@ interface Props {
 }
 
 export const SubgraphBridgeItem = ({ bridge }: Props) => {
-  const { id, config } = bridge;
-
   const {
+    id,
+    config,
     queryFirstChunk,
     queryLastChunk,
     responseDataOffset,
@@ -21,9 +21,7 @@ export const SubgraphBridgeItem = ({ bridge }: Props) => {
     subgraphDeploymentID,
     minimumSlashableGRT,
     proposalFreezePeriod,
-  } = config;
-
-  let date = new Date(0);
+  } = bridge;
 
   return (
     <article className="py-10 sm:py-12 overflow-hidden">
@@ -53,6 +51,7 @@ export const SubgraphBridgeItem = ({ bridge }: Props) => {
 }`}
               />
             </p>
+            {/* <UserAddress address="0x4040" /> */}
             <div className="mt-4 flex items-center gap-4">
               <button
                 type="button"
@@ -73,6 +72,18 @@ export const SubgraphBridgeItem = ({ bridge }: Props) => {
               >
                 <TheGraphSVG className="w-4 bg-purple-700 group-hover:bg-purple-800 text-white h-4 rounded p-0.5" />
                 Subgraph Explorer
+              </Link>
+              <span
+                aria-hidden="true"
+                className="text-sm font-bold text-slate-400"
+              >
+                /
+              </span>
+              <Link
+                to={urlBridgeItem(id)}
+                className="flex items-center text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
+              >
+                View Details
               </Link>
             </div>
           </div>

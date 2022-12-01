@@ -119,10 +119,10 @@ function LimitationSection(props) {
         Bridge only supports query results that are less than 256 blocks old due
         to Solidity's limitations when parsing block hashes. Finally, the
         Subgraph Bridge only supports GraphQL queries with single data field.
-        Parsing JSON in Solidity is incredibly gas inefficient, so we recommend
-        aggregating your data in the subgraph into a single Merkle Root,
-        address, or scalar value before posting it on-chain. We will revisit
-        these limitations in future releases.
+        Parsing JSON in Solidity is incredibly gas inefficient and unwieldy, so
+        we recommend aggregating your data in the subgraph into a single Merkle
+        Root, address, or scalar value before posting it on-chain. We will
+        revisit these limitations in future releases.
       </p>
       {!isExpanded && (
         <button
@@ -138,25 +138,48 @@ function LimitationSection(props) {
 }
 
 export function Layout({ children }) {
-  let hosts = ["Soulbound Labs", "The Graph Foundation"];
+  let creators = ["Soulbound Labs", "The Graph Foundation"];
+  let thinkers = ["Zac Burns", "Brandon Ramirez"];
 
   return (
     <>
       <header className="lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-112 lg:items-start lg:overflow-y-auto xl:w-120">
-        <div className="hidden lg:sticky lg:top-0 lg:flex lg:w-16 lg:flex-none lg:items-center lg:whitespace-nowrap lg:py-12 lg:text-sm lg:leading-7 lg:[writing-mode:vertical-rl]">
-          <span className="font-mono text-slate-300">Created by</span>
-          <span className="mt-6 flex gap-6 font-bold text-slate-300">
-            {hosts.map((host, hostIndex) => (
-              <Fragment key={host}>
-                {hostIndex !== 0 && (
-                  <span aria-hidden="true" className="text-slate-400">
-                    /
-                  </span>
-                )}
-                {host}
-              </Fragment>
-            ))}
-          </span>
+        <div className="hidden lg:sticky lg:top-0 h-full lg:flex lg:w-16 lg:flex-none lg:items-center lg:whitespace-nowrap lg:py-12 lg:text-sm lg:leading-7 lg:[writing-mode:vertical-rl]">
+          <div className="flex justify-between items-center w-full h-full">
+            <div className="flex lg:w-16 px-4">
+              <span className="font-mono text-slate-300">Created by</span>
+              <span className="mt-6 flex gap-6 font-bold text-slate-300">
+                {creators.map((host, hostIndex) => (
+                  <Fragment key={host}>
+                    {hostIndex !== 0 && (
+                      <span aria-hidden="true" className="text-slate-400">
+                        /
+                      </span>
+                    )}
+                    {host}
+                  </Fragment>
+                ))}
+              </span>
+            </div>
+
+            <div className="flex lg:w-16 px-4">
+              <span className="font-mono text-slate-300">
+                Original concept by
+              </span>
+              <span className="mt-6 flex gap-6 font-bold text-slate-300">
+                {thinkers.map((host, hostIndex) => (
+                  <Fragment key={host}>
+                    {hostIndex !== 0 && (
+                      <span aria-hidden="true" className="text-slate-400">
+                        /
+                      </span>
+                    )}
+                    {host}
+                  </Fragment>
+                ))}
+              </span>
+            </div>
+          </div>
         </div>
         <div className="relative z-10 mx-auto px-4 pb-4 pt-10 sm:px-6 md:max-w-2xl md:px-4 lg:min-h-full lg:flex-auto lg:border-x lg:border-slate-500 lg:py-12 lg:px-8 xl:px-12">
           <Link
@@ -225,7 +248,7 @@ export function Layout({ children }) {
             <span className="ml-2.5">Created by</span>
           </h2>
           <div className="mt-2 flex gap-6 text-sm font-bold leading-7 text-slate-900">
-            {hosts.map((host, hostIndex) => (
+            {creators.map((host, hostIndex) => (
               <Fragment key={host}>
                 {hostIndex !== 0 && (
                   <span aria-hidden="true" className="text-slate-400">
