@@ -1,6 +1,5 @@
 import { RadioGroup } from "@headlessui/react";
 import { Button } from "../Button/Button";
-import { Option } from "../store/types";
 
 interface Props<T> {
   options?: Option<T>[];
@@ -8,6 +7,7 @@ interface Props<T> {
   helpText?: string;
   onChange?: (option: T) => void;
   value?: T;
+  size?: string;
 }
 
 export function RadioButtons<T>({
@@ -16,6 +16,7 @@ export function RadioButtons<T>({
   label,
   helpText,
   onChange,
+  size = "xs",
 }: Props<T>) {
   return (
     <div>
@@ -44,7 +45,8 @@ export function RadioButtons<T>({
               {({ checked }) => (
                 <RadioGroup.Label as="span">
                   <Button
-                    size="xl"
+                    className={size === "xs" && "pr-2.5"}
+                    size={size}
                     label={option.label}
                     palette={checked ? "secondary" : "primary"}
                   />

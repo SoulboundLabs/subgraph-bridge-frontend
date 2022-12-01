@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown } from "tabler-icons-react";
+import { ChevronDown, Plus } from "tabler-icons-react";
+import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
@@ -8,7 +9,7 @@ import { urlBridgeItem } from "../lib/url";
 import { classNames, formatAddress } from "../lib/utils";
 import { SubgraphBridge } from "../store/types";
 import { EtherscanSVG, TheGraphSVG } from "../SVG/SVG";
-import { BridgeDetails } from "./BridgeDetails";
+import { BridgeProposalList } from "./BridgeProposalList";
 
 interface Props {
   bridge: SubgraphBridge;
@@ -16,17 +17,7 @@ interface Props {
 }
 
 export const BridgeItem = ({ bridge, idx }: Props) => {
-  const {
-    id,
-    config,
-    queryFirstChunk,
-    queryLastChunk,
-    responseDataOffset,
-    responseDataType,
-    subgraphDeploymentID,
-    minimumSlashableGRT,
-    proposalFreezePeriod,
-  } = bridge;
+  const { id } = bridge;
 
   let [isExpanded, setIsExpanded] = useState(false);
 
@@ -35,11 +26,20 @@ export const BridgeItem = ({ bridge, idx }: Props) => {
       <Container className="">
         <div className="flex items-center gap-16">
           <div className="flex flex-col items-start">
-            <h2 className="mt-2 text-lg font-bold text-slate-300">
-              <Link to={urlBridgeItem(id)}>
-                #{idx + 1} &middot; {formatAddress(id)}
-              </Link>
-            </h2>
+            <div className="flex justify-between w-full items-center">
+              <h2 className="mt-2 text-lg font-bold text-slate-300">
+                <Link to={urlBridgeItem(id)}>
+                  #{idx + 1} &middot; {formatAddress(id)}
+                </Link>
+              </h2>
+              <Button
+                size="xs"
+                label="Submit Proposal"
+                palette="secondary"
+                Icon={Plus}
+                reverse
+              />
+            </div>
             <div className="order-first font-mono text-sm leading-7 text-slate-500 flex items-center">
               <img
                 src={blockChains[0].imgSrc}
@@ -90,7 +90,7 @@ export const BridgeItem = ({ bridge, idx }: Props) => {
                 onClick={() => setIsExpanded(!isExpanded)}
                 className="flex items-center cursor-pointer text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
               >
-                View Details
+                View Proposals
                 <ChevronDown
                   className={classNames(
                     "w-5 transition-transform",
@@ -101,7 +101,7 @@ export const BridgeItem = ({ bridge, idx }: Props) => {
             </div>
           </div>
         </div>
-        {isExpanded && <BridgeDetails bridge={bridge} />}
+        {isExpanded && <BridgeProposalList bridge={bridge} />}
       </Container>
     </article>
   );

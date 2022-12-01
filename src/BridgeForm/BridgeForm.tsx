@@ -127,7 +127,6 @@ export const BridgeForm = ({ handleCancel }) => {
 
   const onSubmit = async (formData: FormValues) => {
     const txData = formToTx(formData);
-    debugger;
     const config = await prepareWriteContract({
       address: blockChainMap[GOERLI].address,
       abi: subgraphBridgeABI as any,
@@ -248,7 +247,11 @@ export const BridgeForm = ({ handleCancel }) => {
                 required: true,
               }}
               render={({ field }) => (
-                <RadioButtons {...field} options={minimumSlashableGRTOptions} />
+                <RadioButtons
+                  size="xl"
+                  {...field}
+                  options={minimumSlashableGRTOptions}
+                />
               )}
             />
           </div>
@@ -267,13 +270,14 @@ export const BridgeForm = ({ handleCancel }) => {
               render={({ field }) => (
                 <RadioButtons
                   {...field}
+                  size="xl"
                   options={proposalFreezePeriodOptions}
                 />
               )}
             />
           </div>
 
-          <div className="flex justify-end py-4 gap-4 absolute bottom-0 inset-x-0 px-8 border-t border-slate-300 bg-slate-900">
+          <div className="flex justify-end py-4 gap-4 absolute bottom-0 inset-x-0 px-8 border-t border-slate-500 bg-slate-900">
             <Button label="Cancel" size="lg" onClick={handleCancel} />
             <Button
               disabled={!isValid}
