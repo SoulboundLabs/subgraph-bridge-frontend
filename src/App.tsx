@@ -6,7 +6,6 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { AllBridgesPage } from "./BridgeExplorer/AllBridgesPage";
 import { BridgeFormPage } from "./BridgeForm/CreateSubgraphBridgePage";
-import { GradientSVGDef } from "./Gradient/GradientSVGDef";
 
 import {
   configureChains,
@@ -77,7 +76,7 @@ export const ScrollWrapper = ({ children }) => {
 
 function App() {
   return (
-    <div className="overflow-hidden h-screen w-screen" id="app-wrapper">
+    <div id="app-wrapper">
       <RecoilRoot>
         <BrowserRouter>
           <WagmiConfig client={client}>
@@ -85,19 +84,18 @@ function App() {
               {/* <Header /> */}
 
               <Layout>
-                <ScrollWrapper>
-                  <Routes>
-                    <Route path="" element={<AllBridgesPage />} />
-                    <Route path="/create" element={<BridgeFormPage />} />
-                    <Route path="/bridges/:id" element={<div />} />
-                  </Routes>
-                </ScrollWrapper>
+                {/* <ScrollWrapper> */}
+                <Routes>
+                  <Route path="" element={<AllBridgesPage />} />
+                  <Route path="/create" element={<BridgeFormPage />} />
+                  <Route path="/bridges/:id" element={<div />} />
+                </Routes>
+                {/* </ScrollWrapper> */}
               </Layout>
             </ConnectKitProvider>
           </WagmiConfig>
         </BrowserRouter>
       </RecoilRoot>
-      <GradientSVGDef />
     </div>
   );
 }

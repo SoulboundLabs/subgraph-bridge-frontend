@@ -7,6 +7,7 @@ interface Props<T> {
   options?: Option<T>[];
   label?: string;
   helpText?: string;
+  size?: string;
   onChange?: (option: T) => void;
   wrapperClassName?: string;
   value?: T;
@@ -16,6 +17,7 @@ export function RadioCardsIcon<T>({
   value,
   options,
   label,
+  size = "16",
   helpText,
   onChange,
   wrapperClassName,
@@ -69,6 +71,7 @@ export function RadioCardsIcon<T>({
                     label={label}
                     opacity={true}
                     filter={true}
+                    size={size}
                   />
                 )}
                 {Icon && (

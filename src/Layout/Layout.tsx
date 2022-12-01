@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import posterImage from "../assets/logos/subgraph-bridge.svg";
+
 import { classNames } from "../lib/utils";
 
 function randomBetween(min, max, seed = 1) {
@@ -161,8 +162,7 @@ export function Layout({ children }) {
           </section>
         </div>
       </header>
-      <main className="border-t border-slate-500 lg:relative lg:mb-28 lg:ml-112 lg:border-t-0 xl:ml-120">
-        {/* <Waveform className="absolute left-0 top-0 h-20 w-full" /> */}
+      <main className="border-t border-slate-500 lg:relative lg:mb-28 lg:ml-112 lg:border-t-0 xl:ml-120 h-screen overflow-auto">
         <div className="relative">{children}</div>
       </main>
       <footer className="border-t border-slate-500 bg-slate-50 py-10 pb-40 sm:py-16 sm:pb-32 lg:hidden">
@@ -186,10 +186,6 @@ export function Layout({ children }) {
           </div>
         </div>
       </footer>
-      <div className="fixed inset-x-0 bottom-0 z-10 lg:left-112 xl:left-120">
-        {/* <AudioPlayer /> */}
-        Old Code
-      </div>
     </>
   );
 }

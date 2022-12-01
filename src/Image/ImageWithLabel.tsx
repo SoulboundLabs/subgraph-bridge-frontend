@@ -1,26 +1,26 @@
-import { classNames } from '../lib/utils'
+import { classNames } from "../lib/utils";
 interface Props {
-  imgSrc: string
-  label: string | React.ReactNode
-  filter?: boolean
-  opacity?: boolean
-  size?: string
+  imgSrc: string;
+  label?: string | React.ReactNode;
+  filter?: boolean;
+  opacity?: boolean;
+  size?: string;
 }
 
 export const ImageWithLabel = ({
   imgSrc,
-  label = '',
+  label = "",
   filter = false,
   opacity = false,
-  size = '16'
+  size = "16",
 }: Props) => {
   return (
     <div className={`w-${size}`}>
       <img
         className={classNames(
-          filter && 'filter invert',
-          opacity && 'opacity-50 group-hover:opacity-100 transition',
-          size ? `w-${size} h-${size}` : '',
+          filter && "filter invert",
+          opacity && "opacity-50 group-hover:opacity-100 transition",
+          size ? `w-${size} h-${size}` : "",
           `inline-block mb-3`
         )}
         src={imgSrc}
@@ -31,5 +31,5 @@ export const ImageWithLabel = ({
         </div>
       )}
     </div>
-  )
-}
+  );
+};

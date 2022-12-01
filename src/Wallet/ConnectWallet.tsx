@@ -1,21 +1,53 @@
+import styled from "@emotion/styled";
 import { ConnectKitButton } from "connectkit";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { UserAddress } from "../Account/UserAddress";
-import { MenuDropdown } from "../Menu/MenuDropdown";
+import { Button } from "../Button/Button";
 
-export const SBT_ACCESS_TOKEN = "sbt-access-token";
+const StyledButton = styled.button`
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  padding: 14px 24px;
+  color: #ffffff;
+  background: #1a88f8;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 10rem;
+  box-shadow: 0 4px 24px -6px #1a88f8;
 
-export const walletToAccount = (wallet) => {
-  if (wallet) {
-    const { name, avatar } = wallet?.accounts[0].ens ?? {};
-    return {
-      address: wallet.accounts[0].address,
-      balance: wallet.accounts[0].balance,
-      ens: { name, avatar: avatar?.url },
-    };
-  } else {
-    return null;
+  transition: 200ms ease;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 40px -6px #1a88f8;
   }
+  &:active {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 32px -6px #1a88f8;
+  }
+`;
+
+export const ConnectKitCustom = () => {
+  return (
+    <ConnectKitButton.Custom>
+      {({ isConnected, show, truncatedAddress, ensName }) => {
+        return (
+          <Button
+            onClick={show}
+            size="lg"
+            palette={isConnected ? "primary" : "secondary"}
+            label={
+              isConnected ? (
+                <UserAddress address={truncatedAddress} size={32} />
+              ) : (
+                "Connect Wallet"
+              )
+            }
+          />
+        );
+      }}
+    </ConnectKitButton.Custom>
+  );
 };
 
 export function ConnectWallet() {
@@ -26,21 +58,7 @@ export function ConnectWallet() {
 
   return (
     <div>
-      {address ? (
-        <MenuDropdown
-          className={(open) =>
-            `w-full  bg-slate-700/50 hover:bg-slate-600/50 text-white group-hover:bg-slate-600/50 h-10 pr-3 pl-3.5 text-base rounded-md flex font-semibold disabled:opacity-50 disabled:cursor-not-allowed  transition justify-center whitespace-nowrap items-center`
-          }
-          menuOptions={[{ label: "Disconnect", onClick: disconnect }]}
-          label={
-            <span className="-ml-1">
-              <UserAddress address={address} size={32} />
-            </span>
-          }
-        />
-      ) : (
-        <ConnectKitButton />
-      )}
+      <ConnectKitCustom />
     </div>
   );
 }

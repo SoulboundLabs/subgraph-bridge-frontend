@@ -11,3 +11,13 @@ export function Container({ className = "", children, ...props }) {
     </div>
   );
 }
+
+export function ContainerNoMax({ className = "", children, ...props }) {
+  return (
+    <div className={classNames("lg:px-8", className)} {...props}>
+      <div className="lg:max-w-4xl">
+        <div className="px-4 sm:px-6 md:px-4 lg:px-0">{children}</div>
+      </div>
+    </div>
+  );
+}
