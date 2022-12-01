@@ -14,13 +14,13 @@ import { InputGroup } from "../Form/InputGroup";
 import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
 import { HrText } from "../Hr/HrText";
+import { Container } from "../Layout/Container";
 import {
   blockChainIds,
   blockChainMap,
   blockChains,
   GOERLI,
 } from "../lib/blockchains";
-import { TitleDescription } from "../Text/TitleDescription";
 import {
   minimumSlashableGRTOptions,
   proposalFreezePeriodOptions,
@@ -98,7 +98,7 @@ type TxValues = Omit<
   proposalFreezePeriod: BigNumber;
 };
 
-export const BridgeForm = () => {
+export const BridgeForm = ({ handleCancel }) => {
   const {
     register,
     watch,
@@ -139,152 +139,152 @@ export const BridgeForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-reverse pb-10">
-      <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
-        <TitleDescription
-          title="Create New Subgraph Bridge"
-          description="Use the form below to define the parameters and security config for a new Subgraph Bridge."
-        />
+    <Container>
+      <form onSubmit={handleSubmit(onSubmit)} className="pb-24">
+        <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
+          <HrText description="Which chain on the decentralized network is the subgraph deployed to?">
+            Choose Blockchain
+          </HrText>
 
-        <HrText description="Which chain on the decentralized network is the subgraph deployed to?">
-          Choose Blockchain
-        </HrText>
+          <div className="space-y-4 pt-6">
+            <RadioCardsIcon
+              options={blockChains}
+              value={chain?.id}
+              onChange={(value) => {
+                switchNetwork({ chainId: value });
+              }}
+            />
+            {!blockChainIds.includes(chain?.id) && (
+              <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
+                Please connect to a supported blockchain.
+              </div>
+            )}
+          </div>
 
-        <div className="space-y-4 pt-6">
-          <RadioCardsIcon
-            options={blockChains}
-            value={chain?.id}
-            onChange={(value) => {
-              switchNetwork({ chainId: value });
-            }}
-          />
-          {!blockChainIds.includes(chain?.id) && (
-            <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
-              Please connect to a supported blockchain.
-            </div>
-          )}
-        </div>
+          <HrText
+            description={
+              <span>
+                Look underneath the "DEPLOYMENT ID" header on any subgraph
+                listed on the{" "}
+                <a
+                  href="https://thegraph.com/explorer"
+                  target="_blank"
+                  className="text-sky-300 hover:underline"
+                >
+                  Graph Explorer
+                </a>{" "}
+                page.
+              </span>
+            }
+          >
+            Enter Subgraph Deployment ID
+          </HrText>
 
-        <HrText
-          description={
-            <span>
-              Look underneath the "DEPLOYMENT ID" header on any subgraph listed
-              on the{" "}
-              <a
-                href="https://thegraph.com/explorer"
-                target="_blank"
-                className="text-sky-300 hover:underline"
-              >
-                Graph Explorer
-              </a>{" "}
-              page.
-            </span>
-          }
-        >
-          Enter Subgraph Deployment ID
-        </HrText>
+          <div className="space-y-4 pt-6">
+            <Controller
+              control={control}
+              name="subgraphDeploymentID"
+              rules={{
+                required: true,
+              }}
+              render={({ field }) => <InputGroup {...field} />}
+            />
+          </div>
 
-        <div className="space-y-4 pt-6">
-          <Controller
-            control={control}
-            name="subgraphDeploymentID"
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => <InputGroup {...field} />}
-          />
-        </div>
+          <HrText
+            description={
+              <div>
+                What query do you want to results on-chain?
+                <ul className="list-disc">
+                  <li>Must be a valid GraphQL query</li>
+                  <li>Must be a single query</li>
+                  <li>Must be a query that returns a single value</li>
+                </ul>
+              </div>
+            }
+          >
+            Enter GraphQL Query
+          </HrText>
 
-        <HrText
-          description={
-            <div>
-              What query do you want to results on-chain?
-              <ul className="list-disc">
-                <li>Must be a valid GraphQL query</li>
-                <li>Must be a single query</li>
-                <li>Must be a query that returns a single value</li>
-              </ul>
-            </div>
-          }
-        >
-          Enter GraphQL Query
-        </HrText>
-
-        <div className="space-y-4 pt-6">
-          <Controller
-            control={control}
-            name="query"
-            rules={{
-              required: true,
-              validate: {
-                containsBlockHash: (value) => {
-                  return (
-                    value.includes(`block: { hash: "" }`) ||
-                    `Query must contain empty block hash filter: block: {hash: ""}`
-                  );
+          <div className="space-y-4 pt-6">
+            <Controller
+              control={control}
+              name="query"
+              rules={{
+                required: true,
+                validate: {
+                  containsBlockHash: (value) => {
+                    return (
+                      value.includes(`block: { hash: "" }`) ||
+                      `Query must contain empty block hash filter: block: {hash: ""}`
+                    );
+                  },
+                  isValidGraphQL: (value) =>
+                    formatQueryToMatchGateway(value) !== null ||
+                    "Invalid GraphQL query",
                 },
-                isValidGraphQL: (value) =>
-                  formatQueryToMatchGateway(value) !== null ||
-                  "Invalid GraphQL query",
-              },
-            }}
-            render={({ field }) => <CodeEditor {...field} />}
-          />
-          {errors.query?.message && (
-            <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
-              {errors.query?.message}
-            </div>
-          )}
-          {/* <div className="flex justify-end">
+              }}
+              render={({ field }) => <CodeEditor {...field} />}
+            />
+            {errors.query?.message && (
+              <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
+                {errors.query?.message}
+              </div>
+            )}
+            {/* <div className="flex justify-end">
             <Button Icon={AlertCircle} label="Test Query" />
           </div> */}
+          </div>
+
+          <HrText description="How much crypto-economic security should a query result for this Subgraph Bridge have? Indexers are liable to lose 2.5% of their self-staked GRT for supplying invalid query results.">
+            Minimum Slashable Stake
+          </HrText>
+
+          <div className="space-y-4 pt-6">
+            <Controller
+              control={control}
+              name="minimumSlashableGRT"
+              rules={{
+                required: true,
+              }}
+              render={({ field }) => (
+                <RadioButtons {...field} options={minimumSlashableGRTOptions} />
+              )}
+            />
+          </div>
+
+          <HrText description="Use a longer dispute window for extra security, choose a shorter dispute window for quicker finality.">
+            Dispute Window
+          </HrText>
+
+          <div className="space-y-4 pt-6">
+            <Controller
+              control={control}
+              name="proposalFreezePeriod"
+              rules={{
+                required: true,
+              }}
+              render={({ field }) => (
+                <RadioButtons
+                  {...field}
+                  options={proposalFreezePeriodOptions}
+                />
+              )}
+            />
+          </div>
+
+          <div className="flex justify-end py-4 gap-4 absolute bottom-0 inset-x-0 px-8 border-t border-slate-300 bg-slate-900">
+            <Button label="Cancel" size="lg" onClick={handleCancel} />
+            <Button
+              disabled={!isValid}
+              label="Create Bridge"
+              palette="secondary"
+              size="lg"
+              type="submit"
+            />
+          </div>
         </div>
-
-        <HrText description="How much crypto-economic security should a query result for this Subgraph Bridge have? Indexers are liable to lose 2.5% of their self-staked GRT for supplying invalid query results.">
-          Minimum Slashable Stake
-        </HrText>
-
-        <div className="space-y-4 pt-6">
-          <Controller
-            control={control}
-            name="minimumSlashableGRT"
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => (
-              <RadioButtons {...field} options={minimumSlashableGRTOptions} />
-            )}
-          />
-        </div>
-
-        <HrText description="Use a longer dispute window for extra security, choose a shorter dispute window for quicker finality.">
-          Dispute Window
-        </HrText>
-
-        <div className="space-y-4 pt-6">
-          <Controller
-            control={control}
-            name="proposalFreezePeriod"
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => (
-              <RadioButtons {...field} options={proposalFreezePeriodOptions} />
-            )}
-          />
-        </div>
-
-        <div className="flex justify-end pt-6">
-          <Button
-            disabled={!isValid}
-            label="Create New Subgraph Bridge"
-            palette="secondary"
-            size="lg"
-            stretch
-            type="submit"
-          />
-        </div>
-      </div>
-    </form>
+      </form>
+    </Container>
   );
 };

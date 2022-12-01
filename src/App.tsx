@@ -14,8 +14,7 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { AllBridgesPage } from "./BridgeExplorer/AllBridgesPage";
-import { BridgeFormPage } from "./BridgeForm/CreateSubgraphBridgePage";
+import { BridgeExplorer } from "./BridgeExplorer/BridgeExplorer";
 import { Layout } from "./Layout/Layout";
 import { blockChainMap, GOERLI } from "./lib/blockchains";
 
@@ -69,8 +68,7 @@ function App() {
               <ConnectKitProvider>
                 <Layout>
                   <Routes>
-                    <Route path="" element={<AllBridgesPage />} />
-                    <Route path="/create" element={<BridgeFormPage />} />
+                    <Route path="" element={<BridgeExplorer />} />
                     <Route path="/bridges/:id" element={<div />} />
                   </Routes>
                 </Layout>
