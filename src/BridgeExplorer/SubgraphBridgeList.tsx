@@ -24,8 +24,8 @@ export const SubgraphBridgeList = () => {
 
   return (
     <div className="divide-y divide-slate-500 sm:mt-4 lg:mt-8 lg:border-t lg:border-slate-500">
-      {data.subgraphBridgeCreations.map((bridge) => (
-        <SubgraphBridgeItem key={bridge.id} bridge={bridge} />
+      {data.subgraphBridgeCreations.map((bridge, idx) => (
+        <SubgraphBridgeItem key={bridge.id} bridge={bridge} idx={idx} />
       ))}
     </div>
   );

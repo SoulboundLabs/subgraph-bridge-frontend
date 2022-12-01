@@ -3,14 +3,16 @@ import CodeEditor from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
 import { urlBridgeItem } from "../lib/url";
+import { formatAddress } from "../lib/utils";
 import { SubgraphBridge } from "../store/types";
 import { EtherscanSVG, TheGraphSVG } from "../SVG/SVG";
 
 interface Props {
   bridge: SubgraphBridge;
+  idx: number;
 }
 
-export const SubgraphBridgeItem = ({ bridge }: Props) => {
+export const SubgraphBridgeItem = ({ bridge, idx }: Props) => {
   const {
     id,
     config,
@@ -30,7 +32,7 @@ export const SubgraphBridgeItem = ({ bridge }: Props) => {
           <div className="flex flex-col items-start">
             <h2 className="mt-2 text-lg font-bold text-slate-300">
               <Link to={urlBridgeItem(id)}>
-                QmYUcrn9S1cuSZQGomLRyn8GbNHmX8viqxMykP8kKpghz6
+                #{idx + 1} &middot; {formatAddress(id)}
               </Link>
             </h2>
             <div className="order-first font-mono text-sm leading-7 text-slate-500 flex items-center">
