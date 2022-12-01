@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-import posterImage from "../assets/logos/soulbound-s-blue.png";
+import posterImage from "../assets/logos/subgraph-bridge.svg";
 import { classNames } from "../lib/utils";
 
 function randomBetween(min, max, seed = 1) {
@@ -64,16 +64,14 @@ function AboutSection(props) {
 
   return (
     <section {...props}>
-      <h2 className="flex items-center font-mono text-sm font-medium leading-7 text-slate-900">
-        {/* <TinyWaveFormIcon
-          colors={['fill-violet-300', 'fill-pink-300']}
-          className="h-2.5 w-2.5"
-        /> */}
+      <h2 className="flex items-center font-mono text-sm font-medium leading-7 text-slate-300">
+        <img className="w-4" src={posterImage} alt="" />
+
         <span className="ml-2.5">About</span>
       </h2>
       <p
         className={classNames(
-          "mt-2 text-base leading-7 text-slate-700",
+          "mt-2 text-base leading-7 text-slate-300",
           !isExpanded && "lg:line-clamp-4"
         )}
       >
@@ -101,10 +99,10 @@ export function Layout({ children }) {
 
   return (
     <>
-      <header className="bg-slate-50 lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-112 lg:items-start lg:overflow-y-auto xl:w-120">
+      <header className="lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-112 lg:items-start lg:overflow-y-auto xl:w-120">
         <div className="hidden lg:sticky lg:top-0 lg:flex lg:w-16 lg:flex-none lg:items-center lg:whitespace-nowrap lg:py-12 lg:text-sm lg:leading-7 lg:[writing-mode:vertical-rl]">
-          <span className="font-mono text-slate-500">Created by</span>
-          <span className="mt-6 flex gap-6 font-bold text-slate-900">
+          <span className="font-mono text-slate-300">Created by</span>
+          <span className="mt-6 flex gap-6 font-bold text-slate-300">
             {hosts.map((host, hostIndex) => (
               <Fragment key={host}>
                 {hostIndex !== 0 && (
@@ -117,37 +115,34 @@ export function Layout({ children }) {
             ))}
           </span>
         </div>
-        <div className="relative z-10 mx-auto px-4 pb-4 pt-10 sm:px-6 md:max-w-2xl md:px-4 lg:min-h-full lg:flex-auto lg:border-x lg:border-slate-200 lg:py-12 lg:px-8 xl:px-12">
+        <div className="relative z-10 mx-auto px-4 pb-4 pt-10 sm:px-6 md:max-w-2xl md:px-4 lg:min-h-full lg:flex-auto lg:border-x lg:border-white lg:py-12 lg:px-8 xl:px-12">
           <Link
             to="/"
-            className="relative mx-auto block w-48 overflow-hidden rounded-lg bg-slate-200 shadow-xl shadow-slate-200 sm:w-64 sm:rounded-xl lg:w-auto lg:rounded-2xl"
+            className="relative mx-auto block w-48 overflow-hidden rounded-lg bg-sky-900 p-16 shadow-xl  sm:w-64 sm:rounded-xl lg:w-auto lg:rounded-2xl"
             aria-label="Homepage"
           >
             <img className="w-full" src={posterImage} alt="" />
             <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-black/10 sm:rounded-xl lg:rounded-2xl" />
           </Link>
           <div className="mt-10 text-center lg:mt-12 lg:text-left">
-            <p className="text-xl font-bold text-slate-900">
-              <Link to="/">Their Side</Link>
+            <p className="text-xl font-bold text-slate-300">
+              <Link to="/">Subgraph Bridge</Link>
             </p>
-            <p className="mt-3 text-lg font-medium leading-8 text-slate-700">
-              Conversations with the most tragically misunderstood people of our
-              time.
+            <p className="mt-3 text-lg font-medium leading-8 text-slate-300">
+              Bring subgraph query data on-chain. Transform subgraphs into
+              read-oriented rollups. Unlock on-chain reputation, DeFi "activity
+              scores", permissioned smart contracts, and more.
             </p>
           </div>
           <AboutSection className="mt-12 hidden lg:block" />
           <section className="mt-10 lg:mt-12">
             <h2 className="sr-only flex items-center font-mono text-sm font-medium leading-7 text-slate-900 lg:not-sr-only">
-              {/* <TinyWaveFormIcon
-                colors={['fill-indigo-300', 'fill-blue-300']}
-                className="h-2.5 w-2.5"
-              /> */}
               <span className="ml-2.5">Listen</span>
             </h2>
             <div className="h-px bg-gradient-to-r from-slate-200/0 via-slate-200 to-slate-200/0 lg:hidden" />
             <ul
               role="list"
-              className="mt-4 flex justify-center gap-10 text-base font-medium leading-7 text-slate-700 sm:gap-8 lg:flex-col lg:gap-4"
+              className="mt-4 flex justify-center gap-10 text-base font-medium leading-7 text-slate-300 sm:gap-8 lg:flex-col lg:gap-4"
             >
               {[
                 ["Spotify", SpotifyIcon],
@@ -166,11 +161,11 @@ export function Layout({ children }) {
           </section>
         </div>
       </header>
-      <main className="border-t border-slate-200 lg:relative lg:mb-28 lg:ml-112 lg:border-t-0 xl:ml-120">
+      <main className="border-t border-white lg:relative lg:mb-28 lg:ml-112 lg:border-t-0 xl:ml-120">
         {/* <Waveform className="absolute left-0 top-0 h-20 w-full" /> */}
         <div className="relative">{children}</div>
       </main>
-      <footer className="border-t border-slate-200 bg-slate-50 py-10 pb-40 sm:py-16 sm:pb-32 lg:hidden">
+      <footer className="border-t border-white bg-slate-50 py-10 pb-40 sm:py-16 sm:pb-32 lg:hidden">
         <div className="mx-auto px-4 sm:px-6 md:max-w-2xl md:px-4">
           <AboutSection />
           <h2 className="mt-8 flex items-center font-mono text-sm font-medium leading-7 text-slate-900">
