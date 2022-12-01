@@ -1,6 +1,5 @@
 import { ConnectKitProvider } from "connectkit";
-import { useLayoutEffect, useRef } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
@@ -55,25 +54,6 @@ const client = createClient({
   webSocketProvider,
 });
 
-export const ScrollWrapper = ({ children }) => {
-  const location = useLocation();
-  const ref = useRef(null);
-
-  useLayoutEffect(() => {
-    ref.current?.scrollTo(0, 0);
-  }, [location.pathname]);
-
-  return (
-    <div
-      ref={ref}
-      className="overflow-y-scroll w-screen overflow-x-hidden"
-      style={{ height: "calc(100vh - 70px)" }}
-    >
-      {children}
-    </div>
-  );
-};
-
 function App() {
   return (
     <div id="app-wrapper">
@@ -81,16 +61,12 @@ function App() {
         <BrowserRouter>
           <WagmiConfig client={client}>
             <ConnectKitProvider>
-              {/* <Header /> */}
-
               <Layout>
-                {/* <ScrollWrapper> */}
                 <Routes>
                   <Route path="" element={<AllBridgesPage />} />
                   <Route path="/create" element={<BridgeFormPage />} />
                   <Route path="/bridges/:id" element={<div />} />
                 </Routes>
-                {/* </ScrollWrapper> */}
               </Layout>
             </ConnectKitProvider>
           </WagmiConfig>
