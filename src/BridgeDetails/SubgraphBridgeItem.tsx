@@ -26,7 +26,7 @@ export const SubgraphBridgeItem = ({ bridge, idx }: Props) => {
   } = bridge;
 
   return (
-    <article className="py-6 overflow-hidden">
+    <article className="py-10 sm:py-12 overflow-hidden">
       <Container className="">
         <div className="flex items-center gap-16">
           <div className="flex flex-col items-start">

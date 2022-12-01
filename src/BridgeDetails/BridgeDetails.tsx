@@ -1,13 +1,15 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Plus } from "tabler-icons-react";
 import { BridgeForm } from "../BridgeForm/BridgeForm";
 import { Button } from "../Button/Button";
 import { Header } from "../Header/Header";
 import { Panel } from "../Layout/Panel";
-import { SubgraphBridgeList } from "./SubgraphBridgeList";
 
-export const BridgeExplorer = () => {
+export const BridgeDetails = () => {
   let [open, setOpen] = useState(false);
+
+  const { id } = useParams();
 
   return (
     <>
@@ -21,11 +23,9 @@ export const BridgeExplorer = () => {
             reverse
           />
         }
-        breadcrumbs={["Bridge Explorer"]}
+        breadcrumbs={["Bridge Explorer", id]}
       />
-      <div className="">
-        <SubgraphBridgeList />
-      </div>
+      <div className="mt-6">Hello</div>
       <Panel
         title="Create Subgraph Bridge"
         description={"Use the form below to configure a new Subgraph Bridge."}

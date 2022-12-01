@@ -14,6 +14,7 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import { BridgeDetails } from "./BridgeDetails/BridgeDetails";
 import { BridgeExplorer } from "./BridgeExplorer/BridgeExplorer";
 import { Layout } from "./Layout/Layout";
 import { blockChainMap, GOERLI } from "./lib/blockchains";
@@ -69,7 +70,7 @@ function App() {
                 <Layout>
                   <Routes>
                     <Route path="" element={<BridgeExplorer />} />
-                    <Route path="/bridges/:id" element={<div />} />
+                    <Route path="/bridges/:id" element={<BridgeDetails />} />
                   </Routes>
                 </Layout>
               </ConnectKitProvider>
