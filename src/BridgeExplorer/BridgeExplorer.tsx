@@ -4,7 +4,7 @@ import { BridgeForm } from "../BridgeForm/BridgeForm";
 import { Button } from "../Button/Button";
 import { Header } from "../Header/Header";
 import { Panel } from "../Layout/Panel";
-import { SubgraphBridgeList } from "./SubgraphBridgeList";
+import { BridgeList } from "./BridgeList";
 
 export const BridgeExplorer = () => {
   let [open, setOpen] = useState(false);
@@ -24,7 +24,7 @@ export const BridgeExplorer = () => {
         breadcrumbs={["Bridge Explorer"]}
       />
       <div className="">
-        <SubgraphBridgeList />
+        <BridgeList />
       </div>
       <Panel
         title="Create Subgraph Bridge"

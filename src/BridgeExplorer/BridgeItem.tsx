@@ -1,18 +1,21 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ChevronDown } from "tabler-icons-react";
 import CodeEditor from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
 import { urlBridgeItem } from "../lib/url";
-import { formatAddress } from "../lib/utils";
+import { classNames, formatAddress } from "../lib/utils";
 import { SubgraphBridge } from "../store/types";
 import { EtherscanSVG, TheGraphSVG } from "../SVG/SVG";
+import { BridgeDetails } from "./BridgeDetails";
 
 interface Props {
   bridge: SubgraphBridge;
   idx: number;
 }
 
-export const SubgraphBridgeItem = ({ bridge, idx }: Props) => {
+export const BridgeItem = ({ bridge, idx }: Props) => {
   const {
     id,
     config,
@@ -24,6 +27,8 @@ export const SubgraphBridgeItem = ({ bridge, idx }: Props) => {
     minimumSlashableGRT,
     proposalFreezePeriod,
   } = bridge;
+
+  let [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <article className="py-6 overflow-hidden">
@@ -81,15 +86,22 @@ export const SubgraphBridgeItem = ({ bridge, idx }: Props) => {
               >
                 /
               </span>
-              <Link
-                to={urlBridgeItem(id)}
-                className="flex items-center text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
+              <a
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="flex items-center cursor-pointer text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
               >
                 View Details
-              </Link>
+                <ChevronDown
+                  className={classNames(
+                    "w-5 transition-transform",
+                    isExpanded && "transform rotate-180"
+                  )}
+                />
+              </a>
             </div>
           </div>
         </div>
+        {isExpanded && <BridgeDetails bridge={bridge} />}
       </Container>
     </article>
   );

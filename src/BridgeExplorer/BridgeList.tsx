@@ -1,5 +1,5 @@
 import { gql, useQuery } from "urql";
-import { SubgraphBridgeItem } from "./SubgraphBridgeItem";
+import { BridgeItem } from "./BridgeItem";
 
 const SubgraphBridgeCreationQuery = gql`
   query {
@@ -12,7 +12,7 @@ const SubgraphBridgeCreationQuery = gql`
   }
 `;
 
-export const SubgraphBridgeList = () => {
+export const BridgeList = () => {
   const [result] = useQuery({
     query: SubgraphBridgeCreationQuery,
   });
@@ -25,7 +25,7 @@ export const SubgraphBridgeList = () => {
   return (
     <div className="divide-y divide-slate-500">
       {data.subgraphBridgeCreations.map((bridge, idx) => (
-        <SubgraphBridgeItem key={bridge.id} bridge={bridge} idx={idx} />
+        <BridgeItem key={bridge.id} bridge={bridge} idx={idx} />
       ))}
     </div>
   );

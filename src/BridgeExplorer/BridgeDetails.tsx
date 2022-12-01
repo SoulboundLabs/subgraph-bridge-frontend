@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ChevronDown } from "tabler-icons-react";
 import CodeEditor from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
@@ -12,7 +13,7 @@ interface Props {
   idx: number;
 }
 
-export const SubgraphBridgeItem = ({ bridge, idx }: Props) => {
+export const BridgeDetails = ({ bridge, idx }: Props) => {
   const {
     id,
     config,
@@ -26,7 +27,7 @@ export const SubgraphBridgeItem = ({ bridge, idx }: Props) => {
   } = bridge;
 
   return (
-    <article className="py-10 sm:py-12 overflow-hidden">
+    <article className="py-6 overflow-hidden">
       <Container className="">
         <div className="flex items-center gap-16">
           <div className="flex flex-col items-start">
@@ -85,6 +86,7 @@ export const SubgraphBridgeItem = ({ bridge, idx }: Props) => {
                 to={urlBridgeItem(id)}
                 className="flex items-center text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
               >
+                <ChevronDown className="w-4" />
                 View Details
               </Link>
             </div>
