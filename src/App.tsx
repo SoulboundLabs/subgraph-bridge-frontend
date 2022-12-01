@@ -66,7 +66,7 @@ export const ScrollWrapper = ({ children }) => {
   return (
     <div
       ref={ref}
-      className="overflow-y-scroll w-screen overflow-x-hiddenome"
+      className="overflow-y-scroll w-screen overflow-x-hidden"
       style={{ height: "calc(100vh - 70px)" }}
     >
       {children}
