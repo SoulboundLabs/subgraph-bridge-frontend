@@ -7,7 +7,6 @@ import { publicProvider } from "wagmi/providers/public";
 import { AllBridgesPage } from "./BridgeExplorer/AllBridgesPage";
 import { BridgeFormPage } from "./BridgeForm/CreateSubgraphBridgePage";
 import { GradientSVGDef } from "./Gradient/GradientSVGDef";
-import { Header } from "./Header/Header";
 
 import {
   configureChains,
@@ -19,6 +18,7 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { Layout } from "./Layout/Layout";
 
 const alchemyKey = import.meta.env.VITE_ALCHEMY_KEY;
 
@@ -82,15 +82,17 @@ function App() {
         <BrowserRouter>
           <WagmiConfig client={client}>
             <ConnectKitProvider>
-              <Header />
+              {/* <Header /> */}
 
-              <ScrollWrapper>
-                <Routes>
-                  <Route path="" element={<AllBridgesPage />} />
-                  <Route path="/create" element={<BridgeFormPage />} />
-                  <Route path="/bridges/:id" element={<div />} />
-                </Routes>
-              </ScrollWrapper>
+              <Layout>
+                <ScrollWrapper>
+                  <Routes>
+                    <Route path="" element={<AllBridgesPage />} />
+                    <Route path="/create" element={<BridgeFormPage />} />
+                    <Route path="/bridges/:id" element={<div />} />
+                  </Routes>
+                </ScrollWrapper>
+              </Layout>
             </ConnectKitProvider>
           </WagmiConfig>
         </BrowserRouter>

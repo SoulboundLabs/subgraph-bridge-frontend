@@ -13,13 +13,9 @@ export function Header({}) {
       <Link to={"/"}>
         <div className="flex items-center gap-4">
           <img src={soulboundSOnly} className="h-10 cursor-pointer block " />
-          <div
-            style={{ letterSpacing: 6, lineHeight: 1 }}
-            className="uppercase tracking-widest text-left text-xl font-semibold text-white"
-          >
-            Subgraph
-            <br />
-            Bridge
+          <div className="uppercase tracking-wide text-left text-xl text-white/90">
+            <span className="font-normal">Subgraph</span>{" "}
+            <span className="font-light">Bridge</span>
           </div>
         </div>
       </Link>
