@@ -1,13 +1,15 @@
 import Jdenticon from "react-jdenticon";
 import { formatAddress } from "../lib/utils";
 import { FancyNumber } from "../Tag/FancyNumber";
-import { BridgeProposalSteps } from "./BridgeProposalSteps";
 
 export const BridgeProposal = ({ proposal }) => {
   return (
     <div>
       <div className="transition-colors relative group rounded-lg bg-slate-700/50 text-white hover:bg-slate-600/50">
-        <div className="py-2 px-3  flex items-center w-full justify-between border-b border-slate-500">
+        <div>
+          <div className="px-3 py-6 font-mono text-center">0xfoobar</div>
+        </div>
+        <div className="py-2 px-3  flex items-center w-full justify-between border-t border-slate-500">
           <div className="flex items-center w-full gap-8">
             <div className="text-left flex gap-3 items-center">
               <div>
@@ -49,11 +51,9 @@ export const BridgeProposal = ({ proposal }) => {
             <FancyNumber>Certified</FancyNumber>
           </div>
         </div>
-        <div>
-          <div className="px-3 py-6 font-mono text-center">0xfoobar</div>
-        </div>
+
         <div className="pb-2 w-full gap-8">
-          <BridgeProposalSteps />
+          {/* <BridgeProposalSteps /> */}
           {/* <Button label="Certify Proposal" palette="secondary" size="xs" /> */}
         </div>
       </div>
