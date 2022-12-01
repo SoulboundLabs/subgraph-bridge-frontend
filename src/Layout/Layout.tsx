@@ -1,8 +1,10 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
+import { BrandDiscord, BrandGithub, BrandTwitter } from "tabler-icons-react";
 import posterImage from "../assets/logos/subgraph-bridge.svg";
 
 import { classNames } from "../lib/utils";
+import { TheGraphSVG } from "../SVG/SVG";
 
 function randomBetween(min, max, seed = 1) {
   return () => {
@@ -76,11 +78,51 @@ function AboutSection(props) {
           !isExpanded && "lg:line-clamp-4"
         )}
       >
-        In this show, Eric and Wes dig deep to get to the facts with guests who
-        have been labeled villains by a society quick to judge, without actually
-        getting the full story. Tune in every Thursday to get to the truth with
-        another misunderstood outcast as they share the missing context in their
-        tragic tale.
+        We wanted to push the limits of what was possible with subgraphs.
+        Subgraphs are the default source of rich blockchain data, but we think
+        that they can also become the primary source of computed data for smart
+        contracts. Our initial release of the Subgraph Bridge is a major first
+        step in seeing that vision come to life.
+      </p>
+      {!isExpanded && (
+        <button
+          type="button"
+          className="mt-2 hidden text-sm font-bold leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900 lg:inline-block"
+          onClick={() => setIsExpanded(true)}
+        >
+          Show more
+        </button>
+      )}
+    </section>
+  );
+}
+
+function LimitationSection(props) {
+  let [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <section {...props}>
+      <h2 className="flex items-center font-mono text-sm font-medium leading-7 text-slate-300">
+        <img className="w-4" src={posterImage} alt="" />
+
+        <span className="ml-2.5">Limitations</span>
+      </h2>
+      <p
+        className={classNames(
+          "mt-2 text-base leading-7 text-slate-300",
+          !isExpanded && "lg:line-clamp-4"
+        )}
+      >
+        For the initial release of the Subgraph Bridge, there are a few
+        limitations to be aware of. First, the Subgraph Bridge is only available
+        on Goerli Testnet until we've ironed out any bugs. Second, the Subgraph
+        Bridge only supports query results that are less than 256 blocks old due
+        to Solidity's limitations when parsing block hashes. Finally, the
+        Subgraph Bridge only supports GraphQL queries with single data field.
+        Parsing JSON in Solidity is incredibly gas inefficient, so we recommend
+        aggregating your data in the subgraph into a single Merkle Root,
+        address, or scalar value before posting it on-chain. We will revisit
+        these limitations in future releases.
       </p>
       {!isExpanded && (
         <button
@@ -127,15 +169,21 @@ export function Layout({ children }) {
           </Link>
           <div className="mt-10 text-center lg:mt-12 lg:text-left">
             <p className="text-xl font-bold text-slate-300">
-              <Link to="/">Subgraph Bridge</Link>
+              <Link to="/">
+                Subgraph Bridge{" "}
+                <span className="text-xs font-mono relative top-px mt-px">
+                  v0.01
+                </span>
+              </Link>
             </p>
             <p className="mt-3 text-lg font-medium leading-8 text-slate-300">
-              Bring subgraph query data on-chain. Transform subgraphs into
-              read-oriented rollups. Unlock on-chain reputation, DeFi "activity
-              scores", permissioned smart contracts, and more.
+              Bridge your subgraph query results on-chain. Transform your
+              subgraph into a read-oriented rollup.
             </p>
           </div>
           <AboutSection className="mt-12 hidden lg:block" />
+
+          <LimitationSection className="mt-12 hidden lg:block" />
           <section className="mt-10 lg:mt-12">
             <h2 className="sr-only flex items-center font-mono text-sm font-medium leading-7 text-slate-900 lg:not-sr-only">
               <span className="ml-2.5">Listen</span>
@@ -146,16 +194,20 @@ export function Layout({ children }) {
               className="mt-4 flex justify-center gap-10 text-base font-medium leading-7 text-slate-300 sm:gap-8 lg:flex-col lg:gap-4"
             >
               {[
-                ["Spotify", SpotifyIcon],
-                ["Apple Podcast", ApplePodcastIcon],
-                ["Overcast", OvercastIcon],
-                ["RSS Feed", RSSIcon],
-              ].map(([label, Icon]) => (
+                ["The Graph", TheGraphSVG, "https://thegraph.com"],
+                ["Twitter", BrandTwitter, "https://twitter.com/soulboundlabs"],
+                ["Discord", BrandDiscord, "https://discord.gg/BQYZhmvSWN"],
+                ["GitHub", BrandGithub, "https://github.com/soulboundlabs"],
+              ].map(([label, Icon, href]) => (
                 <li key={label as string} className="flex">
-                  <Link to="/" className="group flex items-center">
-                    <Icon className="h-8 w-8 fill-slate-400 group-hover:fill-slate-600" />
+                  <a
+                    href={href as string}
+                    target="_blank"
+                    className="group flex items-center"
+                  >
+                    <Icon className="h-8 w-8 opacity-70 group-hover:opacity-100" />
                     <span className="hidden sm:ml-3 sm:block">{label}</span>
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>

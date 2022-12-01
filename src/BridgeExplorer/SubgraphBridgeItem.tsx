@@ -71,7 +71,7 @@ export const SubgraphBridgeItem = ({ bridge }: Props) => {
                 to={urlBridgeItem(id)}
                 className="flex items-center text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
               >
-                <TheGraphSVG className="w-4 bg-purple-700 group-hover:bg-purple-800 h-4 rounded p-0.5" />
+                <TheGraphSVG className="w-4 bg-purple-700 group-hover:bg-purple-800 text-white h-4 rounded p-0.5" />
                 Subgraph Explorer
               </Link>
             </div>

@@ -14,14 +14,17 @@ import { InputGroup } from "../Form/InputGroup";
 import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
 import { HrText } from "../Hr/HrText";
-import { blockChainIds, blockChains } from "../lib/blockchains";
+import {
+  blockChainIds,
+  blockChainMap,
+  blockChains,
+  GOERLI,
+} from "../lib/blockchains";
 import { TitleDescription } from "../Text/TitleDescription";
 import {
   minimumSlashableGRTOptions,
   proposalFreezePeriodOptions,
 } from "./bridge-options";
-
-const goerliAddress = "0x3400c53765e027fadd938276d4e3f024abe6e689";
 
 const formatQueryToMatchGateway = (query: string) => {
   try {
@@ -126,7 +129,7 @@ export const BridgeForm = () => {
     const txData = formToTx(formData);
     debugger;
     const config = await prepareWriteContract({
-      address: goerliAddress,
+      address: blockChainMap[GOERLI].address,
       abi: subgraphBridgeABI as any,
       functionName: "createSubgraphBridge",
       args: [txData],
