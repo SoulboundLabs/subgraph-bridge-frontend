@@ -1,4 +1,5 @@
 import { prepareWriteContract, writeContract } from "@wagmi/core";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
 import { Button } from "../Button/Button";
@@ -32,13 +33,17 @@ export const ResponseForm = ({ handleCancel, subgraphBridgeID }) => {
     },
   });
 
-  const onSubmit = async (formData: FormValues) => {
+  const onSubmit = async (formData: FormValues, e: React.FormEvent) => {
+    debugger;
+    e.preventDefault();
+
     const config = await prepareWriteContract({
       address: blockChainMap[GOERLI].address,
       abi: subgraphBridgeABI as any,
       functionName: "postSubgraphResponse",
       args: [formData],
     });
+    debugger;
     const data = await writeContract(config);
     console.log(data);
   };
@@ -65,7 +70,7 @@ export const ResponseForm = ({ handleCancel, subgraphBridgeID }) => {
           <div className="space-y-4 pt-6">
             <Controller
               control={control}
-              name="subgraphBridgeID"
+              name="blockHash"
               rules={{
                 required: true,
               }}
@@ -78,7 +83,7 @@ export const ResponseForm = ({ handleCancel, subgraphBridgeID }) => {
           <div className="space-y-4 pt-6">
             <Controller
               control={control}
-              name="subgraphBridgeID"
+              name="response"
               rules={{
                 required: true,
               }}
@@ -91,7 +96,7 @@ export const ResponseForm = ({ handleCancel, subgraphBridgeID }) => {
           <div className="space-y-4 pt-6">
             <Controller
               control={control}
-              name="subgraphBridgeID"
+              name="attestationData"
               rules={{
                 required: true,
               }}
