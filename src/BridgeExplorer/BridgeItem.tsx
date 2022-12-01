@@ -13,9 +13,10 @@ import { BridgeProposalList } from "./BridgeProposalList";
 interface Props {
   bridge: SubgraphBridge;
   idx: number;
+  setResponseFormOpen: (subgraphBridgeID: void) => void;
 }
 
-export const BridgeItem = ({ bridge, idx }: Props) => {
+export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
   const { id } = bridge;
 
   let [isExpanded, setIsExpanded] = useState(false);
@@ -93,7 +94,12 @@ export const BridgeItem = ({ bridge, idx }: Props) => {
             </div>
           </div>
         </div>
-        {isExpanded && <BridgeProposalList bridge={bridge} />}
+        {isExpanded && (
+          <BridgeProposalList
+            setResponseFormOpen={setResponseFormOpen}
+            bridge={bridge}
+          />
+        )}
       </Container>
     </article>
   );

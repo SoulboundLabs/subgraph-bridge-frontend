@@ -4,10 +4,12 @@ import { BridgeForm } from "../BridgeForm/BridgeForm";
 import { Button } from "../Button/Button";
 import { Header } from "../Header/Header";
 import { Panel } from "../Layout/Panel";
+import { ResponseForm } from "../ResponseForm/ResponseForm";
 import { BridgeList } from "./BridgeList";
 
 export const BridgeExplorer = () => {
-  let [open, setOpen] = useState(false);
+  const [bridgeFormOpen, setBridgeFormOpen] = useState(false);
+  const [responseFormOpen, setResponseFormOpen] = useState(null);
 
   return (
     <>
@@ -17,22 +19,35 @@ export const BridgeExplorer = () => {
             label={"Create Bridge"}
             palette="secondary"
             Icon={Plus}
-            onClick={() => setOpen(true)}
+            onClick={() => setBridgeFormOpen(true)}
             reverse
           />
         }
         breadcrumbs={["Subgraph Bridge Explorer"]}
       />
       <div className="">
-        <BridgeList />
+        <BridgeList setResponseFormOpen={setResponseFormOpen} />
       </div>
       <Panel
         title="Create Subgraph Bridge"
         description={"Use the form below to configure a new Subgraph Bridge."}
-        open={open}
-        setOpen={setOpen}
+        open={bridgeFormOpen}
+        setOpen={setBridgeFormOpen}
       >
-        <BridgeForm handleCancel={() => setOpen(false)} />
+        <BridgeForm handleCancel={() => setBridgeFormOpen(false)} />
+      </Panel>
+      <Panel
+        title="Submit Response"
+        description={
+          "Use the form below to submit a response to a Subgraph Bridge."
+        }
+        open={!!responseFormOpen}
+        setOpen={setResponseFormOpen}
+      >
+        <ResponseForm
+          subgraphBridgeID={responseFormOpen}
+          handleCancel={() => setResponseFormOpen(null)}
+        />
       </Panel>
     </>
   );

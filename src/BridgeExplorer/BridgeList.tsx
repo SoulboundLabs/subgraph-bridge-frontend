@@ -12,7 +12,7 @@ const SubgraphBridgeCreationQuery = gql`
   }
 `;
 
-export const BridgeList = () => {
+export const BridgeList = ({ setResponseFormOpen }) => {
   const [result] = useQuery({
     query: SubgraphBridgeCreationQuery,
   });
@@ -25,7 +25,12 @@ export const BridgeList = () => {
   return (
     <div className="divide-y divide-slate-500">
       {data.subgraphBridgeCreations.map((bridge, idx) => (
-        <BridgeItem key={bridge.id} bridge={bridge} idx={idx} />
+        <BridgeItem
+          setResponseFormOpen={setResponseFormOpen}
+          key={bridge.id}
+          bridge={bridge}
+          idx={idx}
+        />
       ))}
     </div>
   );
