@@ -48,8 +48,10 @@ export const UserAddress = memo(
             extra ? "pt-1" : "pt-1.5"
           )}
         >
-          <div>{displayName}</div>
-          {extra && <div className="opacity-50">{extra}</div>}
+          <div className="text-sm">{displayName}</div>
+          {extra && (
+            <div className="font-medium text-xs text-slate-300">{extra}</div>
+          )}
         </div>
       </a>
     );

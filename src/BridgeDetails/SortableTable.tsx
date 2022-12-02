@@ -8,6 +8,7 @@ import {
 import React from "react";
 import { ChevronsDown, ChevronsUp } from "tabler-icons-react";
 import { classNames } from "../lib/utils";
+import { Status } from "../store/types";
 
 export function SortableTable({
   columns,
@@ -82,7 +83,15 @@ export function SortableTable({
             return (
               <tr
                 key={row.id}
-                className={`px-4 text-xs relative leading-6 whitespace-pre text-sky-300 font-semibold`}
+                className={classNames(
+                  `px-4 text-xs relative leading-6 whitespace-pre text-sky-300 font-semibold`,
+                  row.original.status === Status.Disputed
+                    ? "bg-red-500/20"
+                    : "",
+                  row.original.status === Status.Certified
+                    ? "bg-green-500/20"
+                    : ""
+                )}
               >
                 {row.getVisibleCells().map((cell) => {
                   return (

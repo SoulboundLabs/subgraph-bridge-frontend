@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown } from "tabler-icons-react";
+import { ChevronDown, Mailbox } from "tabler-icons-react";
 import { BridgeDetails } from "../BridgeDetails/BridgeDetails";
+import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
 import { urlBridgeItem } from "../lib/url";
-import { classNames, formatAddress } from "../lib/utils";
+import { classNames } from "../lib/utils";
 import { SubgraphBridge } from "../store/types";
 import { EtherscanSVG, TheGraphSVG } from "../SVG/SVG";
 
 interface Props {
   bridge: SubgraphBridge;
   idx: number;
-  setResponseFormOpen: (subgraphBridgeID: void) => void;
+  setResponseFormOpen: (subgraphBridgeID: string) => void;
 }
 
 export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
@@ -30,9 +31,18 @@ export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
               <h2 className="mt-2 text-lg font-bold text-slate-300">
                 <Link to={urlBridgeItem(id)}>
                   {idx !== undefined ? <span>#{idx + 1} &middot;</span> : null}{" "}
-                  {formatAddress(id)}
+                  {/* {formatAddress(id)} */}
+                  Odos Airdrop Subgraph
                 </Link>
               </h2>
+
+              <Button
+                size="xs"
+                Icon={Mailbox}
+                reverse
+                label="Submit Response"
+                onClick={() => setResponseFormOpen(id)}
+              />
             </div>
             <div className="order-first font-mono text-sm leading-7 text-slate-500 flex items-center">
               <img
@@ -46,8 +56,8 @@ export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
               <CodeEditor
                 onChange={() => {}}
                 value={`{
-  exampleModels(first: 5, block: { hash: "" }) {
-    id
+  eligibleAirdropMerkleRoot(id: 1, block: { hash: "" }) {
+    merkleRoot
   }
 }`}
               />

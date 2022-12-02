@@ -14,5 +14,11 @@ export interface SubgraphBridgeConfig {
   subgraphDeploymentID: string;
   proposalFreezePeriod: number;
   minimumSlashableGRT: number;
-  proposalFreezePeriod: number;
+}
+
+export enum Status {
+  Frozen = "Frozen",
+  Pending = "Pending",
+  Certified = "Certified",
+  Disputed = "Disputed",
 }
