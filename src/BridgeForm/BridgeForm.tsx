@@ -109,10 +109,10 @@ export const BridgeForm = ({ handleCancel }) => {
     mode: "onChange",
     defaultValues: {
       chainID: 5,
-      subgraphDeploymentID: "QmYDgkkfE3d9y1C5RPmVLmoxayWpFZDuiAiQYqUpFnHFiE",
+      subgraphDeploymentID: "",
       query: `{
-  exampleModels(first: 5, block: { hash: "" }) {
-    id
+  eligibleAirdropMerkleRoot(id: 1, block: { hash: "" }) {
+    merkleRoot
   }
 }
 `,
