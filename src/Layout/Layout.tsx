@@ -90,7 +90,7 @@ export function Layout({ children }) {
       <header className="lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-112 lg:items-start lg:overflow-y-auto xl:w-120">
         <div className="hidden lg:sticky lg:top-0 h-full lg:flex lg:w-16 lg:flex-none lg:items-center lg:whitespace-nowrap lg:py-12 lg:text-sm lg:leading-7 lg:[writing-mode:vertical-rl]">
           <div className="flex justify-between items-center w-full h-full">
-            <div className="flex lg:w-16 px-4">
+            <div className="flex lg:w-16 px-5">
               <span className="font-mono text-slate-300">Created by</span>
               <span className="mt-6 flex gap-6 font-bold text-slate-300">
                 {creators.map((host, hostIndex) => (
@@ -106,7 +106,7 @@ export function Layout({ children }) {
               </span>
             </div>
 
-            <div className="flex lg:w-16 px-4">
+            <div className="flex lg:w-16 px-5">
               <span className="font-mono text-slate-300">
                 Original concept by
               </span>

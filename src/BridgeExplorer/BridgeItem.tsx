@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown } from "tabler-icons-react";
+import { ArrowRight } from "tabler-icons-react";
 import CodeEditor from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
 import { urlBridgeItem } from "../lib/url";
-import { classNames, formatAddress } from "../lib/utils";
+import { formatAddress } from "../lib/utils";
 import { SubgraphBridge } from "../store/types";
 import { EtherscanSVG, TheGraphSVG } from "../SVG/SVG";
 import { BridgeProposalList } from "./BridgeProposalList";
@@ -79,18 +79,13 @@ export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
               >
                 /
               </span>
-              <a
-                onClick={() => setIsExpanded(!isExpanded)}
+              <Link
+                to={urlBridgeItem(id)}
                 className="flex items-center cursor-pointer text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
               >
                 View Proposals
-                <ChevronDown
-                  className={classNames(
-                    "w-5 transition-transform",
-                    isExpanded && "transform rotate-180"
-                  )}
-                />
-              </a>
+                <ArrowRight className="w-4" />
+              </Link>
             </div>
           </div>
         </div>
