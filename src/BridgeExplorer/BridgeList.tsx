@@ -23,7 +23,7 @@ export const BridgeList = ({ setResponseFormOpen }) => {
   if (error) return <p>Oh no... {error.message}</p>;
 
   return (
-    <div className="divide-y divide-slate-500">
+    <div className="divide-y divide-slate-500 border-b border-slate-500">
       {data.subgraphBridgeCreations.map((bridge, idx) => (
         <BridgeItem
           setResponseFormOpen={setResponseFormOpen}

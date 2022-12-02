@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Plus } from "tabler-icons-react";
 import { gql } from "urql";
-import { Button } from "../Button/Button";
-import { Header } from "../Header/Header";
+import { Container } from "../Layout/Container";
 import { Panel } from "../Layout/Panel";
-import { formatAddress } from "../lib/utils";
 import { ResponseForm } from "../ResponseForm/ResponseForm";
 import { BridgeProposalTable } from "./BridgeProposalTable";
 
@@ -37,23 +34,10 @@ export const BridgeDetails = ({ bridge }) => {
 
   return (
     <>
-      <Header
-        cta={
-          <Button
-            label={"Create Bridge"}
-            palette="secondary"
-            Icon={Plus}
-            onClick={() => setBridgeFormOpen(true)}
-            reverse
-          />
-        }
-        breadcrumbs={[
-          "Subgraph Bridge Explorer",
-          <span>{formatAddress(id)}</span>,
-        ]}
-      />
-      <div className="">
-        <BridgeProposalTable />
+      <div className="mt-6">
+        <Container>
+          <BridgeProposalTable />
+        </Container>
       </div>
 
       <Panel

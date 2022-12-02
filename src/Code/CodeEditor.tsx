@@ -23,7 +23,7 @@ export default function CodeEditor({ value, onChange }: CodeEditorProps) {
       value={value}
       onBlur={() => onChange(formatGraphQL(value))}
       theme={"dark"}
-      className="w-full"
+      width="800px"
       height="120px"
       extensions={[StreamLanguage.define(graphql), EditorView.lineWrapping]}
       onChange={onChange}

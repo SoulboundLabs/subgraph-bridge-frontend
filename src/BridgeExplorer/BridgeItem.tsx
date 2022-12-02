@@ -29,7 +29,8 @@ export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
             <div className="flex justify-between w-full items-center">
               <h2 className="mt-2 text-lg font-bold text-slate-300">
                 <Link to={urlBridgeItem(id)}>
-                  {idx && <span>#{idx + 1} &middot;</span>} {formatAddress(id)}
+                  {idx !== undefined ? <span>#{idx + 1} &middot;</span> : null}{" "}
+                  {formatAddress(id)}
                 </Link>
               </h2>
             </div>
@@ -83,7 +84,7 @@ export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
                 onClick={() => setIsExpanded(!isExpanded)}
                 className="flex items-center cursor-pointer text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
               >
-                View Proposals
+                View Responses
                 <ChevronDown
                   className={classNames(
                     "w-5 transition-transform",
