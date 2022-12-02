@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Plus } from "tabler-icons-react";
+import { gql } from "urql";
 import { Button } from "../Button/Button";
 import { Header } from "../Header/Header";
 import { Panel } from "../Layout/Panel";
@@ -8,10 +9,31 @@ import { formatAddress } from "../lib/utils";
 import { ResponseForm } from "../ResponseForm/ResponseForm";
 import { BridgeProposalTable } from "./BridgeProposalTable";
 
-export const BridgeDetails = () => {
+const SubgraphBridgeCreationQuery = gql`
+  query ($subgraphBridgeId: String!) {
+    subgraphBridgeCreation(id: $subgraphBridgeId) {
+      id
+      bridgeCreator
+      subgraphBridgeId
+      subgraphDeploymentID
+    }
+  }
+`;
+
+export const BridgeDetails = ({ bridge }) => {
   const [bridgeFormOpen, setBridgeFormOpen] = useState(false);
   const [responseFormOpen, setResponseFormOpen] = useState(null);
   const { id } = useParams();
+
+  //   const [result] = useQuery({
+  //     query: SubgraphBridgeCreationQuery,
+  //     variables: { subgraphBridgeId: id },
+  //   });
+
+  //   const { data, fetching, error } = result;
+
+  //   if (fetching) return <p>Loading...</p>;
+  //   if (error) return <p>Oh no... {error.message}</p>;
 
   return (
     <>

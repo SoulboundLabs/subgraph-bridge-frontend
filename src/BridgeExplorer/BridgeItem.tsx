@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "tabler-icons-react";
+import { ChevronDown } from "tabler-icons-react";
+import { BridgeDetails } from "../BridgeDetails/BridgeDetails";
 import CodeEditor from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
 import { urlBridgeItem } from "../lib/url";
-import { formatAddress } from "../lib/utils";
+import { classNames, formatAddress } from "../lib/utils";
 import { SubgraphBridge } from "../store/types";
 import { EtherscanSVG, TheGraphSVG } from "../SVG/SVG";
-import { BridgeProposalList } from "./BridgeProposalList";
 
 interface Props {
   bridge: SubgraphBridge;
@@ -29,7 +29,7 @@ export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
             <div className="flex justify-between w-full items-center">
               <h2 className="mt-2 text-lg font-bold text-slate-300">
                 <Link to={urlBridgeItem(id)}>
-                  #{idx + 1} &middot; {formatAddress(id)}
+                  {idx && <span>#{idx + 1} &middot;</span>} {formatAddress(id)}
                 </Link>
               </h2>
             </div>
@@ -79,23 +79,24 @@ export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
               >
                 /
               </span>
-              <Link
-                to={urlBridgeItem(id)}
+              <a
+                onClick={() => setIsExpanded(!isExpanded)}
                 className="flex items-center cursor-pointer text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
               >
                 View Proposals
-                <ArrowRight className="w-4" />
-              </Link>
+                <ChevronDown
+                  className={classNames(
+                    "w-5 transition-transform",
+                    isExpanded && "transform rotate-180"
+                  )}
+                />
+              </a>
             </div>
           </div>
         </div>
-        {isExpanded && (
-          <BridgeProposalList
-            setResponseFormOpen={setResponseFormOpen}
-            bridge={bridge}
-          />
-        )}
       </Container>
+
+      {isExpanded && <BridgeDetails bridge={bridge} />}
     </article>
   );
 };
