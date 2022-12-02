@@ -20,17 +20,17 @@ export const statusMap: Record<
     color: "text-sky-800",
   },
   [Status.Pending]: {
-    label: "Pending Certification",
+    label: "Pending",
     bgColor: "bg-yellow-100",
     color: "text-yellow-800",
   },
   [Status.Certified]: {
-    label: "Certified Response",
+    label: "Certified",
     bgColor: "bg-green-100",
     color: "text-green-800",
   },
   [Status.Disputed]: {
-    label: "Disputed Response",
+    label: "Disputed",
     bgColor: "bg-red-100",
     color: "text-red-800",
   },

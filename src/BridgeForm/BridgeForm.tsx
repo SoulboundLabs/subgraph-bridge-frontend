@@ -21,6 +21,7 @@ import {
   blockChains,
   GOERLI,
 } from "../lib/blockchains";
+import { hexlifyQuery, hexlifySubgraphDeploymentID } from "../lib/hex";
 import {
   minimumSlashableGRTOptions,
   proposalFreezePeriodOptions,
@@ -33,12 +34,6 @@ const formatQueryToMatchGateway = (query: string) => {
     return null;
   }
 };
-
-const hexlifyQuery = (value: string) =>
-  ethers.utils.hexlify(ethers.utils.toUtf8Bytes(value));
-
-const hexlifySubgraphDeploymentID = (value: string) =>
-  ethers.utils.hexlify(ethers.utils.base58.decode(value).slice(2));
 
 const formToTx = (form: FormValues): TxValues => {
   const {
@@ -64,6 +59,10 @@ const formToTx = (form: FormValues): TxValues => {
     formattedQuery.slice(hashIndex + hashSplitString.length - 1)
   );
 
+  debugger;
+
+  //QmPaqnpyZFPLTygQAZXBCA5Ytx6MMhLEXS2ya4QESPTQqs
+  //0x127e5918d1118aea32ff1482a3c6c1bc0ab61763c14bd54d59d6a9b4ff05b51e
   return {
     ...rest,
     proposalFreezePeriod: ethers.utils.parseEther(
@@ -185,9 +184,19 @@ export const BridgeForm = ({ handleCancel }) => {
               name="subgraphDeploymentID"
               rules={{
                 required: true,
+                minLength: {
+                  value: 46,
+                  message: "Subgraph Deployment ID must be 46 characters",
+                },
+                maxLength: 46,
               }}
               render={({ field }) => <InputGroup {...field} />}
             />
+            {errors.subgraphDeploymentID?.message && (
+              <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
+                {errors.subgraphDeploymentID?.message}
+              </div>
+            )}
           </div>
 
           <HrText

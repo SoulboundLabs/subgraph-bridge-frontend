@@ -6,6 +6,7 @@ import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
+import { encodeBase58 } from "../lib/hex";
 import { urlBridgeItem } from "../lib/url";
 import { classNames } from "../lib/utils";
 import { SubgraphBridge } from "../store/types";
@@ -18,7 +19,7 @@ interface Props {
 }
 
 export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
-  const { id } = bridge;
+  const { id, subgraphDeploymentID } = bridge;
 
   let [isExpanded, setIsExpanded] = useState(false);
 
@@ -31,8 +32,7 @@ export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
               <h2 className="mt-2 text-lg font-bold text-slate-300">
                 <Link to={urlBridgeItem(id)}>
                   {idx !== undefined ? <span>#{idx + 1} &middot;</span> : null}{" "}
-                  {/* {formatAddress(id)} */}
-                  Odos Airdrop Subgraph
+                  {encodeBase58(subgraphDeploymentID)}
                 </Link>
               </h2>
 
@@ -77,13 +77,16 @@ export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
               >
                 /
               </span>
-              <Link
-                to={urlBridgeItem(id)}
+              <a
+                target={"_blank"}
+                href={`https://ipfs.io/ipfs/${encodeBase58(
+                  subgraphDeploymentID
+                )}`}
                 className="flex items-center text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
               >
                 <TheGraphSVG className="w-4 bg-purple-700 group-hover:bg-purple-800 text-white h-4 rounded p-0.5" />
-                Subgraph Explorer
-              </Link>
+                IPFS
+              </a>
               <span
                 aria-hidden="true"
                 className="text-sm font-bold text-slate-400"

@@ -11,8 +11,8 @@ export const blockChainMap = {
     imgSrc: goerli,
     label: GOERLI,
     value: 5,
-    address: "0x3400c53765e027fadd938276d4e3f024abe6e689",
-    subgraphUrl: "https://api.studio.thegraph.com/query/32033/sbs/2",
+    address: "0x4a2af74ef61fd259d79935161d9f619bd45a7fda",
+    subgraphUrl: "https://api.studio.thegraph.com/query/32033/sbs/3",
     comingSoon: false,
   },
   [ETHEREUM]: {

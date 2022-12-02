@@ -20,7 +20,7 @@ export function Panel({ open, setOpen, title, description, children }) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-xl">
+                <Dialog.Panel className="pointer-events-auto w-screen max-w-3xl">
                   <div className="flex h-full flex-col divide-y divide-gray-200 bg-slate-900 shadow-xl">
                     <div className="h-0 flex-1 overflow-y-auto">
                       <div className="bg-sky-700 py-6 px-4 sm:px-6">
