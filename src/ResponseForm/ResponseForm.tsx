@@ -1,4 +1,5 @@
 import { prepareWriteContract, writeContract } from "@wagmi/core";
+import { ethers } from "ethers";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
@@ -15,6 +16,43 @@ interface FormValues {
   response: string;
   attestationData: string;
 }
+
+export const querySubgraph = async (
+  subgraphDeploymentID: string,
+  query: string
+) => {
+  const apiKey = "6c768ea8853128ba36dc7c405c20b37d";
+  const url = `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/Cjv3tykF4wnd6m9TRmQV7weiLjizDnhyt6x2tTJB42Cy`;
+
+  const requestHeaders: HeadersInit = new Headers();
+  requestHeaders.set("Content-Type", "application/json");
+
+  const response = await fetch({
+    url,
+    method: "post",
+    headers: requestHeaders,
+    body: JSON.stringify({
+      query: `
+        {
+            bonderAddeds(first: 1){
+              id
+            }
+        }
+        `,
+    }),
+  });
+
+  const graphAttestation = response.headers["graph-attestation"];
+  console.log(graphAttestation);
+
+  const attestationBytes = ethers.utils.hexlify(
+    ethers.utils.toUtf8Bytes(graphAttestation)
+  );
+  console.log(attestationBytes);
+
+  const data = response.data;
+  console.log(data);
+};
 
 export const ResponseForm = ({ handleCancel, subgraphBridgeID }) => {
   const {
@@ -34,7 +72,6 @@ export const ResponseForm = ({ handleCancel, subgraphBridgeID }) => {
   });
 
   const onSubmit = async (formData: FormValues, e: React.FormEvent) => {
-    debugger;
     e.preventDefault();
 
     const config = await prepareWriteContract({
@@ -43,9 +80,7 @@ export const ResponseForm = ({ handleCancel, subgraphBridgeID }) => {
       functionName: "postSubgraphResponse",
       args: [formData],
     });
-    debugger;
     const data = await writeContract(config);
-    console.log(data);
   };
 
   return (
