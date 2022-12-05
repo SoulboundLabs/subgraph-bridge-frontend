@@ -9,6 +9,7 @@ import { TextareaGroup } from "../Form/TextareaGroup";
 import { HrText } from "../Hr/HrText";
 import { Container } from "../Layout/Container";
 import { blockChainMap, GOERLI } from "../lib/blockchains";
+import { SubgraphBridge } from "../store/types";
 
 interface FormValues {
   blockHash: string;
@@ -54,7 +55,12 @@ export const querySubgraph = async (
   console.log(data);
 };
 
-export const ResponseForm = ({ handleCancel, subgraphBridgeID }) => {
+interface Props {
+  bridge: SubgraphBridge;
+  handleCancel: () => void;
+}
+
+export const ResponseForm = ({ handleCancel, bridge }: Props) => {
   const {
     register,
     watch,
@@ -64,7 +70,7 @@ export const ResponseForm = ({ handleCancel, subgraphBridgeID }) => {
   } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
-      subgraphBridgeID,
+      subgraphBridgeID: bridge.subgraphDeploymentID,
       blockHash: "",
       response: "",
       attestationData: "",

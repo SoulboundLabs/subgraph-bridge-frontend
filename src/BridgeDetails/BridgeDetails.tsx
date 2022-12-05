@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { gql } from "urql";
 import { Container } from "../Layout/Container";
-import { Panel } from "../Layout/Panel";
-import { ResponseForm } from "../ResponseForm/ResponseForm";
 import { BridgeProposalTable } from "./BridgeProposalTable";
 
 const SubgraphBridgeCreationQuery = gql`
@@ -19,7 +17,7 @@ const SubgraphBridgeCreationQuery = gql`
 
 export const BridgeDetails = ({ bridge }) => {
   const [bridgeFormOpen, setBridgeFormOpen] = useState(false);
-  const [responseFormOpen, setResponseFormOpen] = useState(null);
+  const [selectedBridge, setSelectedBridge] = useState(null);
   const { id } = useParams();
 
   //   const [result] = useQuery({
@@ -39,20 +37,6 @@ export const BridgeDetails = ({ bridge }) => {
           <BridgeProposalTable />
         </Container>
       </div>
-
-      <Panel
-        title="Submit Response"
-        description={
-          "Use the form below to submit a response to a Subgraph Bridge."
-        }
-        open={!!responseFormOpen}
-        setOpen={setResponseFormOpen}
-      >
-        <ResponseForm
-          subgraphBridgeID={responseFormOpen}
-          handleCancel={() => setResponseFormOpen(null)}
-        />
-      </Panel>
     </>
   );
 };

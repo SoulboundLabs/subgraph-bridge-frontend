@@ -15,10 +15,10 @@ import { EtherscanSVG, TheGraphSVG } from "../SVG/SVG";
 interface Props {
   bridge: SubgraphBridge;
   idx: number;
-  setResponseFormOpen: (subgraphBridgeID: string) => void;
+  setSelectedBridge: (bridge: SubgraphBridge) => void;
 }
 
-export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
+export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
   const { id, subgraphDeploymentID } = bridge;
 
   let [isExpanded, setIsExpanded] = useState(false);
@@ -41,7 +41,7 @@ export const BridgeItem = ({ bridge, idx, setResponseFormOpen }: Props) => {
                 Icon={Mailbox}
                 reverse
                 label="Submit Response"
-                onClick={() => setResponseFormOpen(id)}
+                onClick={() => setSelectedBridge(bridge)}
               />
             </div>
             <div className="order-first font-mono text-sm leading-7 text-slate-500 flex items-center">

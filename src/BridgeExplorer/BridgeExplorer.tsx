@@ -9,7 +9,7 @@ import { BridgeList } from "./BridgeList";
 
 export const BridgeExplorer = () => {
   const [bridgeFormOpen, setBridgeFormOpen] = useState(false);
-  const [responseFormOpen, setResponseFormOpen] = useState(null);
+  const [selectedBridge, setSelectedBridge] = useState(null);
 
   return (
     <>
@@ -26,7 +26,7 @@ export const BridgeExplorer = () => {
         breadcrumbs={["Subgraph Bridge Explorer"]}
       />
       <div className="">
-        <BridgeList setResponseFormOpen={setResponseFormOpen} />
+        <BridgeList setSelectedBridge={setSelectedBridge} />
       </div>
       <Panel
         title="Create Subgraph Bridge"
@@ -41,12 +41,12 @@ export const BridgeExplorer = () => {
         description={
           "Use the form below to submit a response to a Subgraph Bridge."
         }
-        open={!!responseFormOpen}
-        setOpen={setResponseFormOpen}
+        open={!!selectedBridge}
+        setOpen={setSelectedBridge}
       >
         <ResponseForm
-          subgraphBridgeID={responseFormOpen}
-          handleCancel={() => setResponseFormOpen(null)}
+          bridge={selectedBridge}
+          handleCancel={() => setSelectedBridge(null)}
         />
       </Panel>
     </>

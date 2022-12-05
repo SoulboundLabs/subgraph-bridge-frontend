@@ -7,7 +7,7 @@ import { BridgeProposal } from "./BridgeProposal";
 
 interface Props {
   bridge: SubgraphBridge;
-  setResponseFormOpen: (subgraphBridgeID: string) => void;
+  setSelectedBridge: (subgraphBridgeID: string) => void;
 }
 
 const bridgeProposals = [
@@ -40,7 +40,7 @@ const proposalOptions = [
   },
 ];
 
-export const BridgeProposalList = ({ bridge, setResponseFormOpen }: Props) => {
+export const BridgeProposalList = ({ bridge, setSelectedBridge }: Props) => {
   const {
     control,
     handleSubmit,
@@ -69,7 +69,7 @@ export const BridgeProposalList = ({ bridge, setResponseFormOpen }: Props) => {
           size="xs"
           label="Submit Proposal"
           palette="secondary"
-          onClick={() => setResponseFormOpen(bridge.id)}
+          onClick={() => setSelectedBridge(bridge)}
           Icon={Plus}
           reverse
         />
