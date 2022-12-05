@@ -1,4 +1,5 @@
 import { prepareWriteContract, writeContract } from "@wagmi/core";
+import axios from "axios";
 import { ethers } from "ethers";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -29,11 +30,10 @@ export const querySubgraph = async (
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set("Content-Type", "application/json");
 
-  const response = await fetch({
+  const response = await axios({
     url,
     method: "post",
-    headers: requestHeaders,
-    body: JSON.stringify({
+    data: {
       query: `
         {
             bonderAddeds(first: 1){
@@ -41,7 +41,7 @@ export const querySubgraph = async (
             }
         }
         `,
-    }),
+    },
   });
 
   const graphAttestation = response.headers["graph-attestation"];
@@ -62,6 +62,8 @@ interface Props {
 }
 
 export const ResponseForm = ({ handleCancel, bridge }: Props) => {
+  const { queryFirstChunk, queryLastChunk, subgraphDeploymentID, id } = bridge;
+
   const {
     register,
     watch,
@@ -71,7 +73,7 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
   } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
-      subgraphBridgeID: bridge.subgraphDeploymentID,
+      subgraphBridgeID: id,
       blockNumber: null,
       response: "",
       attestationData: "",

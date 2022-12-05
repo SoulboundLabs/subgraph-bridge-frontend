@@ -10,6 +10,10 @@ export function encodeBase58(hex) {
   );
 }
 
+export const dehexlifyQuery = (hex) => {
+  return ethers.utils.toUtf8String(hex);
+};
+
 export const hexlifyQuery = (value: string) =>
   ethers.utils.hexlify(ethers.utils.toUtf8Bytes(value));
 

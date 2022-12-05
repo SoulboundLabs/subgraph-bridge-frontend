@@ -8,19 +8,25 @@ import { graphql } from "codemirror-graphql/cm6-legacy/mode";
 
 export type CodeEditorProps = {
   value: string;
-  onChange: (value: string) => void;
+  readOnly?: boolean;
+  onChange?: (value: string) => void;
 };
 
-const formatGraphQL = (code) =>
+export const formatGraphQL = (code) =>
   format(code, {
     parser: "graphql",
     plugins: [parserGraphql],
   });
 
-export default function CodeEditor({ value, onChange }: CodeEditorProps) {
+export default function CodeEditor({
+  readOnly,
+  value,
+  onChange,
+}: CodeEditorProps) {
   return (
     <CodeMirror
       value={value}
+      readOnly={readOnly}
       onBlur={() => onChange(formatGraphQL(value))}
       theme={"dark"}
       width="800px"

@@ -6,7 +6,6 @@ import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
-import { encodeBase58 } from "../lib/hex";
 import { urlBridgeItem } from "../lib/url";
 import { classNames } from "../lib/utils";
 import { SubgraphBridge } from "../store/types";
@@ -19,7 +18,13 @@ interface Props {
 }
 
 export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
-  const { id, subgraphDeploymentID } = bridge;
+  const {
+    id,
+    subgraphDeploymentID,
+    fullQuery,
+    queryFirstChunk,
+    queryLastChunk,
+  } = bridge;
 
   let [isExpanded, setIsExpanded] = useState(false);
 
@@ -32,7 +37,7 @@ export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
               <h2 className="mt-2 text-lg font-bold text-slate-300">
                 <Link to={urlBridgeItem(id)}>
                   {idx !== undefined ? <span>#{idx + 1} &middot;</span> : null}{" "}
-                  {encodeBase58(subgraphDeploymentID)}
+                  {subgraphDeploymentID}
                 </Link>
               </h2>
 
@@ -53,14 +58,7 @@ export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
               Slashable
             </div>
             <p className="mt-1 text-base leading-7 text-slate-700 w-full">
-              <CodeEditor
-                onChange={() => {}}
-                value={`{
-  eligibleAirdropMerkleRoot(id: 1, block: { hash: "" }) {
-    merkleRoot
-  }
-}`}
-              />
+              <CodeEditor readOnly value={fullQuery} />
             </p>
             {/* <UserAddress address="0x4040" /> */}
             <div className="mt-4 flex items-center gap-4">
@@ -79,9 +77,7 @@ export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
               </span>
               <a
                 target={"_blank"}
-                href={`https://ipfs.io/ipfs/${encodeBase58(
-                  subgraphDeploymentID
-                )}`}
+                href={`https://ipfs.io/ipfs/${subgraphDeploymentID}`}
                 className="flex items-center text-sm group font-bold gap-2 leading-6 text-sky-500 hover:text-sky-700 active:text-sky-900"
               >
                 <TheGraphSVG className="w-4 bg-purple-700 group-hover:bg-purple-800 text-white h-4 rounded p-0.5" />

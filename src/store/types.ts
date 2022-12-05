@@ -8,6 +8,8 @@ export interface SubgraphBridge {
   proposalFreezePeriod: number;
   minimumSlashableGRT: number;
 
+  fullQuery: string;
+
   totalAttestations: number;
   chainId: number;
   totalSlashableGRT: number;
