@@ -2,12 +2,9 @@ import { prepareWriteContract, writeContract } from "@wagmi/core";
 import axios from "axios";
 import { ethers } from "ethers";
 import React, { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
 import { useBlockNumber, useProvider } from "wagmi";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
 import { Button } from "../Button/Button";
-import { InputGroup } from "../Form/InputGroup";
-import { TextareaGroup } from "../Form/TextareaGroup";
 import { HrText } from "../Hr/HrText";
 import { Container } from "../Layout/Container";
 import { blockChainMap, GOERLI } from "../lib/blockchains";
@@ -21,9 +18,18 @@ interface FormValues {
 }
 
 export const querySubgraph = async (
-  subgraphDeploymentID: string,
-  query: string
+  provider: ethers.providers.Provider,
+  bridge: SubgraphBridge
 ) => {
+  const { fullQuery } = bridge;
+
+  const blockNumber = await provider.getBlockNumber();
+  const { hash } = await provider.getBlock(blockNumber);
+
+  const queryWithHash = bridge.fullQuery.replace('hash: ""', `hash: "${hash}"`);
+
+  console.log(queryWithHash);
+
   const apiKey = "6c768ea8853128ba36dc7c405c20b37d";
   const url = `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/Cjv3tykF4wnd6m9TRmQV7weiLjizDnhyt6x2tTJB42Cy`;
 
@@ -34,13 +40,7 @@ export const querySubgraph = async (
     url,
     method: "post",
     data: {
-      query: `
-        {
-            bonderAddeds(first: 1){
-              id
-            }
-        }
-        `,
+      query: queryWithHash,
     },
   });
 
@@ -54,6 +54,8 @@ export const querySubgraph = async (
 
   const data = response.data;
   console.log(data);
+
+  return { data, attestationBytes, blockNumber, hash };
 };
 
 interface Props {
@@ -63,35 +65,24 @@ interface Props {
 
 export const ResponseForm = ({ handleCancel, bridge }: Props) => {
   const { queryFirstChunk, queryLastChunk, subgraphDeploymentID, id } = bridge;
-
-  const {
-    register,
-    watch,
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting, isDirty, isValid },
-  } = useForm<FormValues>({
-    mode: "onChange",
-    defaultValues: {
-      subgraphBridgeID: id,
-      blockNumber: null,
-      response: "",
-      attestationData: "",
-    },
-  });
+  const [response, setResponse] = React.useState(null);
 
   const { data: blockNumber, isError, isLoading } = useBlockNumber();
   const provider = useProvider();
 
-  const blockNumberInput = watch("blockNumber");
-
   useEffect(() => {
-    console.log("blockNumber", blockNumberInput);
-  }, [blockNumberInput]);
+    querySubgraph(provider, bridge).then(
+      ({ data, attestationBytes, blockNumber, hash }) =>
+        setResponse({
+          blockNumber,
+          data,
+          attestationBytes,
+          hash,
+        })
+    );
+  }, [provider]);
 
-  useEffect(() => {}, []);
-
-  const onSubmit = async (formData: FormValues, e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const config = await prepareWriteContract({
@@ -105,87 +96,24 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(onSubmit)} className="pb-24">
+      <form onSubmit={onSubmit} className="pb-24">
         <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
-          <HrText>Enter Subgraph Deployment ID</HrText>
+          <HrText>Latest Query Result</HrText>
+        </div>
 
-          <div className="space-y-4 pt-6">
-            <Controller
-              control={control}
-              name="subgraphBridgeID"
-              rules={{
-                required: true,
-              }}
-              render={({ field }) => <InputGroup {...field} />}
-            />
-          </div>
+        <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
+          <HrText>Response</HrText>
+          <pre>{response && JSON.stringify(response, null, 2)}</pre>
+        </div>
 
-          <HrText
-            description={<span>Current block number: {blockNumber}</span>}
-          >
-            Enter Block Number
-          </HrText>
-          <div className="space-y-4 pt-6">
-            <Controller
-              control={control}
-              name="blockNumber"
-              rules={{
-                required: true,
-                validate: {
-                  recentBlockNumber: async (value) => {
-                    const blockNumber = await provider.getBlockNumber();
-                    return (
-                      (value < blockNumber && blockNumber - value < 256) ||
-                      "Block number must be within 256 blocks of current block number"
-                    );
-                  },
-                },
-              }}
-              render={({ field }) => <InputGroup type="number" {...field} />}
-            />
-            {errors.blockNumber?.message && (
-              <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
-                {errors.blockNumber?.message}
-              </div>
-            )}
-          </div>
-
-          <HrText>Enter Response</HrText>
-
-          <div className="space-y-4 pt-6">
-            <Controller
-              control={control}
-              name="response"
-              rules={{
-                required: true,
-              }}
-              render={({ field }) => <TextareaGroup {...field} />}
-            />
-          </div>
-
-          <HrText>Enter Attestation Data</HrText>
-
-          <div className="space-y-4 pt-6">
-            <Controller
-              control={control}
-              name="attestationData"
-              rules={{
-                required: true,
-              }}
-              render={({ field }) => <TextareaGroup {...field} />}
-            />
-          </div>
-
-          <div className="flex justify-end py-4 gap-4 absolute bottom-0 inset-x-0 px-8 border-t border-slate-500 bg-slate-900">
-            <Button label="Cancel" size="lg" onClick={handleCancel} />
-            <Button
-              disabled={!isValid}
-              label="Submit Response"
-              palette="secondary"
-              size="lg"
-              type="submit"
-            />
-          </div>
+        <div className="flex justify-end py-4 gap-4 absolute bottom-0 inset-x-0 px-8 border-t border-slate-500 bg-slate-900">
+          <Button label="Cancel" size="lg" onClick={handleCancel} />
+          <Button
+            label="Submit Response"
+            palette="secondary"
+            size="lg"
+            type="submit"
+          />
         </div>
       </form>
     </Container>

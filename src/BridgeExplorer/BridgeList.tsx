@@ -26,7 +26,8 @@ const parseSubgraphBridge = (subgraphBridge: SubgraphBridge) => {
 
   const fullQuery = gatewayQuery
     .slice(queryPrefix.length, -variablesSuffix.length)
-    .replaceAll(/n|\\/g, "")
+    .replaceAll(/\\n/g, "")
+    .replaceAll(/\\/g, "")
     .replace(/""/, '""');
 
   return {

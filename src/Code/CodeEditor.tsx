@@ -27,12 +27,12 @@ export default function CodeEditor({
     <CodeMirror
       value={value}
       readOnly={readOnly}
-      onBlur={() => onChange(formatGraphQL(value))}
+      onBlur={() => !readOnly && onChange(formatGraphQL(value))}
       theme={"dark"}
       width="800px"
       height="120px"
       extensions={[StreamLanguage.define(graphql), EditorView.lineWrapping]}
-      onChange={onChange}
+      onChange={!readOnly && onChange}
       autoFocus
     />
   );
