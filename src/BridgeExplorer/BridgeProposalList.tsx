@@ -7,7 +7,7 @@ import { BridgeProposal } from "./BridgeProposal";
 
 interface Props {
   bridge: SubgraphBridge;
-  setSelectedBridge: (subgraphBridgeID: string) => void;
+  setSelectedBridge: (bridge: SubgraphBridge) => void;
 }
 
 const bridgeProposals = [

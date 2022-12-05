@@ -239,9 +239,6 @@ export const BridgeForm = ({ handleCancel }) => {
                 {errors.query?.message}
               </div>
             )}
-            {/* <div className="flex justify-end">
-            <Button Icon={AlertCircle} label="Test Query" />
-          </div> */}
           </div>
 
           <HrText description="How much crypto-economic security should a query result for this Subgraph Bridge have? Indexers are liable to lose 2.5% of their self-staked GRT for supplying invalid query results.">

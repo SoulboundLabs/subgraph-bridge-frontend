@@ -1,7 +1,8 @@
 import { prepareWriteContract, writeContract } from "@wagmi/core";
 import { ethers } from "ethers";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useBlockNumber, useProvider } from "wagmi";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
 import { Button } from "../Button/Button";
 import { InputGroup } from "../Form/InputGroup";
@@ -12,7 +13,7 @@ import { blockChainMap, GOERLI } from "../lib/blockchains";
 import { SubgraphBridge } from "../store/types";
 
 interface FormValues {
-  blockHash: string;
+  blockNumber: number;
   subgraphBridgeID: string;
   response: string;
   attestationData: string;
@@ -71,11 +72,22 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
     mode: "onChange",
     defaultValues: {
       subgraphBridgeID: bridge.subgraphDeploymentID,
-      blockHash: "",
+      blockNumber: null,
       response: "",
       attestationData: "",
     },
   });
+
+  const { data: blockNumber, isError, isLoading } = useBlockNumber();
+  const provider = useProvider();
+
+  const blockNumberInput = watch("blockNumber");
+
+  useEffect(() => {
+    console.log("blockNumber", blockNumberInput);
+  }, [blockNumberInput]);
+
+  useEffect(() => {}, []);
 
   const onSubmit = async (formData: FormValues, e: React.FormEvent) => {
     e.preventDefault();
@@ -106,17 +118,34 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
             />
           </div>
 
-          <HrText>Enter Block Hash</HrText>
-
+          <HrText
+            description={<span>Current block number: {blockNumber}</span>}
+          >
+            Enter Block Number
+          </HrText>
           <div className="space-y-4 pt-6">
             <Controller
               control={control}
-              name="blockHash"
+              name="blockNumber"
               rules={{
                 required: true,
+                validate: {
+                  recentBlockNumber: async (value) => {
+                    const blockNumber = await provider.getBlockNumber();
+                    return (
+                      (value < blockNumber && blockNumber - value < 256) ||
+                      "Block number must be within 256 blocks of current block number"
+                    );
+                  },
+                },
               }}
-              render={({ field }) => <InputGroup {...field} />}
+              render={({ field }) => <InputGroup type="number" {...field} />}
             />
+            {errors.blockNumber?.message && (
+              <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
+                {errors.blockNumber?.message}
+              </div>
+            )}
           </div>
 
           <HrText>Enter Response</HrText>

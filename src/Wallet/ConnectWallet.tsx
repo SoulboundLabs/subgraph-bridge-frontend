@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { ConnectKitButton } from "connectkit";
+import { Wallet } from "tabler-icons-react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { UserAddress } from "../Account/UserAddress";
 import { Button } from "../Button/Button";
@@ -34,8 +35,8 @@ export const ConnectKitCustom = () => {
         return (
           <Button
             onClick={show}
-            size="lg"
-            palette={isConnected ? "primary" : "secondary"}
+            reverse
+            Icon={Wallet}
             label={
               isConnected ? (
                 <UserAddress address={truncatedAddress} size={32} />

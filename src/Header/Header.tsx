@@ -1,8 +1,10 @@
 import { Fragment } from "react";
+import { useAccount } from "wagmi";
 import { Container } from "../Layout/Container";
 import { ConnectWallet } from "../Wallet/ConnectWallet";
 
 export function Header({ breadcrumbs, cta }) {
+  const { isConnected } = useAccount();
   return (
     <div className="flex w-full pr-12 py-3 lg:border-b lg:border-slate-500">
       <Container className="w-full">
@@ -22,7 +24,7 @@ export function Header({ breadcrumbs, cta }) {
         </div>
       </Container>
       <div className="flex justify-end gap-4 items-center w-full">
-        {cta}
+        {isConnected ? cta : null}
         <ConnectWallet />
       </div>
     </div>
