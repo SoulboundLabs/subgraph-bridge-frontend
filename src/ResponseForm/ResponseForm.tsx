@@ -1,6 +1,5 @@
 import { prepareWriteContract, writeContract } from "@wagmi/core";
 import axios from "axios";
-import { ethers } from "ethers";
 import React, { useEffect } from "react";
 import { useBlockNumber, useProvider } from "wagmi";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
@@ -17,45 +16,19 @@ interface FormValues {
   attestationData: string;
 }
 
-export const querySubgraph = async (
-  provider: ethers.providers.Provider,
-  bridge: SubgraphBridge
-) => {
-  const { fullQuery } = bridge;
-
-  const blockNumber = (await provider.getBlockNumber()) - 100;
-  const { hash } = await provider.getBlock(blockNumber);
-
-  const queryWithHash = bridge.fullQuery.replace('hash: ""', `hash: "${hash}"`);
-
-  const apiKey = "6c768ea8853128ba36dc7c405c20b37d";
-  const url = `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/Cjv3tykF4wnd6m9TRmQV7weiLjizDnhyt6x2tTJB42Cy`;
-
-  const requestHeaders: HeadersInit = new Headers();
-  requestHeaders.set("Content-Type", "application/json");
-
+export const querySubgraph = async (bridge: SubgraphBridge) => {
   const response = await axios({
-    url,
+    url: "/query-subgraph",
     method: "post",
     data: {
-      query: queryWithHash,
+      query: bridge.fullQuery,
+      subgraphDeploymentID: bridge.subgraphDeploymentID,
     },
   });
 
-  const graphAttestation = response.headers["graph-attestation"];
-  console.log(graphAttestation);
-
-  debugger;
-
-  const attestationBytes = ethers.utils.hexlify(
-    ethers.utils.toUtf8Bytes(graphAttestation)
-  );
-  console.log(attestationBytes);
-
   const data = response.data;
-  console.log(data);
 
-  return { data, attestationBytes, blockNumber, hash };
+  return { data };
 };
 
 interface Props {
@@ -71,14 +44,10 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
   const provider = useProvider();
 
   useEffect(() => {
-    querySubgraph(provider, bridge).then(
-      ({ data, attestationBytes, blockNumber, hash }) =>
-        setResponse({
-          blockNumber,
-          data,
-          attestationBytes,
-          hash,
-        })
+    querySubgraph(bridge).then(({ data }) =>
+      setResponse({
+        data,
+      })
     );
   }, [provider]);
 
