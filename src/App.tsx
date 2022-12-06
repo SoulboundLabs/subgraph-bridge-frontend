@@ -1,5 +1,4 @@
 import { ConnectKitProvider } from "connectkit";
-import { RecoilRoot } from "recoil";
 import { createClient as createUrqlClient, Provider } from "urql";
 import {
   configureChains,
@@ -60,17 +59,15 @@ const wagmiClient = createWagmiClient({
 function App() {
   return (
     <div id="app-wrapper">
-      <RecoilRoot>
-        <Provider value={urqlClient}>
-          <WagmiConfig client={wagmiClient}>
-            <ConnectKitProvider>
-              <Layout>
-                <BridgeExplorer />
-              </Layout>
-            </ConnectKitProvider>
-          </WagmiConfig>
-        </Provider>
-      </RecoilRoot>
+      <Provider value={urqlClient}>
+        <WagmiConfig client={wagmiClient}>
+          <ConnectKitProvider>
+            <Layout>
+              <BridgeExplorer />
+            </Layout>
+          </ConnectKitProvider>
+        </WagmiConfig>
+      </Provider>
     </div>
   );
 }
