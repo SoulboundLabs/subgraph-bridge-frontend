@@ -1,7 +1,7 @@
 import { prepareWriteContract, writeContract } from "@wagmi/core";
 import axios from "axios";
 import React, { useEffect } from "react";
-import { useBlockNumber, useProvider } from "wagmi";
+import { useProvider } from "wagmi";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
 import { Button } from "../Button/Button";
 import { HrText } from "../Hr/HrText";
@@ -37,18 +37,24 @@ interface Props {
 }
 
 export const ResponseForm = ({ handleCancel, bridge }: Props) => {
-  const { queryFirstChunk, queryLastChunk, subgraphDeploymentID, id } = bridge;
   const [response, setResponse] = React.useState(null);
-
-  const { data: blockNumber, isError, isLoading } = useBlockNumber();
   const provider = useProvider();
 
   useEffect(() => {
-    querySubgraph(bridge).then(({ data }) =>
+    querySubgraph(bridge).then(({ data }) => {
+      const {
+        data: responseData,
+        attestationData,
+        blockNumber,
+        blockHash,
+      } = data;
       setResponse({
-        data,
-      })
-    );
+        responseData,
+        attestationData,
+        blockNumber,
+        blockHash,
+      });
+    });
   }, [provider]);
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -58,7 +64,6 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
       address: blockChainMap[GOERLI].address,
       abi: subgraphBridgeABI as any,
       functionName: "postSubgraphResponse",
-      // args: [formData],
     });
     const data = await writeContract(config);
   };
@@ -67,11 +72,9 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
     <Container>
       <form onSubmit={onSubmit} className="pb-24">
         <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
-          <HrText>Latest Query Result</HrText>
-        </div>
-
-        <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
-          <HrText>Response</HrText>
+          <HrText description={<div>Block Number: </div>}>
+            Latest Query Result
+          </HrText>
           <pre>{response && JSON.stringify(response, null, 2)}</pre>
         </div>
 
