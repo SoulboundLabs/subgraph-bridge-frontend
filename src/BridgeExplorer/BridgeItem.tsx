@@ -53,9 +53,9 @@ export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
               &middot; 7 Day Challenge Window &middot; 100k GRT Minimum
               Slashable
             </div>
-            <p className="mt-1 text-base leading-7 text-slate-700 w-full">
+            <div className="mt-1 text-base leading-7 text-slate-700 w-full">
               <CodeEditor readOnly value={formatGraphQL(fullQuery)} />
-            </p>
+            </div>
             {/* <UserAddress address="0x4040" /> */}
             <div className="mt-4 flex items-center gap-4">
               <button
