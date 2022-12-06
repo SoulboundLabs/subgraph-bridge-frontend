@@ -1,5 +1,4 @@
 import { prepareWriteContract, writeContract } from "@wagmi/core";
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useProvider } from "wagmi";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
@@ -7,29 +6,8 @@ import { Button } from "../Button/Button";
 import { HrText } from "../Hr/HrText";
 import { Container } from "../Layout/Container";
 import { blockChainMap, GOERLI } from "../lib/blockchains";
+import { executeLatestQueryTemplate } from "../lib/query";
 import { SubgraphBridge } from "../store/types";
-
-interface FormValues {
-  blockNumber: number;
-  subgraphBridgeID: string;
-  response: string;
-  attestationData: string;
-}
-
-export const querySubgraph = async (bridge: SubgraphBridge) => {
-  const response = await axios({
-    url: "/query-subgraph",
-    method: "post",
-    data: {
-      query: bridge.fullQuery,
-      subgraphDeploymentID: bridge.subgraphDeploymentID,
-    },
-  });
-
-  const data = response.data;
-
-  return { data };
-};
 
 interface Props {
   bridge: SubgraphBridge;
@@ -41,15 +19,12 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
   const provider = useProvider();
 
   useEffect(() => {
-    querySubgraph(bridge).then(({ data }) => {
-      const {
-        data: responseData,
-        attestationData,
-        blockNumber,
-        blockHash,
-      } = data;
+    executeLatestQueryTemplate(
+      bridge.fullQuery,
+      bridge.subgraphDeploymentID
+    ).then(({ data, attestationData, blockNumber, blockHash }) => {
       setResponse({
-        responseData,
+        data,
         attestationData,
         blockNumber,
         blockHash,

@@ -2,7 +2,11 @@ import { ethers } from "ethers";
 
 export async function onRequestPost({ request, env }) {
   const { query, subgraphDeploymentID } = await request.json();
-  return await querySubgraph(query, subgraphDeploymentID);
+  return await querySubgraph(
+    query,
+    subgraphDeploymentID,
+    env.VITE_GRAPH_API_KEY
+  );
 }
 
 const latestBlockHashQuery = `
@@ -27,18 +31,20 @@ const executeQuery = async (url: string, query: string) => {
       query,
     }),
   };
+  console.log(url, config);
   return fetch(url, config);
 };
 
 export async function querySubgraph(
   query: string,
-  subgraphDeploymentID: string
+  subgraphDeploymentID: string,
+  apiKey: string
 ) {
-  const apiKey = "6c768ea8853128ba36dc7c405c20b37d";
-  const url = `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${subgraphDeploymentID}}`;
+  const url = `https://gateway.testnet.thegraph.com/api/${apiKey}/deployments/id/${subgraphDeploymentID}`;
 
   const hashResponse = await executeQuery(url, latestBlockHashQuery);
   const hashJson = await hashResponse.json();
+  console.log("~~~", hashJson);
   const { hash, number } = hashJson.data._meta.block;
 
   const completeQuery = query.replace('hash: ""', `hash: "${hash}"`);

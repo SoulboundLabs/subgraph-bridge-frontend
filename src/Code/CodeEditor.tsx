@@ -10,6 +10,7 @@ export type CodeEditorProps = {
   value: string;
   readOnly?: boolean;
   onChange?: (value: string) => void;
+  onBlur?: () => void;
 };
 
 export const formatGraphQL = (code) =>
@@ -22,12 +23,16 @@ export default function CodeEditor({
   readOnly,
   value,
   onChange,
+  onBlur,
 }: CodeEditorProps) {
   return (
     <CodeMirror
       value={value}
       readOnly={readOnly}
-      onBlur={() => !readOnly && onChange(formatGraphQL(value))}
+      onBlur={() => {
+        if (onBlur) onBlur();
+        if (!readOnly) onChange(formatGraphQL(value));
+      }}
       theme={"dark"}
       width="800px"
       height="120px"

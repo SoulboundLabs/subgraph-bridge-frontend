@@ -22,6 +22,7 @@ import {
   GOERLI,
 } from "../lib/blockchains";
 import { hexlifyQuery, hexlifySubgraphDeploymentID } from "../lib/hex";
+import { executeLatestQueryTemplate } from "../lib/query";
 import {
   minimumSlashableGRTOptions,
   proposalFreezePeriodOptions,
@@ -105,7 +106,7 @@ export const BridgeForm = ({ handleCancel }) => {
     handleSubmit,
     formState: { errors, isSubmitting, isDirty, isValid },
   } = useForm<FormValues>({
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: {
       chainID: 5,
       subgraphDeploymentID: "",
@@ -135,6 +136,8 @@ export const BridgeForm = ({ handleCancel }) => {
     const data = await writeContract(config);
     console.log(data);
   };
+
+  const subgraphDeploymentID = watch("subgraphDeploymentID");
 
   return (
     <Container>
@@ -204,8 +207,7 @@ export const BridgeForm = ({ handleCancel }) => {
               <div>
                 What query do you want to results on-chain?
                 <ul className="list-disc">
-                  <li>Must be a valid GraphQL query</li>
-                  <li>Must be a single query</li>
+                  <li>Must be a query without any variables</li>
                   <li>Must be a query that returns a single value</li>
                 </ul>
               </div>
@@ -230,6 +232,19 @@ export const BridgeForm = ({ handleCancel }) => {
                   isValidGraphQL: (value) =>
                     formatQueryToMatchGateway(value) !== null ||
                     "Invalid GraphQL query",
+                  returnsResult: async (value) => {
+                    const errMsg =
+                      "Query must return a result for supplied subgraph deployment ID";
+                    try {
+                      const data = await executeLatestQueryTemplate(
+                        value,
+                        subgraphDeploymentID
+                      );
+                      return data;
+                    } catch (e) {
+                      return errMsg;
+                    }
+                  },
                 },
               }}
               render={({ field }) => <CodeEditor {...field} />}
