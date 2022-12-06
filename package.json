@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && node --max_old_space_size=16384 ./node_modules/vite/bin/vite --config ./vite.config.ts build && rimraf dist/**/*.js.map",
+    "build": "tsc && node --max_old_space_size=16384 ./node_modules/vite/bin/vite --config ./vite.config.ts build",
     "preview": "vite preview --host"
   },
   "dependencies": {
