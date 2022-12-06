@@ -23,12 +23,10 @@ export const querySubgraph = async (
 ) => {
   const { fullQuery } = bridge;
 
-  const blockNumber = await provider.getBlockNumber();
+  const blockNumber = (await provider.getBlockNumber()) - 100;
   const { hash } = await provider.getBlock(blockNumber);
 
   const queryWithHash = bridge.fullQuery.replace('hash: ""', `hash: "${hash}"`);
-
-  console.log(queryWithHash);
 
   const apiKey = "6c768ea8853128ba36dc7c405c20b37d";
   const url = `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/Cjv3tykF4wnd6m9TRmQV7weiLjizDnhyt6x2tTJB42Cy`;
@@ -46,6 +44,8 @@ export const querySubgraph = async (
 
   const graphAttestation = response.headers["graph-attestation"];
   console.log(graphAttestation);
+
+  debugger;
 
   const attestationBytes = ethers.utils.hexlify(
     ethers.utils.toUtf8Bytes(graphAttestation)
@@ -89,7 +89,7 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
       address: blockChainMap[GOERLI].address,
       abi: subgraphBridgeABI as any,
       functionName: "postSubgraphResponse",
-      args: [formData],
+      // args: [formData],
     });
     const data = await writeContract(config);
   };

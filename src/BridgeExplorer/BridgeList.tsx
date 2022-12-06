@@ -1,5 +1,4 @@
 import { gql, useQuery } from "urql";
-import { formatGraphQL } from "../Code/CodeEditor";
 import { encodeBase58 } from "../lib/hex";
 import { SubgraphBridge } from "../store/types";
 import { BridgeItem } from "./BridgeItem";
@@ -32,7 +31,7 @@ const parseSubgraphBridge = (subgraphBridge: SubgraphBridge) => {
 
   return {
     ...subgraphBridge,
-    fullQuery: formatGraphQL(fullQuery),
+    fullQuery,
     subgraphDeploymentID: encodeBase58(subgraphBridge.subgraphDeploymentID),
   };
 };

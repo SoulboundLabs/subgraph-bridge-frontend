@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { ChevronDown, Mailbox } from "tabler-icons-react";
 import { BridgeDetails } from "../BridgeDetails/BridgeDetails";
 import { Button } from "../Button/Button";
-import CodeEditor from "../Code/CodeEditor";
+import CodeEditor, { formatGraphQL } from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
-import { urlBridgeItem } from "../lib/url";
 import { classNames } from "../lib/utils";
 import { SubgraphBridge } from "../store/types";
 import { EtherscanSVG, TheGraphSVG } from "../SVG/SVG";
@@ -35,10 +33,8 @@ export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
           <div className="flex flex-col items-start">
             <div className="flex justify-between w-full items-center">
               <h2 className="mt-2 text-lg font-bold text-slate-300">
-                <Link to={urlBridgeItem(id)}>
-                  {idx !== undefined ? <span>#{idx + 1} &middot;</span> : null}{" "}
-                  {subgraphDeploymentID}
-                </Link>
+                {idx !== undefined ? <span>#{idx + 1} &middot;</span> : null}{" "}
+                {subgraphDeploymentID}
               </h2>
 
               <Button
@@ -58,7 +54,7 @@ export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
               Slashable
             </div>
             <p className="mt-1 text-base leading-7 text-slate-700 w-full">
-              <CodeEditor readOnly value={fullQuery} />
+              <CodeEditor readOnly value={formatGraphQL(fullQuery)} />
             </p>
             {/* <UserAddress address="0x4040" /> */}
             <div className="mt-4 flex items-center gap-4">

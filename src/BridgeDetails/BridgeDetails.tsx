@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { gql } from "urql";
 import { Container } from "../Layout/Container";
 import { BridgeProposalTable } from "./BridgeProposalTable";
@@ -18,7 +17,6 @@ const SubgraphBridgeCreationQuery = gql`
 export const BridgeDetails = ({ bridge }) => {
   const [bridgeFormOpen, setBridgeFormOpen] = useState(false);
   const [selectedBridge, setSelectedBridge] = useState(null);
-  const { id } = useParams();
 
   //   const [result] = useQuery({
   //     query: SubgraphBridgeCreationQuery,

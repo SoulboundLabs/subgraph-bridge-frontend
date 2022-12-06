@@ -71,11 +71,9 @@ export const useSubmitSubgraphBridge = () => {
       proposalFreezePeriod: "",
       minimumSlashableGRT: "",
       minimumExternalStake: "",
-      proposalFreezePeriod: "",
     };
 
     console.log(subgraphBridgeContract);
-    console.log("eeeeeeasdf");
 
     const tx = await subgraphBridgeContract.createSubgraphBridge(txDetails);
 

@@ -1,5 +1,4 @@
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
 import { BrandDiscord, BrandGithub, BrandTwitter } from "tabler-icons-react";
 import posterImage from "../assets/logos/subgraph-bridge.svg";
 
@@ -126,22 +125,21 @@ export function Layout({ children }) {
           </div>
         </div>
         <div className="relative z-10 mx-auto px-4 pb-4 pt-10 sm:px-6 md:max-w-2xl md:px-4 lg:min-h-full lg:flex-auto lg:border-x lg:border-slate-500 lg:py-12 lg:px-8 xl:px-12">
-          <Link
-            to="/"
+          <a
             className="relative mx-auto block w-48 overflow-hidden rounded-lg bg-sky-900 p-16 shadow-xl  sm:w-64 sm:rounded-xl lg:w-auto lg:rounded-2xl"
             aria-label="Homepage"
           >
             <img className="w-full" src={posterImage} alt="" />
             <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-black/10 sm:rounded-xl lg:rounded-2xl" />
-          </Link>
+          </a>
           <div className="mt-10 text-center lg:mt-12 lg:text-left">
             <p className="text-xl font-bold text-slate-300">
-              <Link to="/">
+              <a>
                 Subgraph Bridge{" "}
                 <span className="text-xs font-mono relative top-px mt-px">
                   v0.01
                 </span>
-              </Link>
+              </a>
             </p>
             <p className="mt-3 text-lg font-medium leading-8 text-slate-300">
               Bridge your subgraph query results on-chain. Transform your

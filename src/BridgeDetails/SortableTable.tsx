@@ -85,10 +85,10 @@ export function SortableTable({
                 key={row.id}
                 className={classNames(
                   `px-4 text-xs relative leading-6 whitespace-pre text-sky-300 font-semibold`,
-                  row.original.status === Status.Disputed
+                  row.original["status"] === Status.Disputed
                     ? "bg-red-500/20"
                     : "",
-                  row.original.status === Status.Certified
+                  row.original["status"] === Status.Certified
                     ? "bg-green-500/20"
                     : ""
                 )}

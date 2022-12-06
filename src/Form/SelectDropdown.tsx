@@ -1,5 +1,7 @@
 import { ReactElement } from "react";
 import { Icon } from "tabler-icons-react";
+import { Option } from "../store/types";
+
 interface Props {
   options?: Option<string>[];
   label?: string | ReactElement;

@@ -1,5 +1,6 @@
 import { RadioGroup } from "@headlessui/react";
 import { Button } from "../Button/Button";
+import { Option, Size } from "../store/types";
 
 interface Props<T> {
   options?: Option<T>[];
@@ -7,7 +8,7 @@ interface Props<T> {
   helpText?: string;
   onChange?: (option: T) => void;
   value?: T;
-  size?: string;
+  size?: Size;
 }
 
 export function RadioButtons<T>({

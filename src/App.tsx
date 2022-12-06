@@ -1,5 +1,4 @@
 import { ConnectKitProvider } from "connectkit";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { createClient as createUrqlClient, Provider } from "urql";
 import {
@@ -14,7 +13,6 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { BridgeDetails } from "./BridgeDetails/BridgeDetails";
 import { BridgeExplorer } from "./BridgeExplorer/BridgeExplorer";
 import { Layout } from "./Layout/Layout";
 import { blockChainMap, GOERLI } from "./lib/blockchains";
@@ -63,20 +61,15 @@ function App() {
   return (
     <div id="app-wrapper">
       <RecoilRoot>
-        <BrowserRouter>
-          <Provider value={urqlClient}>
-            <WagmiConfig client={wagmiClient}>
-              <ConnectKitProvider>
-                <Layout>
-                  <Routes>
-                    <Route path="" element={<BridgeExplorer />} />
-                    <Route path="/bridges/:id" element={<BridgeDetails />} />
-                  </Routes>
-                </Layout>
-              </ConnectKitProvider>
-            </WagmiConfig>
-          </Provider>
-        </BrowserRouter>
+        <Provider value={urqlClient}>
+          <WagmiConfig client={wagmiClient}>
+            <ConnectKitProvider>
+              <Layout>
+                <BridgeExplorer />
+              </Layout>
+            </ConnectKitProvider>
+          </WagmiConfig>
+        </Provider>
       </RecoilRoot>
     </div>
   );
