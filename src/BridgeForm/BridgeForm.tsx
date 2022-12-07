@@ -6,7 +6,9 @@ import {
   writeContract,
 } from "@wagmi/core";
 import { BigNumber, ethers } from "ethers";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Refresh } from "tabler-icons-react";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
 import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
@@ -27,6 +29,7 @@ import {
   minimumSlashableGRTOptions,
   proposalFreezePeriodOptions,
 } from "./bridge-options";
+import { BridgeQueryResult } from "./BridgeQueryResult";
 
 const formatQueryToMatchGateway = (query: string) => {
   try {
@@ -82,10 +85,10 @@ interface FormValues {
   query: string;
   chainID: number;
   subgraphDeploymentID: string;
-  minimumSlashableGRT: number;
+  minimumSlashableGRT: BigNumber;
+  proposalFreezePeriod: BigNumber;
   responseDataOffset: number;
   responseDataType: number;
-  proposalFreezePeriod: number;
 }
 
 type TxValues = Omit<
@@ -94,8 +97,6 @@ type TxValues = Omit<
 > & {
   queryFirstChunk: string;
   queryLastChunk: string;
-  minimumSlashableGRT: BigNumber;
-  proposalFreezePeriod: BigNumber;
 };
 
 export const BridgeForm = ({ handleCancel }) => {
@@ -118,12 +119,24 @@ export const BridgeForm = ({ handleCancel }) => {
 `,
       responseDataOffset: 0,
       responseDataType: 0,
-      minimumSlashableGRT: 0,
-      proposalFreezePeriod: 0,
+      minimumSlashableGRT: minimumSlashableGRTOptions[0].value,
+      proposalFreezePeriod: proposalFreezePeriodOptions[0].value,
     },
   });
 
   const { chain } = getNetwork();
+
+  const [testQueryResults, setTestQueryResults] = useState<any>(null);
+
+  const subgraphDeploymentID = watch("subgraphDeploymentID");
+
+  const query = watch("query");
+
+  const testQuery = async () => {
+    const data = await executeLatestQueryTemplate(query, subgraphDeploymentID);
+
+    setTestQueryResults(data);
+  };
 
   const onSubmit = async (formData: FormValues) => {
     const txData = formToTx(formData);
@@ -136,8 +149,6 @@ export const BridgeForm = ({ handleCancel }) => {
     const data = await writeContract(config);
     console.log(data);
   };
-
-  const subgraphDeploymentID = watch("subgraphDeploymentID");
 
   return (
     <Container>
@@ -232,19 +243,6 @@ export const BridgeForm = ({ handleCancel }) => {
                   isValidGraphQL: (value) =>
                     formatQueryToMatchGateway(value) !== null ||
                     "Invalid GraphQL query",
-                  returnsResult: async (value) => {
-                    const errMsg =
-                      "Query must return a result for supplied subgraph deployment ID";
-                    try {
-                      const data = await executeLatestQueryTemplate(
-                        value,
-                        subgraphDeploymentID
-                      );
-                      return data;
-                    } catch (e) {
-                      return errMsg;
-                    }
-                  },
                 },
               }}
               render={({ field }) => <CodeEditor {...field} />}
@@ -253,6 +251,27 @@ export const BridgeForm = ({ handleCancel }) => {
               <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
                 {errors.query?.message}
               </div>
+            )}
+            <Button
+              disabled={
+                !!errors.subgraphDeploymentID?.message ||
+                !!errors.query?.message
+              }
+              size="xs"
+              palette="secondary"
+              Icon={Refresh}
+              reverse
+              onClick={() => {
+                testQuery();
+              }}
+              label="Test Query"
+            />
+            {testQueryResults && (
+              <BridgeQueryResult
+                result={testQueryResults.data}
+                blockHash={testQueryResults.blockHash}
+                blockNumber={testQueryResults.blockNumber}
+              />
             )}
           </div>
 

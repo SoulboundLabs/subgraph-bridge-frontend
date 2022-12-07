@@ -1,3 +1,5 @@
+import { parseEther } from "ethers/lib/utils.js";
+
 export const minimumSlashableGRTOptions = [
   {
     label: (
@@ -6,7 +8,7 @@ export const minimumSlashableGRTOptions = [
         <div className="text-xs">100k Self-Staked GRT</div>
       </div>
     ),
-    value: 100000,
+    value: parseEther(String(100000)),
   },
   {
     label: (
@@ -15,7 +17,7 @@ export const minimumSlashableGRTOptions = [
         <div className="text-xs">300k Self-Staked GRT</div>
       </div>
     ),
-    value: 300000,
+    value: parseEther(String(300000)),
   },
   {
     label: (
@@ -24,7 +26,7 @@ export const minimumSlashableGRTOptions = [
         <div className="text-xs">750k Self-Staked GRT</div>
       </div>
     ),
-    value: 750000,
+    value: parseEther(String(750000)),
   },
   {
     label: (
@@ -33,7 +35,7 @@ export const minimumSlashableGRTOptions = [
         <div className="text-xs">2M Self-Staked GRT</div>
       </div>
     ),
-    value: 2000000,
+    value: parseEther(String(2000000)),
   },
   {
     label: (
@@ -42,7 +44,7 @@ export const minimumSlashableGRTOptions = [
         <div className="text-xs">5M Self-Staked GRT</div>
       </div>
     ),
-    value: 5000000,
+    value: parseEther(String(5000000)),
   },
 ];
 
@@ -54,7 +56,7 @@ export const proposalFreezePeriodOptions = [
         <div className="text-xs">0 Blocks</div>
       </div>
     ),
-    value: 0,
+    value: parseEther(String(0)),
   },
   {
     label: (
@@ -63,7 +65,7 @@ export const proposalFreezePeriodOptions = [
         <div className="text-xs">100 Blocks</div>
       </div>
     ),
-    value: 100,
+    value: parseEther(String(100)),
   },
   {
     label: (
@@ -72,7 +74,7 @@ export const proposalFreezePeriodOptions = [
         <div className="text-xs">1,000 Blocks</div>
       </div>
     ),
-    value: 1000,
+    value: parseEther(String(1000)),
   },
   {
     label: (
@@ -81,7 +83,7 @@ export const proposalFreezePeriodOptions = [
         <div className="text-xs">5,000 Blocks</div>
       </div>
     ),
-    value: 5000,
+    value: parseEther(String(5000)),
   },
   {
     label: (
@@ -90,6 +92,6 @@ export const proposalFreezePeriodOptions = [
         <div className="text-xs">25,000 Blocks</div>
       </div>
     ),
-    value: 25000,
+    value: parseEther(String(25000)),
   },
 ];
