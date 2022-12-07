@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider } from "connectkit";
 import { createClient as createUrqlClient, Provider } from "urql";
 import {
@@ -27,7 +28,8 @@ const { chains, provider, webSocketProvider } = configureChains(defaultChains, [
   publicProvider(),
 ]);
 
-// Set up client
+const queryClient = new QueryClient();
+
 const wagmiClient = createWagmiClient({
   autoConnect: true,
   connectors: [
@@ -60,13 +62,15 @@ function App() {
   return (
     <div id="app-wrapper">
       <Provider value={urqlClient}>
-        <WagmiConfig client={wagmiClient}>
-          <ConnectKitProvider>
-            <Layout>
-              <BridgeExplorer />
-            </Layout>
-          </ConnectKitProvider>
-        </WagmiConfig>
+        <QueryClientProvider client={queryClient}>
+          <WagmiConfig client={wagmiClient}>
+            <ConnectKitProvider>
+              <Layout>
+                <BridgeExplorer />
+              </Layout>
+            </ConnectKitProvider>
+          </WagmiConfig>
+        </QueryClientProvider>
       </Provider>
     </div>
   );

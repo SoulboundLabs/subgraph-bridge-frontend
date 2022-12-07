@@ -6,7 +6,7 @@ export const BridgeQueryResponse = ({ response, blockNumber, blockHash }) => {
     <pre
       className={classNames(
         response.errors ? `bg-red-500/20` : `bg-green-500/20`,
-        `rounded p-4 overflow-scroll relative`
+        `rounded text-white p-4 overflow-scroll relative`
       )}
     >
       {JSON.stringify(response, null, 2)}

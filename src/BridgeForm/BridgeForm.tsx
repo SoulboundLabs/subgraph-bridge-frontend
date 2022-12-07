@@ -6,9 +6,8 @@ import {
   writeContract,
 } from "@wagmi/core";
 import { BigNumber, ethers } from "ethers";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { ArrowRight, Refresh } from "tabler-icons-react";
+import { ArrowRight } from "tabler-icons-react";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
 import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
@@ -24,13 +23,12 @@ import {
   GOERLI,
 } from "../lib/blockchains";
 import { hexlifyQuery, hexlifySubgraphDeploymentID } from "../lib/hex";
-import { executeLatestQueryTemplate } from "../lib/query";
 import { IconList } from "../List/IconList";
 import {
   minimumSlashableGRTOptions,
   proposalFreezePeriodOptions,
 } from "./bridge-options";
-import { BridgeQueryResponse } from "./BridgeQueryResponse";
+import { BridgeQueryExecutor } from "./BridgeQueryExecutor";
 
 const formatQueryToMatchGateway = (query: string) => {
   try {
@@ -64,10 +62,6 @@ const formToTx = (form: FormValues): TxValues => {
     formattedQuery.slice(hashIndex + hashSplitString.length - 1)
   );
 
-  debugger;
-
-  //QmPaqnpyZFPLTygQAZXBCA5Ytx6MMhLEXS2ya4QESPTQqs
-  //0x127e5918d1118aea32ff1482a3c6c1bc0ab61763c14bd54d59d6a9b4ff05b51e
   return {
     ...rest,
     proposalFreezePeriod: ethers.utils.parseEther(
@@ -92,10 +86,7 @@ interface FormValues {
   responseDataType: number;
 }
 
-type TxValues = Omit<
-  FormValues,
-  "query" | "chainID" | "proposalFreezePeriod" | "minimumSlashableGRT"
-> & {
+type TxValues = Omit<FormValues, "query" | "chainID"> & {
   queryFirstChunk: string;
   queryLastChunk: string;
 };
@@ -127,16 +118,9 @@ export const BridgeForm = ({ handleCancel }) => {
 
   const { chain } = getNetwork();
 
-  const [queryResponse, setQueryResults] = useState<any>(null);
-
   const subgraphDeploymentID = watch("subgraphDeploymentID");
 
   const query = watch("query");
-
-  const testQuery = async () => {
-    const data = await executeLatestQueryTemplate(query, subgraphDeploymentID);
-    setQueryResults(data);
-  };
 
   const onSubmit = async (formData: FormValues) => {
     const txData = formToTx(formData);
@@ -265,24 +249,12 @@ export const BridgeForm = ({ handleCancel }) => {
                 {errors.query?.message}
               </div>
             )}
-            <Button
+
+            <BridgeQueryExecutor
               disabled={!isValid}
-              size="xs"
-              palette="secondary"
-              Icon={Refresh}
-              reverse
-              onClick={() => {
-                testQuery();
-              }}
-              label="Test Query"
+              subgraphDeploymentID={subgraphDeploymentID}
+              query={query}
             />
-            {queryResponse && (
-              <BridgeQueryResponse
-                response={queryResponse.data}
-                blockHash={queryResponse.blockHash}
-                blockNumber={queryResponse.blockNumber}
-              />
-            )}
           </div>
 
           <HrText description="How much crypto-economic security should a query result for this Subgraph Bridge have? Indexers are liable to lose 2.5% of their self-staked GRT for supplying invalid query results.">

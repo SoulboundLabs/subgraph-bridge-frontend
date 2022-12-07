@@ -39,7 +39,7 @@ export const BridgeExplorer = () => {
       <Panel
         title="Submit Response"
         description={
-          "Use the form below to submit a response to a Subgraph Bridge."
+          "Use the form below to query and post on-chain the most recent data from the Subgraph Bridge."
         }
         open={!!selectedBridge}
         setOpen={setSelectedBridge}
