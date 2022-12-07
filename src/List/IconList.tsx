@@ -13,7 +13,7 @@ export const IconList = ({
   horizontal,
 }: Props) => {
   return (
-    <ul className={horizontal ? "flex gap-2" : "space-y-2"}>
+    <ul className={horizontal ? "flex gap-2" : ""}>
       {items.map((item, index) => {
         return (
           <li key={index} className="flex gap-2 justify-start items-start">

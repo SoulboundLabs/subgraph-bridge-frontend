@@ -1,3 +1,4 @@
+import { formatEther } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { ChevronDown, Mailbox } from "tabler-icons-react";
 import { BridgeDetails } from "../BridgeDetails/BridgeDetails";
@@ -20,8 +21,8 @@ export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
     id,
     subgraphDeploymentID,
     fullQuery,
-    queryFirstChunk,
-    queryLastChunk,
+    minimumSlashableGRT,
+    proposalFreezePeriod,
   } = bridge;
 
   let [isExpanded, setIsExpanded] = useState(false);
@@ -50,7 +51,9 @@ export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
                 src={blockChains[0].imgSrc}
                 className="w-5 filter invert opacity-40 mr-2 -mt-0.5"
               />{" "}
-              &middot; 7 Day Challenge Window &middot; 100k GRT Minimum
+              &middot; {formatEther(proposalFreezePeriod).replace(".0", "")}{" "}
+              Block Challenge Window &middot;{" "}
+              {formatEther(minimumSlashableGRT).replace(".0", "")} GRT Minimum
               Slashable
             </div>
             <div className="mt-1 text-base leading-7 text-slate-700 w-full">

@@ -8,7 +8,7 @@ import {
 import { BigNumber, ethers } from "ethers";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Refresh } from "tabler-icons-react";
+import { ArrowRight, Refresh } from "tabler-icons-react";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
 import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
@@ -25,11 +25,12 @@ import {
 } from "../lib/blockchains";
 import { hexlifyQuery, hexlifySubgraphDeploymentID } from "../lib/hex";
 import { executeLatestQueryTemplate } from "../lib/query";
+import { IconList } from "../List/IconList";
 import {
   minimumSlashableGRTOptions,
   proposalFreezePeriodOptions,
 } from "./bridge-options";
-import { BridgeQueryResult } from "./BridgeQueryResult";
+import { BridgeQueryResponse } from "./BridgeQueryResponse";
 
 const formatQueryToMatchGateway = (query: string) => {
   try {
@@ -112,8 +113,8 @@ export const BridgeForm = ({ handleCancel }) => {
       chainID: 5,
       subgraphDeploymentID: "",
       query: `{
-  eligibleAirdropMerkleRoot(id: 1, block: { hash: "" }) {
-    merkleRoot
+  exampleEntity(id: 1, block: { hash: "" }) {
+    exampleField
   }
 }
 `,
@@ -126,7 +127,7 @@ export const BridgeForm = ({ handleCancel }) => {
 
   const { chain } = getNetwork();
 
-  const [testQueryResults, setTestQueryResults] = useState<any>(null);
+  const [queryResponse, setQueryResults] = useState<any>(null);
 
   const subgraphDeploymentID = watch("subgraphDeploymentID");
 
@@ -134,8 +135,7 @@ export const BridgeForm = ({ handleCancel }) => {
 
   const testQuery = async () => {
     const data = await executeLatestQueryTemplate(query, subgraphDeploymentID);
-
-    setTestQueryResults(data);
+    setQueryResults(data);
   };
 
   const onSubmit = async (formData: FormValues) => {
@@ -216,15 +216,28 @@ export const BridgeForm = ({ handleCancel }) => {
           <HrText
             description={
               <div>
-                What query do you want to results on-chain?
-                <ul className="list-disc">
-                  <li>Must be a query without any variables</li>
-                  <li>Must be a query that returns a single value</li>
-                </ul>
+                Define a GraphQL query template that can populate dynamic block
+                hashes
+                <div className="mt-2">
+                  <IconList
+                    Icon={ArrowRight}
+                    items={[
+                      <span>
+                        <span className="bg-slate-100/20 p-0.5 rounded inline-block">
+                          {" "}
+                          {`block: { hash: "" }`}{" "}
+                        </span>{" "}
+                        must be included in the query
+                      </span>,
+                      "No other variables allowed",
+                      "Query must return only a single value",
+                    ]}
+                  />
+                </div>
               </div>
             }
           >
-            Enter GraphQL Query
+            Enter GraphQL Query Template
           </HrText>
 
           <div className="space-y-4 pt-6">
@@ -253,10 +266,7 @@ export const BridgeForm = ({ handleCancel }) => {
               </div>
             )}
             <Button
-              disabled={
-                !!errors.subgraphDeploymentID?.message ||
-                !!errors.query?.message
-              }
+              disabled={!isValid}
               size="xs"
               palette="secondary"
               Icon={Refresh}
@@ -266,11 +276,11 @@ export const BridgeForm = ({ handleCancel }) => {
               }}
               label="Test Query"
             />
-            {testQueryResults && (
-              <BridgeQueryResult
-                result={testQueryResults.data}
-                blockHash={testQueryResults.blockHash}
-                blockNumber={testQueryResults.blockNumber}
+            {queryResponse && (
+              <BridgeQueryResponse
+                response={queryResponse.data}
+                blockHash={queryResponse.blockHash}
+                blockNumber={queryResponse.blockNumber}
               />
             )}
           </div>

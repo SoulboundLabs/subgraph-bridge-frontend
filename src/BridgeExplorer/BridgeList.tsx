@@ -12,6 +12,8 @@ const SubgraphBridgeCreationQuery = gql`
       subgraphDeploymentID
       queryFirstChunk
       queryLastChunk
+      minimumSlashableGRT
+      proposalFreezePeriod
     }
   }
 `;
