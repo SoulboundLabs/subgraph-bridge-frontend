@@ -6,7 +6,6 @@ import { BridgeItem } from "./BridgeItem";
 const SubgraphBridgeCreationQuery = gql`
   query {
     subgraphBridgeCreations {
-      id
       bridgeCreator
       subgraphBridgeId
       subgraphDeploymentID

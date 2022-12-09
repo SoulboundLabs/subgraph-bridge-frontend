@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Icon } from "tabler-icons-react";
 
 export interface SubgraphBridge {
-  id: string;
+  subgraphBridgeId: string;
   queryFirstChunk: string;
   queryLastChunk: string;
   responseDataOffset: number;

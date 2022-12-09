@@ -10,10 +10,14 @@ export const BridgeQueryExecutor = ({
   query,
   disabled,
   loadOnMount = false,
+  onSuccess,
 }) => {
   const { data, mutate, isLoading } = useMutation(
     [{ subgraphDeploymentID, query }],
-    () => executeLatestQueryTemplate(query, subgraphDeploymentID)
+    () => executeLatestQueryTemplate(query, subgraphDeploymentID),
+    {
+      onSuccess,
+    }
   );
 
   useEffect(() => {

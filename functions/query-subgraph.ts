@@ -69,7 +69,7 @@ export async function querySubgraph(
       "graph-attestation"
     ) as string;
 
-    const attestationBytes = ethers.utils.hexlify(
+    const attestationData = ethers.utils.hexlify(
       ethers.utils.toUtf8Bytes(graphAttestation)
     );
 
@@ -81,7 +81,7 @@ export async function querySubgraph(
 
     const responseBody = JSON.stringify({
       data: completeJson,
-      attestationBytes,
+      attestationData,
       blockHash: hash,
       blockNumber: number,
     });

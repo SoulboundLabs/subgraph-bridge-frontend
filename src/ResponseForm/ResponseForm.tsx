@@ -13,23 +13,42 @@ interface Props {
 }
 
 export const ResponseForm = ({ handleCancel, bridge }: Props) => {
+  const [queryResponse, setQueryResponse] = React.useState<any>(null);
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const txData = {
+      blockNumber: queryResponse.blockNumber,
+      subgraphBridgeID: bridge.subgraphBridgeId,
+      response: JSON.stringify(queryResponse.data),
+      attestationData: queryResponse.attestationData,
+    };
+
+    console.log(txData);
 
     const config = await prepareWriteContract({
       address: blockChainMap[GOERLI].address,
       abi: subgraphBridgeABI as any,
       functionName: "postSubgraphResponse",
+      args: [
+        txData.blockNumber,
+        txData.subgraphBridgeID,
+        txData.response,
+        txData.attestationData,
+      ],
     });
     const data = await writeContract(config);
   };
 
   const { subgraphDeploymentID, fullQuery } = bridge;
 
+  console.log("queryResponse", queryResponse);
   return (
     <Container>
       <form onSubmit={onSubmit} className="pb-24">
         <BridgeQueryExecutor
+          onSuccess={setQueryResponse}
           subgraphDeploymentID={subgraphDeploymentID}
           query={fullQuery}
           disabled={false}
@@ -38,6 +57,7 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
         <div className="flex justify-end py-4 gap-4 absolute bottom-0 inset-x-0 px-8 border-t border-slate-500 bg-slate-900">
           <Button label="Cancel" size="lg" onClick={handleCancel} />
           <Button
+            disabled={!queryResponse}
             label="Submit Response"
             palette="secondary"
             size="lg"

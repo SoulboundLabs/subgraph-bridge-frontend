@@ -25,6 +25,7 @@ export const BridgeItem = ({ bridge, idx, setSelectedBridge }: Props) => {
     proposalFreezePeriod,
   } = bridge;
 
+  // console.log("~~~~~", dehexlifyQuery(id));
   let [isExpanded, setIsExpanded] = useState(false);
 
   return (

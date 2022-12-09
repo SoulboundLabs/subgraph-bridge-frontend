@@ -99,7 +99,7 @@ export const BridgeForm = ({ handleCancel }) => {
     handleSubmit,
     formState: { errors, isSubmitting, isDirty, isValid },
   } = useForm<FormValues>({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       chainID: 5,
       subgraphDeploymentID: "",
@@ -117,6 +117,8 @@ export const BridgeForm = ({ handleCancel }) => {
   });
 
   const { chain } = getNetwork();
+
+  console.log(errors, isValid);
 
   const subgraphDeploymentID = watch("subgraphDeploymentID");
 
