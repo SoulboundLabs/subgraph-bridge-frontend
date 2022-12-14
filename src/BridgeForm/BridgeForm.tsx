@@ -1,10 +1,5 @@
 import { format_graphql } from "@badgeth/graphql-generate";
-import {
-  getNetwork,
-  prepareWriteContract,
-  switchNetwork,
-  writeContract,
-} from "@wagmi/core";
+import { getNetwork, prepareWriteContract, switchNetwork, writeContract } from "@wagmi/core";
 import { BigNumber, ethers } from "ethers";
 import { Controller, useForm } from "react-hook-form";
 import { ArrowRight } from "tabler-icons-react";
@@ -16,18 +11,10 @@ import { RadioButtons } from "../Form/RadioButtons";
 import { RadioCardsIcon } from "../Form/RadioCardsIcon";
 import { HrText } from "../Hr/HrText";
 import { Container } from "../Layout/Container";
-import {
-  blockChainIds,
-  blockChainMap,
-  blockChains,
-  GOERLI,
-} from "../lib/blockchains";
+import { blockChainIds, blockChainMap, blockChains, GOERLI } from "../lib/blockchains";
 import { hexlifyQuery, hexlifySubgraphDeploymentID } from "../lib/hex";
 import { IconList } from "../List/IconList";
-import {
-  minimumSlashableGRTOptions,
-  proposalFreezePeriodOptions,
-} from "./bridge-options";
+import { minimumSlashableGRTOptions, proposalFreezePeriodOptions } from "./bridge-options";
 import { BridgeQueryExecutor } from "./BridgeQueryExecutor";
 
 const formatQueryToMatchGateway = (query: string) => {
@@ -39,37 +26,21 @@ const formatQueryToMatchGateway = (query: string) => {
 };
 
 const formToTx = (form: FormValues): TxValues => {
-  const {
-    query,
-    chainID,
-    subgraphDeploymentID,
-    proposalFreezePeriod,
-    minimumSlashableGRT,
-    ...rest
-  } = form;
+  const { query, chainID, subgraphDeploymentID, proposalFreezePeriod, minimumSlashableGRT, ...rest } = form;
   const formattedQuery = formatQueryToMatchGateway(query);
   if (!formattedQuery) {
     return null;
   }
 
-  const hashSplitString = "hash: \\";
+  const hashSplitString = 'hash: \\"';
   const hashIndex = formattedQuery.indexOf(hashSplitString);
-
-  const queryFirstChunk = hexlifyQuery(
-    formattedQuery.slice(0, hashIndex + hashSplitString.length)
-  );
-  const queryLastChunk = hexlifyQuery(
-    formattedQuery.slice(hashIndex + hashSplitString.length - 1)
-  );
+  const queryFirstChunk = hexlifyQuery(formattedQuery.slice(0, hashIndex + hashSplitString.length));
+  const queryLastChunk = hexlifyQuery(formattedQuery.slice(hashIndex + hashSplitString.length));
 
   return {
     ...rest,
-    proposalFreezePeriod: ethers.utils.parseEther(
-      proposalFreezePeriod.toString()
-    ),
-    minimumSlashableGRT: ethers.utils.parseEther(
-      minimumSlashableGRT.toString()
-    ),
+    proposalFreezePeriod: ethers.utils.parseEther(proposalFreezePeriod.toString()),
+    minimumSlashableGRT: ethers.utils.parseEther(minimumSlashableGRT.toString()),
     subgraphDeploymentID: hexlifySubgraphDeploymentID(subgraphDeploymentID),
     queryFirstChunk,
     queryLastChunk,
@@ -109,7 +80,7 @@ export const BridgeForm = ({ handleCancel }) => {
   }
 }
 `,
-      responseDataOffset: 0,
+      responseDataOffset: 1, //@dev this should never be 0 bc that's how we see if a bridge exists or not, we should add a check for this
       responseDataType: 0,
       minimumSlashableGRT: minimumSlashableGRTOptions[0].value,
       proposalFreezePeriod: proposalFreezePeriodOptions[0].value,
@@ -140,9 +111,7 @@ export const BridgeForm = ({ handleCancel }) => {
     <Container>
       <form onSubmit={handleSubmit(onSubmit)} className="pb-24">
         <div className="mb-2.5 z-20 rounded-lg text-slate-300 text-left">
-          <HrText description="Which chain on the decentralized network is the subgraph deployed to?">
-            Choose Blockchain
-          </HrText>
+          <HrText description="Which chain on the decentralized network is the subgraph deployed to?">Choose Blockchain</HrText>
 
           <div className="space-y-4 pt-6">
             <RadioCardsIcon
@@ -153,22 +122,15 @@ export const BridgeForm = ({ handleCancel }) => {
               }}
             />
             {!blockChainIds.includes(chain?.id) && (
-              <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
-                Please connect to a supported blockchain.
-              </div>
+              <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">Please connect to a supported blockchain.</div>
             )}
           </div>
 
           <HrText
             description={
               <span>
-                Look underneath the "DEPLOYMENT ID" header on any subgraph
-                listed on the{" "}
-                <a
-                  href="https://thegraph.com/explorer"
-                  target="_blank"
-                  className="text-sky-300 hover:underline"
-                >
+                Look underneath the "DEPLOYMENT ID" header on any subgraph listed on the{" "}
+                <a href="https://thegraph.com/explorer" target="_blank" className="text-sky-300 hover:underline">
                   Graph Explorer
                 </a>{" "}
                 page.
@@ -193,27 +155,20 @@ export const BridgeForm = ({ handleCancel }) => {
               render={({ field }) => <InputGroup {...field} />}
             />
             {errors.subgraphDeploymentID?.message && (
-              <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
-                {errors.subgraphDeploymentID?.message}
-              </div>
+              <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">{errors.subgraphDeploymentID?.message}</div>
             )}
           </div>
 
           <HrText
             description={
               <div>
-                Define a GraphQL query template that can populate dynamic block
-                hashes
+                Define a GraphQL query template that can populate dynamic block hashes
                 <div className="mt-2">
                   <IconList
                     Icon={ArrowRight}
                     items={[
                       <span>
-                        <span className="bg-slate-100/20 p-0.5 rounded inline-block">
-                          {" "}
-                          {`block: { hash: "" }`}{" "}
-                        </span>{" "}
-                        must be included in the query
+                        <span className="bg-slate-100/20 p-0.5 rounded inline-block"> {`block: { hash: "" }`} </span> must be included in the query
                       </span>,
                       "No other variables allowed",
                       "Query must return only a single value",
@@ -234,29 +189,16 @@ export const BridgeForm = ({ handleCancel }) => {
                 required: true,
                 validate: {
                   containsBlockHash: (value) => {
-                    return (
-                      value.includes(`block: { hash: "" }`) ||
-                      `Query must contain empty block hash filter: block: {hash: ""}`
-                    );
+                    return value.includes(`block: { hash: "" }`) || `Query must contain empty block hash filter: block: {hash: ""}`;
                   },
-                  isValidGraphQL: (value) =>
-                    formatQueryToMatchGateway(value) !== null ||
-                    "Invalid GraphQL query",
+                  isValidGraphQL: (value) => formatQueryToMatchGateway(value) !== null || "Invalid GraphQL query",
                 },
               }}
               render={({ field }) => <CodeEditor {...field} />}
             />
-            {errors.query?.message && (
-              <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">
-                {errors.query?.message}
-              </div>
-            )}
+            {errors.query?.message && <div className="font-semibold text-white rounded-sm p-2 bg-red-900/50">{errors.query?.message}</div>}
 
-            <BridgeQueryExecutor
-              disabled={!isValid}
-              subgraphDeploymentID={subgraphDeploymentID}
-              query={query}
-            />
+            <BridgeQueryExecutor disabled={!isValid} subgraphDeploymentID={subgraphDeploymentID} query={query} />
           </div>
 
           <HrText description="How much crypto-economic security should a query result for this Subgraph Bridge have? Indexers are liable to lose 2.5% of their self-staked GRT for supplying invalid query results.">
@@ -270,19 +212,11 @@ export const BridgeForm = ({ handleCancel }) => {
               rules={{
                 required: true,
               }}
-              render={({ field }) => (
-                <RadioButtons
-                  size="xl"
-                  {...field}
-                  options={minimumSlashableGRTOptions}
-                />
-              )}
+              render={({ field }) => <RadioButtons size="xl" {...field} options={minimumSlashableGRTOptions} />}
             />
           </div>
 
-          <HrText description="Use a longer dispute window for extra security, choose a shorter dispute window for quicker finality.">
-            Dispute Window
-          </HrText>
+          <HrText description="Use a longer dispute window for extra security, choose a shorter dispute window for quicker finality.">Dispute Window</HrText>
 
           <div className="space-y-4 pt-6">
             <Controller
@@ -291,25 +225,13 @@ export const BridgeForm = ({ handleCancel }) => {
               rules={{
                 required: true,
               }}
-              render={({ field }) => (
-                <RadioButtons
-                  {...field}
-                  size="xl"
-                  options={proposalFreezePeriodOptions}
-                />
-              )}
+              render={({ field }) => <RadioButtons {...field} size="xl" options={proposalFreezePeriodOptions} />}
             />
           </div>
 
           <div className="flex justify-end py-4 gap-4 absolute bottom-0 inset-x-0 px-8 border-t border-slate-500 bg-slate-900">
             <Button label="Cancel" size="lg" onClick={handleCancel} />
-            <Button
-              disabled={!isValid}
-              label="Create Bridge"
-              palette="secondary"
-              size="lg"
-              type="submit"
-            />
+            <Button disabled={!isValid} label="Create Bridge" palette="secondary" size="lg" type="submit" />
           </div>
         </div>
       </form>

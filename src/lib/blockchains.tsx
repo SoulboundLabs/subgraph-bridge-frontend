@@ -12,7 +12,7 @@ export const blockChainMap = {
     label: GOERLI,
     value: 5,
     address: "0x6ac731f7f91c90930f07acb99d696125c59f9477",
-    subgraphUrl: "https://api.studio.thegraph.com/query/32033/sbs/4",
+    subgraphUrl: "https://api.studio.thegraph.com/query/32033/sbs/8",
     comingSoon: false,
   },
   [ETHEREUM]: {
@@ -27,6 +27,4 @@ export const blockChainMap = {
 
 export const blockChains = Object.values(blockChainMap);
 
-export const blockChainIds = blockChains
-  .filter((b) => !b.comingSoon)
-  .map((b) => b.value);
+export const blockChainIds = blockChains.filter((b) => !b.comingSoon).map((b) => b.value);

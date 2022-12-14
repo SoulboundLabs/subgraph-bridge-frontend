@@ -15,6 +15,8 @@ interface Props {
 export const ResponseForm = ({ handleCancel, bridge }: Props) => {
   const [queryResponse, setQueryResponse] = React.useState<any>(null);
 
+  console.log("BRIDGE: ", bridge);
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -31,12 +33,7 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
       address: blockChainMap[GOERLI].address,
       abi: subgraphBridgeABI as any,
       functionName: "postSubgraphResponse",
-      args: [
-        txData.blockNumber,
-        txData.subgraphBridgeID,
-        txData.response,
-        txData.attestationData,
-      ],
+      args: [txData.blockNumber, txData.subgraphBridgeID, txData.response, txData.attestationData],
     });
     const data = await writeContract(config);
   };
@@ -47,22 +44,10 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
   return (
     <Container>
       <form onSubmit={onSubmit} className="pb-24">
-        <BridgeQueryExecutor
-          onSuccess={setQueryResponse}
-          subgraphDeploymentID={subgraphDeploymentID}
-          query={fullQuery}
-          disabled={false}
-          loadOnMount={true}
-        />
+        <BridgeQueryExecutor onSuccess={setQueryResponse} subgraphDeploymentID={subgraphDeploymentID} query={fullQuery} disabled={false} loadOnMount={true} />
         <div className="flex justify-end py-4 gap-4 absolute bottom-0 inset-x-0 px-8 border-t border-slate-500 bg-slate-900">
           <Button label="Cancel" size="lg" onClick={handleCancel} />
-          <Button
-            disabled={!queryResponse}
-            label="Submit Response"
-            palette="secondary"
-            size="lg"
-            type="submit"
-          />
+          <Button disabled={!queryResponse} label="Submit Response" palette="secondary" size="lg" type="submit" />
         </div>
       </form>
     </Container>

@@ -12,11 +12,7 @@ export async function onRequestPost({ request, env }) {
       throw new Error("No subgraph deployment ID provided");
     }
 
-    return await querySubgraph(
-      query,
-      subgraphDeploymentID,
-      env.VITE_GRAPH_API_KEY
-    );
+    return await querySubgraph(query, subgraphDeploymentID, env.VITE_GRAPH_API_KEY);
   } catch (e) {
     console.log(e);
     return new Response(e);
@@ -49,11 +45,7 @@ const executeQuery = async (url: string, query: string) => {
   return fetch(url, config);
 };
 
-export async function querySubgraph(
-  query: string,
-  subgraphDeploymentID: string,
-  apiKey: string
-) {
+export async function querySubgraph(query: string, subgraphDeploymentID: string, apiKey: string) {
   try {
     const url = `https://gateway.testnet.thegraph.com/api/${apiKey}/deployments/id/${subgraphDeploymentID}`;
 
@@ -63,14 +55,20 @@ export async function querySubgraph(
     const { hash, number } = hashJson.data._meta.block;
 
     const completeQuery = query.replace('hash: ""', `hash: "${hash}"`);
+    console.log("COMPLETE QUERY: ", completeQuery);
     const completeResponse = await executeQuery(url, completeQuery);
     const completeJson = await completeResponse.json();
-    const graphAttestation = completeResponse.headers.get(
-      "graph-attestation"
-    ) as string;
+    const graphAttestation = completeResponse.headers.get("graph-attestation") as string;
 
-    const attestationData = ethers.utils.hexlify(
-      ethers.utils.toUtf8Bytes(graphAttestation)
+    const attestation = JSON.parse(graphAttestation);
+
+    const { requestCID, responseCID, r, s, v } = attestation;
+    // @dev taking the subgraphDeploymentID from the attestation outside because we have another subgraphDeploymentID in this block
+    const _subgraphDeploymentID = attestation.subgraphDeploymentID;
+
+    const attestationData = ethers.utils.solidityPack(
+      ["bytes32", "bytes32", "bytes32", "bytes32", "bytes32", "uint8"],
+      [requestCID, responseCID, _subgraphDeploymentID, r, s, v]
     );
 
     const init = {
