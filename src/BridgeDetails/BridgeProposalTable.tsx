@@ -1,6 +1,6 @@
 import React from "react";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
-import { Check, Checkbox, Eye } from "tabler-icons-react";
+import { Check, Checkbox, Clock, ClockOff } from "tabler-icons-react";
 import { useBlockNumber } from "wagmi";
 import { UserAddress } from "../Account/UserAddress";
 import { Button } from "../Button/Button";
@@ -73,8 +73,9 @@ export function BridgeProposalTable({ data, certifiedData }) {
         header: <div className="opacity-0">Status</div>,
         cell: (info) => {
           const unlocksAt = info.row.original.unlocksAt;
-          const showCertify = unlocksAt <= blockNumber.data && !requestCIDMap.get(info.row.original.requestCID);
-          const showRead = !showCertify;
+          const showPending = unlocksAt > blockNumber.data;
+          const showCertify = !showPending && !requestCIDMap.get(info.row.original.requestCID);
+          const showRead = !showCertify && !showPending;
 
           const certify = async () => {
             try {
@@ -96,6 +97,7 @@ export function BridgeProposalTable({ data, certifiedData }) {
           return (
             <div className="flex justify-end gap-2">
               {showCertify && <Button label="Certify" Icon={Checkbox} palette="secondary" reverse onClick={certify} />}
+              {showPending && <Button label="Pending" Icon={Clock} palette="secondary" disabled reverse />}
               {showRead && <Button label="Certified" Icon={Check} palette="secondary" disabled reverse />}
             </div>
           );
