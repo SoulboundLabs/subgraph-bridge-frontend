@@ -11,6 +11,17 @@ const SubgraphResponseAddedQuery = gql`
       subgraphBridgeID
       response
       blockNumber
+      unlocksAt
+      attestationData
+      requestCID
+    }
+  }
+`;
+
+export const SubgraphDataCertifiedQuery = gql`
+  {
+    queryResultFinalizeds {
+      requestCID
     }
   }
 `;
@@ -24,10 +35,17 @@ export const BridgeDetails = ({ bridge }) => {
     variables: { subgraphBridgeID: bridge.subgraphBridgeId },
   });
 
+  const [certifiedResult] = useQuery({
+    query: SubgraphDataCertifiedQuery,
+    variables: { requestCID: bridge.subgraphBridgeId },
+  });
+
   const { data, fetching, error } = result;
 
-  if (fetching) return <p>Loading...</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
+  const { data: certifiedData, fetching: certifiedFetching, error: certifiedError } = certifiedResult;
+
+  if (fetching || certifiedFetching) return <p>Loading...</p>;
+  if (error || certifiedError) return <p>Oh no... {error.message || certifiedError.message}</p>;
 
   const subgraphResponseAddedData = data.subgraphResponseAddeds;
 
@@ -35,7 +53,7 @@ export const BridgeDetails = ({ bridge }) => {
     <>
       <div className="mt-6">
         <Container>
-          <BridgeProposalTable data={subgraphResponseAddedData} />
+          <BridgeProposalTable data={subgraphResponseAddedData} certifiedData={certifiedData} />
         </Container>
       </div>
     </>

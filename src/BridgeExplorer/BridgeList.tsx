@@ -1,4 +1,6 @@
+import { useEffect, useMemo } from "react";
 import { gql, useQuery } from "urql";
+import { useBlockNumber } from "wagmi";
 import { encodeBase58 } from "../lib/hex";
 import { SubgraphBridge } from "../store/types";
 import { BridgeItem } from "./BridgeItem";
@@ -18,17 +20,12 @@ const SubgraphBridgeCreationQuery = gql`
 `;
 
 const parseSubgraphBridge = (subgraphBridge: SubgraphBridge) => {
-  const gatewayQuery =
-    subgraphBridge.queryFirstChunk + subgraphBridge.queryLastChunk;
+  const gatewayQuery = subgraphBridge.queryFirstChunk + subgraphBridge.queryLastChunk;
 
   const queryPrefix = '{"query":"';
   const variablesSuffix = '}}","variables":{}}';
 
-  const fullQuery = gatewayQuery
-    .slice(queryPrefix.length, -variablesSuffix.length)
-    .replaceAll(/\\n/g, "")
-    .replaceAll(/\\/g, "")
-    .replace(/""/, '""');
+  const fullQuery = gatewayQuery.slice(queryPrefix.length, -variablesSuffix.length).replaceAll(/\\n/g, "").replaceAll(/\\/g, "").replace(/""/, '""');
 
   return {
     ...subgraphBridge,
@@ -49,16 +46,9 @@ export const BridgeList = ({ setSelectedBridge }) => {
 
   return (
     <div className="divide-y divide-slate-500 border-b border-slate-500">
-      {data.subgraphBridgeCreations
-        .map(parseSubgraphBridge)
-        .map((bridge, idx) => (
-          <BridgeItem
-            setSelectedBridge={setSelectedBridge}
-            key={bridge.id}
-            bridge={bridge}
-            idx={idx}
-          />
-        ))}
+      {data.subgraphBridgeCreations.map(parseSubgraphBridge).map((bridge, idx) => (
+        <BridgeItem setSelectedBridge={setSelectedBridge} key={bridge.id} bridge={bridge} idx={idx} />
+      ))}
     </div>
   );
 };

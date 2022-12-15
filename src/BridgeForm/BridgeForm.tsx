@@ -25,6 +25,7 @@ const formatQueryToMatchGateway = (query: string) => {
   }
 };
 
+
 const formToTx = (form: FormValues): TxValues => {
   const { query, chainID, subgraphDeploymentID, proposalFreezePeriod, minimumSlashableGRT, ...rest } = form;
   const formattedQuery = formatQueryToMatchGateway(query);
@@ -39,8 +40,8 @@ const formToTx = (form: FormValues): TxValues => {
 
   return {
     ...rest,
-    proposalFreezePeriod: ethers.utils.parseEther(proposalFreezePeriod.toString()),
-    minimumSlashableGRT: ethers.utils.parseEther(minimumSlashableGRT.toString()),
+    proposalFreezePeriod: proposalFreezePeriod,
+    minimumSlashableGRT: minimumSlashableGRT,
     subgraphDeploymentID: hexlifySubgraphDeploymentID(subgraphDeploymentID),
     queryFirstChunk,
     queryLastChunk,
@@ -103,6 +104,7 @@ export const BridgeForm = ({ handleCancel }) => {
       functionName: "createSubgraphBridge",
       args: [txData],
     });
+    console.log("CONFIG: ", txData);
     const data = await writeContract(config);
     console.log(data);
   };

@@ -56,7 +56,7 @@ export const proposalFreezePeriodOptions = [
         <div className="text-xs">0 Blocks</div>
       </div>
     ),
-    value: parseEther(String(0)),
+    value: 0,
   },
   {
     label: (
@@ -65,7 +65,7 @@ export const proposalFreezePeriodOptions = [
         <div className="text-xs">100 Blocks</div>
       </div>
     ),
-    value: parseEther(String(100)),
+    value: 100,
   },
   {
     label: (
@@ -74,7 +74,7 @@ export const proposalFreezePeriodOptions = [
         <div className="text-xs">1,000 Blocks</div>
       </div>
     ),
-    value: parseEther(String(1000)),
+    value: 1000,
   },
   {
     label: (
@@ -83,7 +83,7 @@ export const proposalFreezePeriodOptions = [
         <div className="text-xs">5,000 Blocks</div>
       </div>
     ),
-    value: parseEther(String(5000)),
+    value: 5000,
   },
   {
     label: (
@@ -92,6 +92,6 @@ export const proposalFreezePeriodOptions = [
         <div className="text-xs">25,000 Blocks</div>
       </div>
     ),
-    value: parseEther(String(25000)),
+    value: 25000,
   },
 ];

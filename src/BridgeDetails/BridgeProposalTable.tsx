@@ -1,13 +1,31 @@
 import React from "react";
-import { AlertOctagon, Checkbox, Eye } from "tabler-icons-react";
+import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
+import { Check, Checkbox, Eye } from "tabler-icons-react";
+import { useBlockNumber } from "wagmi";
 import { UserAddress } from "../Account/UserAddress";
 import { Button } from "../Button/Button";
+import { blockChainMap, GOERLI } from "../lib/blockchains";
 import { formatAddress } from "../lib/utils";
 import { Status } from "../store/types";
 import { StatusBadge } from "../Tag/StatusBadge";
 import { SortableTable } from "./SortableTable";
+import { prepareWriteContract, writeContract } from "@wagmi/core";
+import { SubgraphDataCertifiedQuery } from "./BridgeDetails";
+import { useQuery } from "urql";
 
-export function BridgeProposalTable({ data }) {
+export function BridgeProposalTable({ data, certifiedData }) {
+  const blockNumber = useBlockNumber({
+    chainId: 5, //@dev change to 1 for mainnet
+  });
+
+  const requestCIDMap = React.useMemo(() => {
+    const map = new Map();
+    for (const item of certifiedData.queryResultFinalizeds) {
+      map.set(item.requestCID, true);
+    }
+    return map;
+  }, [certifiedData]);
+
   const columns = React.useMemo(
     () => [
       {
@@ -29,35 +47,62 @@ export function BridgeProposalTable({ data }) {
       },
 
       {
-        header: "Response Data",
-        accessorFn: (row) => row.response,
-        cell: (info) => {
-          return (
-            <div>
-              <div className="text-slate-300 flex font-bold">{info.getValue()}</div>
-            </div>
-          );
-        },
+        header: "RequestCID",
+        accessorFn: (row) => row.requestCID,
+        cell: (info) => (
+          <div>
+            <div className="text-slate-300 flex font-bold">{info.getValue()}</div>
+          </div>
+        ),
       },
+
+      // {
+      //   header: "Response Data",
+      //   accessorFn: (row) => row.response,
+      //   cell: (info) => {
+      //     return (
+      //       <div>
+      //         <div className="text-slate-300 flex font-bold">{info.getValue()}</div>
+      //       </div>
+      //     );
+      //   },
+      // },
 
       {
         id: "actions",
         header: <div className="opacity-0">Status</div>,
         cell: (info) => {
-          const showDispute = [Status.Pending, Status.Frozen].includes(info.row.original.status);
-          const showCertify = info.row.original.status === Status.Pending;
-          const showRead = info.row.original.status === Status.Certified;
+          const unlocksAt = info.row.original.unlocksAt;
+          const showCertify = unlocksAt <= blockNumber.data && !requestCIDMap.get(info.row.original.requestCID);
+          const showRead = !showCertify;
+
+          const certify = async () => {
+            try {
+              const { subgraphBridgeID, response, attestationData } = info.row.original;
+              console.log("ARGS[]:", subgraphBridgeID, response, attestationData);
+              const config = await prepareWriteContract({
+                address: blockChainMap[GOERLI].address,
+                abi: subgraphBridgeABI as any,
+                functionName: "certifySubgraphResponse",
+                args: [subgraphBridgeID, response, attestationData],
+              });
+              const data = await writeContract(config);
+              console.log("SUCCESS", data);
+            } catch (e) {
+              console.error(e);
+            }
+          };
 
           return (
             <div className="flex justify-end gap-2">
-              {showCertify && <Button label="Certify" Icon={Checkbox} palette="secondary" reverse />}
-              {showRead && <Button label="View On-Chain" Icon={Eye} palette="secondary" reverse />}
+              {showCertify && <Button label="Certify" Icon={Checkbox} palette="secondary" reverse onClick={certify} />}
+              {showRead && <Button label="Certified" Icon={Check} palette="secondary" disabled reverse />}
             </div>
           );
         },
       },
     ],
-    [data]
+    [blockNumber]
   );
 
   const renderRowSubComponent = React.useCallback(({ row }) => {
