@@ -30,7 +30,7 @@ const latestBlockHashQuery = `
   }
 `;
 
-const executeQuery = async (url: string, query: string) => {
+export const executeQuery = async (url: string, query: string) => {
   const config = {
     method: "POST",
     headers: {

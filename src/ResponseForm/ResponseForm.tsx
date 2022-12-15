@@ -5,6 +5,7 @@ import { BridgeQueryExecutor } from "../BridgeForm/BridgeQueryExecutor";
 import { Button } from "../Button/Button";
 import { Container } from "../Layout/Container";
 import { blockChainMap, GOERLI } from "../lib/blockchains";
+//import { executeSubgraphResponseAddedQuery } from "../lib/query";
 import { SubgraphBridge } from "../store/types";
 
 interface Props {
@@ -28,6 +29,8 @@ export const ResponseForm = ({ handleCancel, bridge }: Props) => {
     };
 
     console.log(txData);
+
+    //console.log("EXECUTING: ", executeSubgraphResponseAddedQuery());
 
     const config = await prepareWriteContract({
       address: blockChainMap[GOERLI].address,
