@@ -7,33 +7,7 @@ import { Status } from "../store/types";
 import { StatusBadge } from "../Tag/StatusBadge";
 import { SortableTable } from "./SortableTable";
 
-export function BridgeProposalTable({}) {
-  const [data, setData] = React.useState([]);
-
-  React.useEffect(() => {
-    fetch("https://api.studio.thegraph.com/query/13658/subgraphbridge/0.69", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-      {
-        subgraphResponseAddeds {
-          queryBridger
-          subgraphDeploymentID
-          response
-          blockNumber
-        }
-      }
-    `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((data) => setData(data.data.subgraphResponseAddeds));
-  }, []);
-
+export function BridgeProposalTable({ data }) {
   const columns = React.useMemo(
     () => [
       {
