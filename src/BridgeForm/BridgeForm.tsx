@@ -3,6 +3,7 @@ import { getNetwork, prepareWriteContract, switchNetwork, writeContract } from "
 import { BigNumber, ethers } from "ethers";
 import { Controller, useForm } from "react-hook-form";
 import { ArrowRight } from "tabler-icons-react";
+import { useMutation } from "wagmi";
 import subgraphBridgeABI from "../assets/abis/subgraph-bridge-abi.json";
 import { Button } from "../Button/Button";
 import CodeEditor from "../Code/CodeEditor";
@@ -13,6 +14,7 @@ import { HrText } from "../Hr/HrText";
 import { Container } from "../Layout/Container";
 import { blockChainIds, blockChainMap, blockChains, GOERLI } from "../lib/blockchains";
 import { hexlifyQuery, hexlifySubgraphDeploymentID } from "../lib/hex";
+import { executeLatestQueryTemplate } from "../lib/query";
 import { IconList } from "../List/IconList";
 import { minimumSlashableGRTOptions, proposalFreezePeriodOptions } from "./bridge-options";
 import { BridgeQueryExecutor } from "./BridgeQueryExecutor";
@@ -24,7 +26,6 @@ const formatQueryToMatchGateway = (query: string) => {
     return null;
   }
 };
-
 
 const formToTx = (form: FormValues): TxValues => {
   const { query, chainID, subgraphDeploymentID, proposalFreezePeriod, minimumSlashableGRT, ...rest } = form;
@@ -97,6 +98,12 @@ export const BridgeForm = ({ handleCancel }) => {
   const query = watch("query");
 
   const onSubmit = async (formData: FormValues) => {
+    const keyword = getKeyword(formData.query);
+
+    // send a query the subgraph to get the response data to find the offset
+    const response = JSON.stringify((await executeLatestQueryTemplate(query, subgraphDeploymentID)).data);
+
+    formData.responseDataOffset = getResponseDataOffset(response, keyword);
     const txData = formToTx(formData);
     const config = await prepareWriteContract({
       address: blockChainMap[GOERLI].address,
@@ -108,6 +115,21 @@ export const BridgeForm = ({ handleCancel }) => {
     const data = await writeContract(config);
     console.log(data);
   };
+
+  function getResponseDataOffset(query: string, keyword: string) {
+    return query.indexOf(keyword) + keyword.length + 2; // 2 is the amount of characters that follow the keyword
+  }
+
+  function getKeyword(query: string) {
+    const regex = /(\w+)\n/gm;
+    const matches = query.matchAll(regex);
+    const arr = [...matches];
+    if (arr.length > 1) {
+      throw new Error("Query contains more than one keyword");
+    } else {
+      return arr[0][1];
+    }
+  }
 
   return (
     <Container>

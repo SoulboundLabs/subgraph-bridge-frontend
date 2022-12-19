@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { gql, useQuery } from "urql";
 import { useBlockNumber } from "wagmi";
 import { encodeBase58 } from "../lib/hex";
@@ -35,12 +35,19 @@ const parseSubgraphBridge = (subgraphBridge: SubgraphBridge) => {
 };
 
 export const BridgeList = ({ setSelectedBridge }) => {
-  const [result] = useQuery({
+  const [result, reexecuteQuery] = useQuery({
     query: SubgraphBridgeCreationQuery,
   });
 
-  const { data, fetching, error } = result;
+  useBlockNumber({
+    staleTime: 1000,
+    onBlock: () => {
+      console.log("Reexecuting query");
+      console.log(reexecuteQuery);
+    },
+  });
 
+  const { data, fetching, error } = result;
   if (fetching) return <p>Loading...</p>;
   if (error) return <p>Oh no... {error.message}</p>;
 

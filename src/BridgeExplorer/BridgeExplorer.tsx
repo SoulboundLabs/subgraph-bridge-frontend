@@ -14,15 +14,7 @@ export const BridgeExplorer = () => {
   return (
     <>
       <Header
-        cta={
-          <Button
-            label={"Create Bridge"}
-            palette="secondary"
-            Icon={Plus}
-            onClick={() => setBridgeFormOpen(true)}
-            reverse
-          />
-        }
+        cta={<Button label={"Create Bridge"} palette="secondary" Icon={Plus} onClick={() => setBridgeFormOpen(true)} reverse />}
         breadcrumbs={["Subgraph Bridge Explorer"]}
       />
       <div className="">
@@ -38,16 +30,11 @@ export const BridgeExplorer = () => {
       </Panel>
       <Panel
         title="Submit Response"
-        description={
-          "Use the form below to post on-chain data from the most recent indexed block."
-        }
+        description={"Use the form below to post on-chain data from the most recent indexed block."}
         open={!!selectedBridge}
         setOpen={setSelectedBridge}
       >
-        <ResponseForm
-          bridge={selectedBridge}
-          handleCancel={() => setSelectedBridge(null)}
-        />
+        <ResponseForm bridge={selectedBridge} handleCancel={() => setSelectedBridge(null)} />
       </Panel>
     </>
   );
