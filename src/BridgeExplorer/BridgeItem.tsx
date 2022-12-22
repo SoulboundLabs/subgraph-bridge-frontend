@@ -6,7 +6,7 @@ import { Button } from "../Button/Button";
 import CodeEditor, { formatGraphQL } from "../Code/CodeEditor";
 import { Container } from "../Layout/Container";
 import { blockChains } from "../lib/blockchains";
-import { classNames } from "../lib/utils";
+import { classNames, formatNumber } from "../lib/utils";
 import { SubgraphBridge } from "../store/types";
 import { EtherscanSVG, TheGraphSVG } from "../SVG/SVG";
 

@@ -12,7 +12,7 @@ export const blockChainMap = {
     label: GOERLI,
     value: 5,
     address: "0x0FceDA550ec31a5228fE58D5024eca71CdABf93f",
-    subgraphUrl: "https://api.studio.thegraph.com/query/13658/subgraphbridge/1.1.4",
+    subgraphUrl: "https://api.studio.thegraph.com/query/13658/subgraphbridge/0.2.27",
     comingSoon: false,
   },
   [ETHEREUM]: {
